@@ -1,0 +1,40 @@
+<!DOCTYPE idea-plugin PUBLIC "Plugin/DTD" "http://plugins.intellij.net/plugin.dtd">
+
+<idea-plugin url="http://www.intellij.org/twiki/bin/view/Main/TabSwitchPlugin">
+  <name>TabSwitch</name>
+  <version>0.7.3</version>
+  <description>MRU open files/tabs switcher. By default mapped to Alt-A.</description>
+  <change-notes>
+    <![CDATA[
+        Removed jdom usage to prevent Exceptions in Irida #3211.
+    ]]>
+  </change-notes>
+  <vendor email="leijdekkers@carp-technologies.nl">Timur Zambalayev (tzambalayev@nyc.rr.com)</vendor>
+  <idea-version since-build="2235"/>
+  <application-components>
+    <component>
+      <implementation-class>org.tzambalayev.ideaplugins.tabswitch.TabSwitchApplicationComponent</implementation-class>
+    </component>
+  </application-components>
+  <project-components>
+    <component>
+      <implementation-class>org.tzambalayev.ideaplugins.tabswitch.TabSwitchProjectComponent</implementation-class>
+    </component>
+  </project-components>
+  <actions>
+    <action
+    id="TabSwitchPlugin.NextTab"
+    class="org.tzambalayev.ideaplugins.tabswitch.NextTabAction"
+    text="TabSwitchPlugin.NextTab"
+    >
+      <keyboard-shortcut first-keystroke="alt A" keymap="$default"/>
+    </action>
+    <action
+    id="TabSwitchPlugin.PreviousTab"
+    class="org.tzambalayev.ideaplugins.tabswitch.PreviousTabAction"
+    text="TabSwitchPlugin.PreviousTab"
+    >
+      <keyboard-shortcut first-keystroke="shift alt A" keymap="$default"/>
+    </action>
+  </actions>
+</idea-plugin>

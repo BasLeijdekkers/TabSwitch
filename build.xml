@@ -1,0 +1,89 @@
+<project default="main" name="TabSwitch">
+
+  <property name="plugin.name" value="TabSwitch"/>
+
+  <property name="build.dir" value="build"/>
+  <property name="build.classes.dir" value="${build.dir}/classes"/>
+  <property name="build.testcases.dir" value="${build.dir}/testcases"/>
+  <property name="build.jars.dir" value="${build.dir}/jars"/>
+  <property name="src.dir" value="src"/>
+  <property name="src.main.dir" value="${src.dir}/main"/>
+  <property name="src.testcases.dir" value="${src.dir}/testcases"/>
+
+  <property name="jar.file" value="${plugin.name}.jar"/>
+  <property name="idea.home" value="C:/Program Files/IDEA_Irida"/>
+  <property name="idea.plugin.dir" value="${user.home}/.IntelliJIDEA/config/plugins"/>
+
+
+  <path id="compile.classpath">
+    <fileset dir="${idea.home}/lib">
+      <include name="openapi.jar"/>
+      <include name="idea.jar"/>
+      <include name="jdom.jar"/>
+    </fileset>
+  </path>
+
+  <path id="runtime.classpath">
+    <path refid="compile.classpath"/>
+    <pathelement location="${build.classes.dir}"/>
+  </path>
+
+  <target name="clean">
+    <delete dir="${build.dir}"/>
+  </target>
+
+  <target name="echo-properties">
+    <echo message="java.vm.version = ${java.vm.version}"/>
+    <echo message="ant.version = ${ant.version}"/>
+    <echo message="os.name = ${os.name}"/>
+  </target>
+
+  <target name="compile" depends="echo-properties">
+    <mkdir dir="${build.classes.dir}"/>
+    <javac srcdir="${src.main.dir}" destdir="${build.classes.dir}" debug="true" deprecation="true">
+      <classpath>
+        <path refid="compile.classpath"/>
+      </classpath>
+    </javac>
+  </target>
+
+  <target name="compile-tests" depends="compile">
+    <mkdir dir="${build.testcases.dir}"/>
+    <javac srcdir="${src.testcases.dir}" destdir="${build.testcases.dir}" debug="true" deprecation="true">
+      <classpath>
+        <path refid="runtime.classpath"/>
+      </classpath>
+    </javac>
+  </target>
+
+  <target name="run-tests" depends="compile-tests">
+    <junit haltonfailure="true" haltonerror="true">
+      <batchtest>
+        <fileset dir="${src.testcases.dir}">
+          <include name="**/*Test.java"/>
+        </fileset>
+      </batchtest>
+      <formatter type="plain" usefile="false"/>
+      <classpath>
+        <path refid="runtime.classpath"/>
+        <pathelement location="${build.testcases.dir}"/>
+      </classpath>
+    </junit>
+  </target>
+
+  <target name="deploy" depends="compile" description="deploy the plugin">
+    <mkdir dir="${build.jars.dir}"/>
+    <delete file="${build.jars.dir}/${jar.file}"/>
+    <jar jarfile="${build.jars.dir}/${jar.file}">
+      <fileset dir="${build.classes.dir}"/>
+      <fileset dir=".">
+        <include name="META-INF/plugin.xml"/>
+      </fileset>
+    </jar>
+    <mkdir dir="${idea.plugin.dir}"/>
+    <copy file="${build.jars.dir}/${jar.file}" todir="${idea.plugin.dir}"/>
+  </target>
+
+  <target name="main" depends="run-tests,deploy"/>
+
+</project>
