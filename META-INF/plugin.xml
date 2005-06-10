@@ -2,14 +2,16 @@
 
 <idea-plugin url="http://www.intellij.org/twiki/bin/view/Main/TabSwitchPlugin">
   <name>TabSwitch</name>
-  <version>0.7.3</version>
-  <description>MRU open files/tabs switcher. By default mapped to Alt-A.</description>
+  <version>0.7.4</version>
+  <description>MRU open files/tabs switcher. By default mapped to Alt-A. Originally developend by
+    Timur Zambalayev.</description>
   <change-notes>
     <![CDATA[
-        Removed jdom usage to prevent Exceptions in Irida #3211.
+        All files opened when opening a project are now added to the TabSwitch menu again (bugfix
+        for IDEA #3354)
     ]]>
   </change-notes>
-  <vendor email="leijdekkers@carp-technologies.nl">Timur Zambalayev (tzambalayev@nyc.rr.com)</vendor>
+  <vendor email="leijdekkers@carp-technologies.nl">Bas Leijdekkers</vendor>
   <idea-version since-build="2235"/>
   <application-components>
     <component>

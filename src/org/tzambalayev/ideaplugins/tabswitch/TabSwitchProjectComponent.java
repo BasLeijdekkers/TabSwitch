@@ -6,10 +6,11 @@ import com.intellij.openapi.fileEditor.FileEditorManagerEvent;
 import com.intellij.openapi.fileEditor.FileEditorManagerListener;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VirtualFile;
+import com.intellij.openapi.diagnostic.Logger;
 
 final class TabSwitchProjectComponent implements ProjectComponent, FileEditorManagerListener {
 
-    private final Project project;
+    private Project project;
     private final Stack stack;
 
 	TabSwitchProjectComponent(Project project) {
@@ -51,9 +52,15 @@ final class TabSwitchProjectComponent implements ProjectComponent, FileEditorMan
 	}
 
 	public void projectClosed() {
+		stack.clear();
+		project = null;
 	}
 
     public void fileOpened(FileEditorManager source, VirtualFile file) {
+	    synchronized(stack) {
+		    stack.remove(file);
+		    stack.push(file);
+	    }
     }
 
     public void fileClosed(FileEditorManager source, VirtualFile file) {
@@ -63,11 +70,13 @@ final class TabSwitchProjectComponent implements ProjectComponent, FileEditorMan
     }
 
     public void selectionChanged(FileEditorManagerEvent event) {
-        final VirtualFile selectedFile = event.getNewFile();
-        // selectedFile may be null e.g. after a switch to a tool window.
-        if (selectedFile != null) {
-            stack.remove(selectedFile);
-            stack.push(selectedFile);
-        }
+	    final VirtualFile selectedFile = event.getNewFile();
+	    // selectedFile may be null e.g. after a switch to a tool window.
+	    if (selectedFile != null) {
+		    synchronized (stack) {
+			    stack.remove(selectedFile);
+			    stack.push(selectedFile);
+		    }
+	    }
     }
 }

@@ -72,13 +72,10 @@ public class Stack {
                 final int length = size - (i + 1);
                 if (length > 0) {
                     System.arraycopy(elements, i + 1, elements, i, length);
+                } else {
+	                elements[i] = null;
                 }
                 size--;
-                for (int j = 0; j < size; j++) {
-                    if (elements[j] == null) {
-                        throw new NullPointerException("elements[" + j + "]");
-                    }
-                }
                 return;
             }
         }
@@ -132,25 +129,5 @@ public class Stack {
         }
         result.append(']');
         return result.toString();
-    }
-
-    public static void main(String[] args) {
-        final Stack stack = new Stack(3);
-        System.out.println(stack);
-        stack.push("1");
-        System.out.println(stack);
-        stack.push("2");
-        System.out.println(stack);
-        stack.push("3");
-        System.out.println(stack);
-        stack.remove("3");
-        stack.push("2");
-        stack.push("4");
-        System.out.println(stack);
-        stack.remove("2");
-        stack.remove("2");
-        stack.remove("1");
-        stack.remove("4");
-        System.out.println(stack);
     }
 }
