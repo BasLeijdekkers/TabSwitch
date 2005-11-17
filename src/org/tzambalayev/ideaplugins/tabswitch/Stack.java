@@ -11,7 +11,7 @@ public class Stack {
     protected int size = 0;
 
     public Stack() {
-        this(10);
+        this(20);
     }
 
     public Stack(int initialCapacity) {
@@ -35,15 +35,6 @@ public class Stack {
         return false;
     }
 
-    protected void ensureCapacity() {
-        if (size == elements.length) {
-            final Object[] oldelements = elements;
-            final int capacity = (elements.length << 1) + 1;
-            elements = new Object[capacity];
-            System.arraycopy(oldelements, 0, elements, 0, size);
-        }
-    }
-
     public boolean isEmpty() {
         return size == 0;
     }
@@ -62,8 +53,12 @@ public class Stack {
         if (element == null) {
             throw new NullPointerException("element");
         }
-        ensureCapacity();
-        elements[size++] = element;
+        if (size == elements.length) {
+	        System.arraycopy(elements, 1, elements, 0, elements.length - 1);
+	        elements[size - 1] = element;
+        } else {
+            elements[size++] = element;
+        }
     }
 
     public void remove(Object element) {

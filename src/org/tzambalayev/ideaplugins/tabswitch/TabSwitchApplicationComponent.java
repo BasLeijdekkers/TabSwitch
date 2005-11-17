@@ -17,7 +17,7 @@ final class TabSwitchApplicationComponent implements ApplicationComponent {
 
     static TabSwitchApplicationComponent getInstance() {
         final Application application = ApplicationManager.getApplication();
-        return (TabSwitchApplicationComponent) application.getComponent(TabSwitchApplicationComponent.class);
+        return application.getComponent(TabSwitchApplicationComponent.class);
     }
 
     void register(KeyStroke keyStroke, OpenFilesDialogInterface openFilesDialogInterface) {
