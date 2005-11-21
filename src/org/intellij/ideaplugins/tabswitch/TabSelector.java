@@ -1,4 +1,4 @@
-package org.tzambalayev.ideaplugins.tabswitch;
+package org.intellij.ideaplugins.tabswitch;
 
 import java.awt.Color;
 import javax.swing.Icon;
@@ -19,7 +19,7 @@ final class TabSelector implements TabSelectorInterface {
 
     TabSelector(Project project) {
         final TabSwitchProjectComponent tabSwitchProjectComponent =
-                project.getComponent(TabSwitchProjectComponent.class);
+                (TabSwitchProjectComponent)project.getComponent(TabSwitchProjectComponent.class);
         files = tabSwitchProjectComponent.getFiles();
         fileEditorManager = FileEditorManager.getInstance(project);
         fileStatusManager = FileStatusManager.getInstance(project);
@@ -48,5 +48,4 @@ final class TabSelector implements TabSelectorInterface {
         }
         return fileEntries;
     }
-
 }

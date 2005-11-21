@@ -2,41 +2,49 @@
 
 <idea-plugin url="http://www.intellij.org/twiki/bin/view/Main/TabSwitchPlugin">
   <name>TabSwitch</name>
-  <version>0.7.4</version>
-  <description>MRU open files/tabs switcher. By default mapped to Alt-A. Originally developend by
-    Timur Zambalayev.</description>
+  <version>1.0</version>
+  <description>MRU open files/tabs switcher. By default mapped to Alt-A. Original TabSwitch
+    developend by Timur Zambalayev.</description>
   <change-notes>
     <![CDATA[
-        All files opened when opening a project are now added to the TabSwitch menu again (bugfix
-        for IDEA #3354)
+        1.0:<br>
+        Worked around bug in IDEA 5.0.2 (FileEditorManagerListener.fileClosed() never called)<br>
+        Used Recent Files Limit setting for those who have a Tab Limit settings of 1<br>
+        Now possible to assign a key to quickly switch between two tabs without modifiers or pop-up window (thanks to Marc Juul Christoffersen).
+
+        0.7.5: Fixed NullPointerException introduced in previous version when opening new project
+         in same frame.<br>
+
+        0.7.4: All files opened when opening a project are now added to the TabSwitch menu again (bugfix
+        for IDEA #3354)<br>
     ]]>
   </change-notes>
   <vendor email="leijdekkers@carp-technologies.nl">Bas Leijdekkers</vendor>
-  <idea-version since-build="2235"/>
-  <application-components>
-    <component>
-      <implementation-class>org.tzambalayev.ideaplugins.tabswitch.TabSwitchApplicationComponent</implementation-class>
-    </component>
-  </application-components>
+  <idea-version since-build="3436"/>
   <project-components>
     <component>
-      <implementation-class>org.tzambalayev.ideaplugins.tabswitch.TabSwitchProjectComponent</implementation-class>
+      <implementation-class>org.intellij.ideaplugins.tabswitch.TabSwitchProjectComponent</implementation-class>
     </component>
   </project-components>
   <actions>
     <action
     id="TabSwitchPlugin.NextTab"
-    class="org.tzambalayev.ideaplugins.tabswitch.NextTabAction"
+    class="org.intellij.ideaplugins.tabswitch.NextTabAction"
     text="TabSwitchPlugin.NextTab"
     >
       <keyboard-shortcut first-keystroke="alt A" keymap="$default"/>
     </action>
     <action
     id="TabSwitchPlugin.PreviousTab"
-    class="org.tzambalayev.ideaplugins.tabswitch.PreviousTabAction"
+    class="org.intellij.ideaplugins.tabswitch.PreviousTabAction"
     text="TabSwitchPlugin.PreviousTab"
     >
       <keyboard-shortcut first-keystroke="shift alt A" keymap="$default"/>
+    </action>
+    <action
+    id="TabSwitchPlugin.SwitchTab"
+    class="org.intellij.ideaplugins.tabswitch.SwitchTabAction"
+    text="TabSwitchPlugin.SwitchBetweenTwoTabs">
     </action>
   </actions>
 </idea-plugin>

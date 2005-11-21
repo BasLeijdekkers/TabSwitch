@@ -1,25 +1,41 @@
-package org.tzambalayev.ideaplugins.tabswitch;
+package org.intellij.ideaplugins.tabswitch;
 
 import java.util.Arrays;
 import java.util.EmptyStackException;
+import java.lang.reflect.Array;
 
-/**
- * @author Bas Leijdekkers
- */
-public class Stack {
-    protected Object[] elements;
-    protected int size = 0;
+public final class Stack {
+
+    private Object[] elements;
+    private int size = 0;
 
     public Stack() {
         this(20);
     }
 
-    public Stack(int initialCapacity) {
-        if (initialCapacity < 0) {
-            throw new IllegalArgumentException("initialCapacity must be zero or greater");
+    public Stack(int capacity) {
+        if (capacity <= 0) {
+            throw new IllegalArgumentException("capacity must be greater than zero");
         }
-        elements = new Object[initialCapacity];
+        elements = new Object[capacity];
     }
+
+	public Stack(Stack stack, int capacity) {
+		if (stack == null) {
+			throw new NullPointerException("stack");
+		}
+		if (capacity <= 0) {
+			throw new IllegalArgumentException("capacity must must be greater than zero");
+		}
+		elements = new Object[capacity];
+		for (int i = 0, iMax = Math.min(capacity, stack.size); i < iMax; i++) {
+			push(stack.elements[i]);
+		}
+	}
+
+	public int capacity() {
+		return elements.length;
+	}
 
     public void clear() {
         Arrays.fill(elements, 0, size, null);
@@ -95,8 +111,9 @@ public class Stack {
 
     public Object[] toArray(Object[] array) {
         if (array.length < size) {
-            final Class componentType = array.getClass().getComponentType();
-            array = (Object[])java.lang.reflect.Array.newInstance(componentType, size);
+	        final Class arrayClass = array.getClass();
+	        final Class componentType = arrayClass.getComponentType();
+            array = (Object[])Array.newInstance(componentType, size);
         }
         System.arraycopy(elements, 0, array, 0, size);
         if (array.length > size) {

@@ -1,6 +1,6 @@
 <project default="jar" name="TabSwitch">
 
-  <property name="plugin.name" value="TabSwitch"/>
+  <property name="project.name" value="TabSwitch"/>
 
   <property name="build.dir" value="build"/>
   <property name="build.classes.dir" value="${build.dir}/classes"/>
@@ -8,7 +8,7 @@
   <property name="src.dir" value="src"/>
   <property name="src.testcases.dir" value="${src.dir}/testcases"/>
 
-  <property name="jar.file" value="${plugin.name}.jar"/>
+  <property name="jar.file" value="${project.name}.jar"/>
   <property name="idea.home" value="C:/Program Files/IDEA_Irida"/>
   <property name="idea.plugin.dir" value="${user.home}/.IntelliJIDEA/config/plugins"/>
 
@@ -62,4 +62,11 @@
     <copy file="${build.jars.dir}/${jar.file}" todir="${idea.plugin.dir}"/>
   </target>
 
+  <target name="src" description="zips up all sources for distribution">
+    <zip destfile="${project.name}_src.zip"
+      basedir="."
+      includes="src/** META-INF/** build.xml"
+      excludes="CVS/**"
+    />
+	</target>
 </project>
