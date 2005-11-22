@@ -57,7 +57,8 @@ final class TabSwitchKeyEventDispatcher implements KeyEventDispatcher {
                             openFilesDialogInterface.next();
                             openFilesDialogInterface.select();
                             dispose();
-                        } else if (MaskUtil.getModifiers(mainModifiers) == MaskUtil.getModifiers(keyEvent)) {
+                        } else if (MaskUtil.getModifiers(mainModifiers) ==
+                                   MaskUtil.getModifiers(keyEvent)) {
                             if (keyEvent.isShiftDown()) {
                                 openFilesDialogInterface.previous();
                             } else {

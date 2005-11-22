@@ -33,6 +33,9 @@ public abstract class TabAction extends AnAction {
         }
         final DataContext dataContext = actionEvent.getDataContext();
         final Project project = (Project)dataContext.getData(DataConstants.PROJECT);
+	    if (project == null) {
+		    return;
+	    }
         final TabSelector tabSelector = new TabSelector(project);
         final FileEntry[] fileEntries = tabSelector.getFileEntries();
         if (fileEntries.length >= 1) {
