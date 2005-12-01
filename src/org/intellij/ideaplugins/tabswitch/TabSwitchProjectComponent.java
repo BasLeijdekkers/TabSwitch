@@ -133,8 +133,10 @@ final class TabSwitchProjectComponent
         int right = array.length-1;
         while (left < right) {
             final Object temp = array[left];
-            array[left++]  = array[right];
-            array[right--] = temp;
+            array[left]  = array[right];
+	        left++;
+	        array[right] = temp;
+	        right--;
         }
     }
 
