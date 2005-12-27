@@ -2,21 +2,27 @@
 
 <idea-plugin url="http://www.intellij.org/twiki/bin/view/Main/TabSwitchPlugin">
   <name>TabSwitch</name>
-  <version>1.0</version>
+  <version>1.1</version>
   <description>MRU open files/tabs switcher. By default mapped to Alt-A. Original TabSwitch
     developend by Timur Zambalayev.</description>
   <change-notes>
     <![CDATA[
+        1.1:<br>
+        Fixed NullPointerException when no project open.<br>
+        Added native IDEA look to popup window (thanks to Alexey Efimov).<br>
+        Now uses proper decorated icons.<br><br>
+
         1.0:<br>
         Worked around bug in IDEA 5.0.2 (FileEditorManagerListener.fileClosed() never called)<br>
         Used Recent Files Limit setting for those who have a Tab Limit settings of 1<br>
-        Now possible to assign a key to quickly switch between two tabs without modifiers or pop-up window (thanks to Marc Juul Christoffersen).
+        Now possible to assign a key to quickly switch between two tabs without modifiers or
+        pop-up window (thanks to Marc Juul Christoffersen)<br><br>
 
         0.7.5: Fixed NullPointerException introduced in previous version when opening new project
-         in same frame.<br>
+         in same frame.<br><br>
 
         0.7.4: All files opened when opening a project are now added to the TabSwitch menu again (bugfix
-        for IDEA #3354)<br>
+        for IDEA #3354)<br><br>
     ]]>
   </change-notes>
   <vendor email="leijdekkers@carp-technologies.nl">Bas Leijdekkers</vendor>

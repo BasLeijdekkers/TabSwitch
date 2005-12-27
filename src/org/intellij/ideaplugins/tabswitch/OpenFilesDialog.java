@@ -1,6 +1,15 @@
 package org.intellij.ideaplugins.tabswitch;
 
-import java.awt.Color;
+import com.intellij.openapi.fileEditor.FileEditorManager;
+import com.intellij.openapi.project.Project;
+import com.intellij.openapi.ui.DialogWrapper;
+import com.intellij.openapi.vfs.VirtualFile;
+import com.intellij.util.ui.UIUtil;
+
+import javax.swing.*;
+import javax.swing.border.Border;
+import javax.swing.border.EmptyBorder;
+import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Point;
@@ -8,56 +17,53 @@ import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import javax.swing.Action;
-import javax.swing.JComponent;
-import javax.swing.JList;
-import javax.swing.ListSelectionModel;
-import javax.swing.border.BevelBorder;
-import javax.swing.border.Border;
-import javax.swing.border.EmptyBorder;
 
-import com.intellij.openapi.project.Project;
-import com.intellij.openapi.ui.DialogWrapper;
-
-final class OpenFilesDialog extends DialogWrapper implements OpenFilesDialogInterface {
+final class OpenFilesDialog extends DialogWrapper {
 
 	private static final Action[] EMPTY_ACTION_ARRAY = new Action[0];
 
-	private final JList jList;
+	private final JList list;
 	private final int maxLength;
-	private final TabSelectorInterface tabSelectorInterface;
+	private final Project project;
 
-	OpenFilesDialog(Project project, TabSelectorInterface tabSelectorInterface,
-	                FileEntry[] fileEntries) {
+	OpenFilesDialog(Project project, VirtualFile[] files) {
 	    super(project, false);
-	    this.tabSelectorInterface = tabSelectorInterface;
-	    if (fileEntries.length <= 0) {
+		this.project = project;
+	    if (files.length <= 0) {
 	        throw new IllegalArgumentException();
 	    }
-	    maxLength = fileEntries.length;
-	    jList = new JList(fileEntries);
-	    setModal(false);
-	    setUndecorated(true);
+	    maxLength = files.length;
+	    list = new JList(files);
 	    init();
 	}
 
-    protected Action[] createActions() {
+	protected void init() {
+		setModal(false);
+		setUndecorated(true);
+		setResizable(false);
+		super.init();
+	}
+
+	protected Action[] createActions() {
         return EMPTY_ACTION_ARRAY;
     }
 
-    protected Border createContentPaneBorder() {
-        return new BevelBorder(BevelBorder.LOWERED, Color.DARK_GRAY, Color.GRAY, Color.WHITE,
-		        new Color(216, 216, 216));
-    }
+	protected JComponent createTitlePane() {
+		return super.createTitlePane();
+	}
+
+	protected Border createContentPaneBorder() {
+	    return BorderFactory.createEmptyBorder();
+	}
 
     private void setSelectedIndex(int inc) {
-        int index = jList.getSelectedIndex() + inc;
+        int index = list.getSelectedIndex() + inc;
         if (index >= maxLength) {
             index = 0;
         } else if (index < 0) {
             index = maxLength - 1;
         }
-        jList.setSelectedIndex(index);
+        list.setSelectedIndex(index);
     }
 
     public void next() {
@@ -69,29 +75,44 @@ final class OpenFilesDialog extends DialogWrapper implements OpenFilesDialogInte
     }
 
     public void select() {
-        tabSelectorInterface.selected(jList.getSelectedIndex());
+	    final VirtualFile virtualFile = (VirtualFile)list.getSelectedValue();
+	    final FileEditorManager fileEditorManager = FileEditorManager.getInstance(project);
+	    if (virtualFile.isValid()) {
+		    fileEditorManager.openFile(virtualFile, true);
+	    }
     }
 
     public void disposeDialog() {
         dispose();
     }
 
-    protected JComponent createCenterPanel() {
-        jList.addFocusListener(new FocusAdapter() {
-            public void focusLost(FocusEvent e) {
-                dispose();
-            }
-        });
-        jList.setBorder(new EmptyBorder(4, 4, 4, 4));
-        jList.setSelectedIndex(0);
-        jList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        jList.addMouseListener(new MouseAdapter() {
-            public void mousePressed(MouseEvent event) {
-                dispose();
-            }
-        });
-        jList.setCellRenderer(new TabSwitchListCellRenderer());
-        return jList;
+	protected JComponent createCenterPanel() {
+		final JLabel label = new JLabel();
+		label.setText("Open Files");
+		label.setHorizontalAlignment(SwingConstants.CENTER);
+		final JPanel panel = new JPanel(new BorderLayout());
+		panel.add(label, BorderLayout.NORTH);
+		list.addFocusListener(new FocusAdapter() {
+			public void focusLost(FocusEvent e) {
+				dispose();
+			}
+		});
+		list.setBorder(new EmptyBorder(5, 5, 5, 5));
+		list.setSelectedIndex(0);
+		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		list.addMouseListener(new MouseAdapter() {
+			public void mousePressed(MouseEvent event) {
+				dispose();
+			}
+		});
+		list.setCellRenderer(new TabSwitchListCellRenderer(project));
+
+		panel.add(list, BorderLayout.CENTER);
+		if (!UIUtil.isMotifLookAndFeel()) {
+			UIUtil.installPopupMenuBorder(panel);
+		}
+		UIUtil.installPopupMenuColorAndFonts(panel);
+		return panel;
     }
 
     void centerDialog() {

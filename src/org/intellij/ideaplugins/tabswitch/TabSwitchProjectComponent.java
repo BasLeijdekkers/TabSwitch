@@ -68,24 +68,18 @@ final class TabSwitchProjectComponent
 	private void removeClosedFilesFromStack() {
 		synchronized(lock) {
 			final VirtualFile[] openFiles = fileEditorManager.getOpenFiles();
-			final Set openFilesSet = new HashSet();
-			for (int i = 0; i < openFiles.length; i++) {
-				final VirtualFile openFile = openFiles[i];
+			final Set<String> openFilesSet = new HashSet();
+			for (final VirtualFile openFile : openFiles) {
 				openFilesSet.add(openFile.getPath());
 			}
 			final VirtualFile[] stackFiles = (VirtualFile[])
 					stack.toArray(new VirtualFile[stack.size()]);
-			for (int i = 0; i < stackFiles.length; i++) {
-				final VirtualFile stackFile = stackFiles[i];
+			for (final VirtualFile stackFile : stackFiles) {
 				if (!openFilesSet.contains(stackFile.getPath())) {
 					stack.remove(stackFile);
 				}
 			}
 		}
-	}
-
-	public static TabSwitchProjectComponent getInstance(Project project) {
-		return (TabSwitchProjectComponent)project.getComponent(COMPONENT_NAME);
 	}
 
     public void initComponent() {}
@@ -124,8 +118,8 @@ final class TabSwitchProjectComponent
 	}
 
 	public static void register(KeyStroke keyStroke,
-	                            OpenFilesDialogInterface openFilesDialogInterface) {
-		tabSwitchKeyEventProcessor.register(keyStroke, openFilesDialogInterface);
+	                            OpenFilesDialog openFilesDialog) {
+		tabSwitchKeyEventProcessor.register(keyStroke, openFilesDialog);
 	}
 
     private static void reverse(Object[] array) {

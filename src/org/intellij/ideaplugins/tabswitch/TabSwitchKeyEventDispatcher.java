@@ -7,7 +7,7 @@ import java.awt.event.KeyEvent;
 
 final class TabSwitchKeyEventDispatcher implements KeyEventDispatcher {
 
-    private OpenFilesDialogInterface openFilesDialogInterface = null;
+    private OpenFilesDialog openFilesDialog = null;
     private int mainKeyCode = 0;
     private int mainModifiers = 0;
     private int downKeyCode = 0;
@@ -28,24 +28,24 @@ final class TabSwitchKeyEventDispatcher implements KeyEventDispatcher {
         return keyCode;
     }
 
-    void register(KeyStroke mainKeyStroke, OpenFilesDialogInterface openFilesDialogInterface) {
+    void register(KeyStroke mainKeyStroke, OpenFilesDialog openFilesDialog) {
         mainKeyCode = mainKeyStroke.getKeyCode();
         mainModifiers = mainKeyStroke.getModifiers();
         if(mainModifiers != 0) {
 	        downKeyCode = downMaskToKeyCode(mainModifiers);
         }
-        this.openFilesDialogInterface = openFilesDialogInterface;
+        this.openFilesDialog = openFilesDialog;
     }
 
     private void dispose() {
-        openFilesDialogInterface.disposeDialog();
-        openFilesDialogInterface = null;
+        openFilesDialog.disposeDialog();
+        openFilesDialog = null;
         mainKeyCode = -1;
         mainModifiers = -1;
     }
 
     public boolean dispatchKeyEvent(KeyEvent keyEvent) {
-        if (openFilesDialogInterface != null) {
+        if (openFilesDialog != null) {
             final int id = keyEvent.getID();
             final boolean pressed = id == KeyEvent.KEY_PRESSED;
             final boolean released = id == KeyEvent.KEY_RELEASED;
@@ -54,21 +54,21 @@ final class TabSwitchKeyEventDispatcher implements KeyEventDispatcher {
                 if (keyCode == mainKeyCode) {
                     if (pressed) {
                         if(mainModifiers == 0) {
-                            openFilesDialogInterface.next();
-                            openFilesDialogInterface.select();
+                            openFilesDialog.next();
+                            openFilesDialog.select();
                             dispose();
                         } else if (MaskUtil.getModifiers(mainModifiers) ==
                                    MaskUtil.getModifiers(keyEvent)) {
                             if (keyEvent.isShiftDown()) {
-                                openFilesDialogInterface.previous();
+                                openFilesDialog.previous();
                             } else {
-                                openFilesDialogInterface.next();
+                                openFilesDialog.next();
                             }
                         }
                     }
                 } else if (keyCode == downKeyCode) {
                     if (released) {
-                        openFilesDialogInterface.select();
+                        openFilesDialog.select();
                         dispose();
                     }
                 } else if (keyCode == KeyEvent.VK_SHIFT) {

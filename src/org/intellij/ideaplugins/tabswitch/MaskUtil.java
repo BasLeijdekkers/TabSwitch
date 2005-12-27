@@ -18,9 +18,9 @@ final class MaskUtil {
 
     static {
         int mask = 0;
-        for (int i = 0; i < DOWN_MASKS.length; i++) {
-            mask |= DOWN_MASKS[i];
-        }
+	    for (int DOWN_MASK : DOWN_MASKS) {
+		    mask |= DOWN_MASK;
+	    }
         DOWN_MASK = mask;
     }
 
@@ -34,12 +34,12 @@ final class MaskUtil {
 
     static boolean isOneDown(int downModifiers) {
         boolean oneDown = false;
-        for (int i = 0; i < DOWN_MASKS.length; i++) {
-            if (downModifiers == DOWN_MASKS[i]) {
-                oneDown = true;
-                break;
-            }
-        }
+	    for (int DOWN_MASK : DOWN_MASKS) {
+		    if (downModifiers == DOWN_MASK) {
+			    oneDown = true;
+			    break;
+		    }
+	    }
         return oneDown;
     }
 }

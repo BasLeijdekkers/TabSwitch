@@ -73,7 +73,8 @@ public final class Stack {
 	        System.arraycopy(elements, 1, elements, 0, elements.length - 1);
 	        elements[size - 1] = element;
         } else {
-            elements[size++] = element;
+            elements[size] = element;
+	        size++;
         }
     }
 

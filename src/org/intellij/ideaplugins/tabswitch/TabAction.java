@@ -5,6 +5,7 @@ import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.DataConstants;
 import com.intellij.openapi.actionSystem.DataContext;
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.vfs.VirtualFile;
 
 import javax.swing.KeyStroke;
 import java.awt.event.InputEvent;
@@ -22,7 +23,8 @@ public abstract class TabAction extends AnAction {
             return;
         }
         final KeyEvent keyEvent = (KeyEvent) inputEvent;
-        if (keyEvent.getID() != KeyEvent.KEY_PRESSED || !(keyEvent.isShiftDown() ^ !isShiftDownAllowed())) {
+        if (keyEvent.getID() != KeyEvent.KEY_PRESSED ||
+		        !(keyEvent.isShiftDown() ^ !isShiftDownAllowed())) {
             return;
         }
         final int downModifiers = MaskUtil.getModifiers(keyEvent);
@@ -36,11 +38,12 @@ public abstract class TabAction extends AnAction {
 	    if (project == null) {
 		    return;
 	    }
-        final TabSelector tabSelector = new TabSelector(project);
-        final FileEntry[] fileEntries = tabSelector.getFileEntries();
-        if (fileEntries.length >= 1) {
+	    final TabSwitchProjectComponent tabSwitchProjectComponent =
+			    project.getComponent(TabSwitchProjectComponent.class);
+	    final VirtualFile[] files = tabSwitchProjectComponent.getFiles();
+        if (files.length >= 1) {
             final KeyStroke keyStroke = KeyStroke.getKeyStrokeForEvent(keyEvent);
-            final OpenFilesDialog openFilesDialog = new OpenFilesDialog(project, tabSelector, fileEntries);
+            final OpenFilesDialog openFilesDialog = new OpenFilesDialog(project, files);
             TabSwitchProjectComponent.register(keyStroke, openFilesDialog);
 	        if(keyEvent.getModifiers() != 0) {
 		        openFilesDialog.show();
