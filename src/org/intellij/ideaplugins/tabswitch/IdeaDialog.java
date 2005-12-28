@@ -1,8 +1,3 @@
-/**
- * (c) 2005 Carp Technologies BV
- * Hengelosestraat 705, 7521PA Enschede
- * Created: Dec 28, 2005, 11:38:51 AM
- */
 package org.intellij.ideaplugins.tabswitch;
 
 import com.intellij.openapi.project.Project;
@@ -14,11 +9,8 @@ import javax.swing.border.Border;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
-import java.awt.Point;
+import java.awt.Rectangle;
 
-/**
- * @author <A href="bas@carp-technologies.nl">Bas Leijdekkers</a>
- */
 public abstract class IdeaDialog extends DialogWrapper {
 
     private static final Action[] EMPTY_ACTION_ARRAY = new Action[0];
@@ -42,13 +34,12 @@ public abstract class IdeaDialog extends DialogWrapper {
 
     private void centerDialog() {
         final Component parent = getOwner();
-        final Point parentPoint = parent.getLocation();
-        final Dimension parentDimension = parent.getSize();
+        final Rectangle parentBounds = parent.getBounds();
         final Dimension dialogDimension = getSize();
-        final int x = (int)(parentPoint.getX() +
-                (parentDimension.getWidth() - dialogDimension.getWidth()) / 2.0);
-        final int y = (int)(parentPoint.getY() +
-                (parentDimension.getHeight() - dialogDimension.getHeight()) / 2.0);
+        final int x = parentBounds.x +
+                (parentBounds.width - dialogDimension.width >> 1);
+        final int y = parentBounds.y +
+                (parentBounds.height - dialogDimension.height >> 1);
         setLocation(x, y);
     }
 
