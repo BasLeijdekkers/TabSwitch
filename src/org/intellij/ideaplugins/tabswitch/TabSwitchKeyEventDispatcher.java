@@ -31,14 +31,14 @@ final class TabSwitchKeyEventDispatcher implements KeyEventDispatcher {
     void register(KeyStroke mainKeyStroke, OpenFilesDialog openFilesDialog) {
         mainKeyCode = mainKeyStroke.getKeyCode();
         mainModifiers = mainKeyStroke.getModifiers();
-        if(mainModifiers != 0) {
-	        downKeyCode = downMaskToKeyCode(mainModifiers);
+        if (mainModifiers != 0) {
+            downKeyCode = downMaskToKeyCode(mainModifiers);
         }
         this.openFilesDialog = openFilesDialog;
     }
 
     private void dispose() {
-        openFilesDialog.disposeDialog();
+        openFilesDialog.dispose();
         openFilesDialog = null;
         mainKeyCode = -1;
         mainModifiers = -1;
@@ -53,12 +53,12 @@ final class TabSwitchKeyEventDispatcher implements KeyEventDispatcher {
                 final int keyCode = keyEvent.getKeyCode();
                 if (keyCode == mainKeyCode) {
                     if (pressed) {
-                        if(mainModifiers == 0) {
+                        if (mainModifiers == 0) {
                             openFilesDialog.next();
                             openFilesDialog.select();
                             dispose();
                         } else if (MaskUtil.getModifiers(mainModifiers) ==
-                                   MaskUtil.getModifiers(keyEvent)) {
+                                MaskUtil.getModifiers(keyEvent)) {
                             if (keyEvent.isShiftDown()) {
                                 openFilesDialog.previous();
                             } else {
@@ -67,7 +67,7 @@ final class TabSwitchKeyEventDispatcher implements KeyEventDispatcher {
                         }
                     }
                 } else if (keyCode == downKeyCode) {
-                    if (released) {
+                    if (released && openFilesDialog.isVisible()) {
                         openFilesDialog.select();
                         dispose();
                     }

@@ -2,15 +2,16 @@
 
 <idea-plugin url="http://www.intellij.org/twiki/bin/view/Main/TabSwitchPlugin">
   <name>TabSwitch</name>
-  <version>1.1</version>
+  <version>1.5</version>
   <description>MRU open files/tabs switcher. By default mapped to Alt-A. Original TabSwitch
     developend by Timur Zambalayev.</description>
   <change-notes>
     <![CDATA[
-        1.1:<br>
+        1.5:<br>
         Fixed NullPointerException when no project open.<br>
         Added native IDEA look to popup window (thanks to Alexey Efimov).<br>
-        Now uses proper decorated icons.<br><br>
+        Now uses same icons as on the editor tabs.<br>
+        The plugin now uses Java 5 features and is retroweaved to work on jdk 1.4.2 and below.<br><br>
 
         1.0:<br>
         Worked around bug in IDEA 5.0.2 (FileEditorManagerListener.fileClosed() never called)<br>

@@ -1,8 +1,8 @@
 package org.intellij.ideaplugins.tabswitch;
 
+import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.EmptyStackException;
-import java.lang.reflect.Array;
 
 public final class Stack {
 
@@ -20,22 +20,22 @@ public final class Stack {
         elements = new Object[capacity];
     }
 
-	public Stack(Stack stack, int capacity) {
-		if (stack == null) {
-			throw new NullPointerException("stack");
-		}
-		if (capacity <= 0) {
-			throw new IllegalArgumentException("capacity must must be greater than zero");
-		}
-		elements = new Object[capacity];
-		for (int i = 0, iMax = Math.min(capacity, stack.size); i < iMax; i++) {
-			push(stack.elements[i]);
-		}
-	}
+    public Stack(Stack stack, int capacity) {
+        if (stack == null) {
+            throw new NullPointerException("stack");
+        }
+        if (capacity <= 0) {
+            throw new IllegalArgumentException("capacity must must be greater than zero");
+        }
+        elements = new Object[capacity];
+        for (int i = 0, iMax = Math.min(capacity, stack.size); i < iMax; i++) {
+            push(stack.elements[i]);
+        }
+    }
 
-	public int capacity() {
-		return elements.length;
-	}
+    public int capacity() {
+        return elements.length;
+    }
 
     public void clear() {
         Arrays.fill(elements, 0, size, null);
@@ -70,11 +70,11 @@ public final class Stack {
             throw new NullPointerException("element");
         }
         if (size == elements.length) {
-	        System.arraycopy(elements, 1, elements, 0, elements.length - 1);
-	        elements[size - 1] = element;
+            System.arraycopy(elements, 1, elements, 0, elements.length - 1);
+            elements[size - 1] = element;
         } else {
             elements[size] = element;
-	        size++;
+            size++;
         }
     }
 
@@ -85,7 +85,7 @@ public final class Stack {
                 if (length > 0) {
                     System.arraycopy(elements, i + 1, elements, i, length);
                 } else {
-	                elements[i] = null;
+                    elements[i] = null;
                 }
                 size--;
                 return;
@@ -112,8 +112,8 @@ public final class Stack {
 
     public Object[] toArray(Object[] array) {
         if (array.length < size) {
-	        final Class arrayClass = array.getClass();
-	        final Class componentType = arrayClass.getComponentType();
+            final Class arrayClass = array.getClass();
+            final Class componentType = arrayClass.getComponentType();
             array = (Object[])Array.newInstance(componentType, size);
         }
         System.arraycopy(elements, 0, array, 0, size);

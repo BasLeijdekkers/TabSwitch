@@ -6,7 +6,7 @@ public class NextTabAction extends TabAction {
         return false;
     }
 
-	public boolean isNoModifierDownAllowed() {
-		return false;
-	}
+    public boolean isNoModifierDownAllowed() {
+        return false;
+    }
 }

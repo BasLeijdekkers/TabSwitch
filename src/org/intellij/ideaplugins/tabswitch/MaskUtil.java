@@ -5,22 +5,23 @@ import java.awt.event.KeyEvent;
 
 final class MaskUtil {
 
-    private MaskUtil() {}
+    private MaskUtil() {
+    }
 
-	private static final int[] DOWN_MASKS = {
-        InputEvent.CTRL_MASK,
-        InputEvent.ALT_MASK,
-        InputEvent.META_MASK,
-        InputEvent.ALT_GRAPH_MASK,
+    private static final int[] DOWN_MASKS = {
+            InputEvent.CTRL_MASK,
+            InputEvent.ALT_MASK,
+            InputEvent.META_MASK,
+            InputEvent.ALT_GRAPH_MASK,
     };
 
     private static final int DOWN_MASK;
 
     static {
         int mask = 0;
-	    for (int DOWN_MASK : DOWN_MASKS) {
-		    mask |= DOWN_MASK;
-	    }
+        for (int DOWN_MASK : DOWN_MASKS) {
+            mask |= DOWN_MASK;
+        }
         DOWN_MASK = mask;
     }
 
@@ -34,12 +35,12 @@ final class MaskUtil {
 
     static boolean isOneDown(int downModifiers) {
         boolean oneDown = false;
-	    for (int DOWN_MASK : DOWN_MASKS) {
-		    if (downModifiers == DOWN_MASK) {
-			    oneDown = true;
-			    break;
-		    }
-	    }
+        for (int DOWN_MASK : DOWN_MASKS) {
+            if (downModifiers == DOWN_MASK) {
+                oneDown = true;
+                break;
+            }
+        }
         return oneDown;
     }
 }
