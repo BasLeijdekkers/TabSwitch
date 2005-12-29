@@ -1,17 +1,14 @@
 <project default="jar" name="TabSwitch">
 
-  <property name="project.name" value="TabSwitch"/>
+  <property name="idea.home" value="C:/Program Files/IDEA_Irida"/>
+  <property name="idea.plugin.dir" value="${user.home}/.IntelliJIDEA/config/plugins"/>
 
+  <property name="project.name" value="TabSwitch"/>
   <property name="build.dir" value="build"/>
   <property name="build.classes.dir" value="${build.dir}/classes"/>
   <property name="build.jars.dir" value="${build.dir}/jars"/>
   <property name="src.dir" value="src"/>
-  <property name="src.testcases.dir" value="${src.dir}/testcases"/>
-
   <property name="jar.file" value="${project.name}.jar"/>
-  <property name="idea.home" value="C:/Program Files/IDEA_Irida"/>
-  <property name="idea.plugin.dir" value="${user.home}/.IntelliJIDEA/config/plugins"/>
-
 
   <path id="compile.classpath">
     <fileset dir="${idea.home}/lib">

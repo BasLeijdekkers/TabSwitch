@@ -1,31 +1,24 @@
 package org.intellij.ideaplugins.tabswitch;
 
+import com.intellij.openapi.editor.markup.EffectType;
+import com.intellij.openapi.editor.markup.TextAttributes;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.Iconable;
 import com.intellij.openapi.vcs.FileStatus;
 import com.intellij.openapi.vcs.FileStatusManager;
 import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.peer.PeerFactory;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiManager;
-import com.intellij.ui.UIHelper;
-import com.intellij.util.ui.UIUtil;
+import com.intellij.ui.ColoredListCellRenderer;
+import com.intellij.ui.SimpleTextAttributes;
 
 import javax.swing.Icon;
-import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.ListCellRenderer;
-import javax.swing.border.Border;
-import javax.swing.border.EmptyBorder;
 import java.awt.Color;
-import java.awt.Component;
-import java.awt.Graphics;
-import java.awt.Insets;
 
-final class TabSwitchListCellRenderer extends JLabel implements ListCellRenderer {
+final class TabSwitchListCellRenderer extends ColoredListCellRenderer implements ListCellRenderer {
 
-    private static final Border EMPTY_BORDER = new EmptyBorder(1, 1, 1, 1);
-    private static final Border SELECTION_BORDER = new SelectionBorder();
     private PsiManager manager;
     private FileStatusManager fileStatusManager;
 
@@ -33,30 +26,19 @@ final class TabSwitchListCellRenderer extends JLabel implements ListCellRenderer
     TabSwitchListCellRenderer(Project project) {
         manager = PsiManager.getInstance(project);
         fileStatusManager = FileStatusManager.getInstance(project);
-        setOpaque(true);
     }
 
-    public Component getListCellRendererComponent(JList jList, Object value, int index,
-                                                  boolean isSelected, boolean cellHasFocus) {
-        final VirtualFile virtualFile = (VirtualFile)value;
-        setText(virtualFile.getName());
-        final Icon icon = getIcon(virtualFile);
-        setIcon(icon);
-
-        final Color statusColor = getStatusColor(virtualFile);
-        setForeground(statusColor);
-        final Border border;
-        final Color background;
-        if (isSelected) {
-            border = SELECTION_BORDER;
-            background = UIUtil.getListSelectionBackground();
-        } else {
-            border = EMPTY_BORDER;
-            background = null;
+    protected void customizeCellRenderer(JList list, Object value, int index, boolean selected,
+                                         boolean hasFocus) {
+        if (value instanceof VirtualFile) {
+            final VirtualFile virtualFile = (VirtualFile)value;
+            final String fileName = virtualFile.getName();
+            setIcon(getIcon(virtualFile));
+            final Color statusColor = getStatusColor(virtualFile);
+            final TextAttributes textattributes =
+                    new TextAttributes(statusColor, null, null, EffectType.LINE_UNDERSCORE, 0);
+            append(fileName, SimpleTextAttributes.fromTextAttributes(textattributes));
         }
-        setBorder(border);
-        setBackground(background);
-        return this;
     }
 
     private Color getStatusColor(VirtualFile virtualFile) {
@@ -73,30 +55,5 @@ final class TabSwitchListCellRenderer extends JLabel implements ListCellRenderer
             icon = file.getIcon(Iconable.ICON_FLAG_READ_STATUS);
         }
         return icon;
-    }
-
-    private static final class SelectionBorder implements Border {
-
-        private final Insets insets;
-
-        SelectionBorder() {
-            insets = new Insets(1, 1, 1, 1);
-        }
-
-        public void paintBorder(Component component, Graphics g, int x, int y, int width,
-                                int height) {
-            g.setColor(Color.BLACK);
-            final PeerFactory peerFactory = PeerFactory.getInstance();
-            final UIHelper uiHelper = peerFactory.getUIHelper();
-            uiHelper.drawDottedRectangle(g, x, y, x + width - 1, y + height - 1);
-        }
-
-        public Insets getBorderInsets(Component component) {
-            return insets;
-        }
-
-        public boolean isBorderOpaque() {
-            return true;
-        }
     }
 }
