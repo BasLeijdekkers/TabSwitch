@@ -20,8 +20,8 @@ final class TabSwitch implements ProjectComponent {
     private static final TabSwitchKeyEventDispatcher tabSwitchKeyEventProcessor =
             new TabSwitchKeyEventDispatcher();
 
-    final TabSwitchSettings tabSwitchSettings = TabSwitchSettings.getInstance();
-    final UISettings uiSettings = UISettings.getInstance();
+    TabSwitchSettings tabSwitchSettings;
+    UISettings uiSettings;
 
     private Project project;
     private TabSwitchListener listener = null;
@@ -34,7 +34,7 @@ final class TabSwitch implements ProjectComponent {
     }
 
     public String getComponentName() {
-        return "tabswitch.TabSwitchProjectComponent";
+        return "tabswitch.TabSwitch";
     }
 
     public static TabSwitch getInstance(Project project) {
@@ -42,6 +42,8 @@ final class TabSwitch implements ProjectComponent {
     }
 
     public void initComponent() {
+        tabSwitchSettings = TabSwitchSettings.getInstance();
+        uiSettings = UISettings.getInstance();
     }
 
     public void projectClosed() {

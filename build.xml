@@ -18,6 +18,8 @@
       <include name="openapi.jar"/>
       <include name="idea.jar"/>
       <include name="jdom.jar"/>
+      <include name="annotations.jar"/>
+      <include name="extensions.jar"/>
     </fileset>
   </path>
 
