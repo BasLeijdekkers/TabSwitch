@@ -15,17 +15,18 @@ import java.awt.KeyboardFocusManager;
 import java.util.HashSet;
 import java.util.Set;
 
-final class TabSwitchProjectComponent implements ProjectComponent {
-
-    private static final String COMPONENT_NAME = "tabswitch.TabSwitchProjectComponent";
+final class TabSwitch implements ProjectComponent {
 
     private static final TabSwitchKeyEventDispatcher tabSwitchKeyEventProcessor =
             new TabSwitchKeyEventDispatcher();
 
+    final TabSwitchSettings tabSwitchSettings = TabSwitchSettings.getInstance();
+    final UISettings uiSettings = UISettings.getInstance();
+
     private Project project;
     private TabSwitchListener listener = null;
 
-    TabSwitchProjectComponent(Project project) {
+    TabSwitch(Project project) {
         this.project = project;
     }
 
@@ -33,7 +34,11 @@ final class TabSwitchProjectComponent implements ProjectComponent {
     }
 
     public String getComponentName() {
-        return COMPONENT_NAME;
+        return "tabswitch.TabSwitchProjectComponent";
+    }
+
+    public static TabSwitch getInstance(Project project) {
+        return project.getComponent(TabSwitch.class);
     }
 
     public void initComponent() {
@@ -58,7 +63,6 @@ final class TabSwitchProjectComponent implements ProjectComponent {
         final FileEditorManager fileEditorManager = FileEditorManager.getInstance(project);
         listener = new TabSwitchListener(fileEditorManager);
         fileEditorManager.addFileEditorManagerListener(listener);
-        final UISettings uiSettings = UISettings.getInstance();
         uiSettings.addUISettingsListener(listener);
     }
 
@@ -68,7 +72,7 @@ final class TabSwitchProjectComponent implements ProjectComponent {
             return;
         }
         final OpenFilesDialog openFilesDialog;
-        if (UISettings.getInstance().EDITOR_TAB_LIMIT > 1) {
+        if (uiSettings.EDITOR_TAB_LIMIT > 1 && !tabSwitchSettings.isShowRecentFiles()) {
             openFilesDialog = new OpenFilesDialog(project, "Open Files", files);
         } else {
             openFilesDialog = new OpenFilesDialog(project, "Recent Files", files);
@@ -77,7 +81,7 @@ final class TabSwitchProjectComponent implements ProjectComponent {
         openFilesDialog.show();
     }
 
-    private static class TabSwitchListener
+    private class TabSwitchListener
             implements FileEditorManagerListener, UISettingsListener {
 
         private Stack stack = null;
@@ -86,10 +90,9 @@ final class TabSwitchProjectComponent implements ProjectComponent {
 
         TabSwitchListener(FileEditorManager fileEditorManager) {
             this.fileEditorManager = fileEditorManager;
-            final UISettings uiSettings = UISettings.getInstance();
             final int editorTabLimit = uiSettings.EDITOR_TAB_LIMIT;
             final int recentFilesLimit = uiSettings.RECENT_FILES_LIMIT;
-            if (editorTabLimit <= 1) {
+            if (editorTabLimit <= 1 || tabSwitchSettings.isShowRecentFiles()) {
                 stack = new Stack(recentFilesLimit);
             } else {
                 stack = new Stack(editorTabLimit);
@@ -110,7 +113,7 @@ final class TabSwitchProjectComponent implements ProjectComponent {
         }
 
         public VirtualFile[] getFiles() {
-            if (UISettings.getInstance().EDITOR_TAB_LIMIT > 1) {
+            if (uiSettings.EDITOR_TAB_LIMIT > 1 && !tabSwitchSettings.isShowRecentFiles()) {
                 removeClosedFilesFromStack();
             }
             synchronized (lock) {
@@ -141,7 +144,7 @@ final class TabSwitchProjectComponent implements ProjectComponent {
             }
         }
 
-        private static void reverse(Object[] array) {
+        private void reverse(Object[] array) {
             int left = 0;
             int right = array.length - 1;
             while (left < right) {
@@ -184,7 +187,6 @@ final class TabSwitchProjectComponent implements ProjectComponent {
             synchronized (lock) {
                 fileEditorManager.removeFileEditorManagerListener(this);
                 stack.clear();
-                final UISettings uiSettings = UISettings.getInstance();
                 uiSettings.removeUISettingsListener(this);
             }
         }

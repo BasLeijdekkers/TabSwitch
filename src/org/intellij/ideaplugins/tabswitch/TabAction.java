@@ -37,11 +37,11 @@ public abstract class TabAction extends AnAction {
         if (project == null) {
             return;
         }
-        final TabSwitchProjectComponent tabSwitchProjectComponent =
-                project.getComponent(TabSwitchProjectComponent.class);
+        final TabSwitch tabSwitch =
+                TabSwitch.getInstance(project);
         final KeyStroke keyStroke = KeyStroke.getKeyStrokeForEvent(keyEvent);
         if (keyEvent.getModifiers() != 0) {
-            tabSwitchProjectComponent.showOpenFiles(keyStroke);
+            tabSwitch.showOpenFiles(keyStroke);
         }
     }
 }
