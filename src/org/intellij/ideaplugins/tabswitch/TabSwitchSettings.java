@@ -7,7 +7,6 @@ import com.intellij.openapi.util.DefaultJDOMExternalizer;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.application.Application;
 import com.intellij.openapi.components.ApplicationComponent;
-import org.jetbrains.annotations.NonNls;
 import org.jdom.Element;
 
 public class TabSwitchSettings implements ApplicationComponent, NamedJDOMExternalizable {
@@ -21,12 +20,10 @@ public class TabSwitchSettings implements ApplicationComponent, NamedJDOMExterna
     public void disposeComponent() {
     }
 
-    @NonNls
     public String getComponentName() {
         return "tabswitch.TabSwitchSettings";
     }
 
-    @NonNls
     public String getExternalFileName() {
         return "tab_switch";
     }

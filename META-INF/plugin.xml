@@ -2,11 +2,21 @@
 
 <idea-plugin url="http://www.intellij.org/twiki/bin/view/Main/TabSwitchPlugin">
   <name>TabSwitch</name>
-  <version>1.5</version>
-  <description>MRU open files/tabs switcher. By default mapped to Alt-A. Original TabSwitch
-    developend by Timur Zambalayev.</description>
+  <version>1.5.1</version>
+  <description><![CDATA[
+    Open files/tabs switcher: allows to quickly switch between tabs with less keystrokes than
+    Recent Files. Open files are selected from a list in most recently used order. This works
+    very much like Alt-Tab in Windows or Ctrl-Tab in Opera. By default the action is mapped to
+    Alt-A, but another popular assignment is Ctrl-Tab.<br><br>
+
+    This plugin was initialy developed by Timur Zambalayev but I started fixing some bugs caused
+    by openapi changes around April 2004. Since then I (Bas Leijdekkers) have taken over
+    development.]]>
+  </description>
   <change-notes>
     <![CDATA[
+        1.5.1: Fixed java.lang.NoSuchMethodError in IDEA 5.0<br><br>
+
         1.5:<br>
         Fixed NullPointerException when no project open.<br>
         Added native IDEA look to popup window (thanks to Alexey Efimov).<br>

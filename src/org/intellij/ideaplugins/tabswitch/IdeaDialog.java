@@ -69,10 +69,12 @@ public abstract class IdeaDialog extends DialogWrapper {
         setResizable(false);
         super.init();
         final Container contentPane = getContentPane();
-        if (!UIUtil.isMotifLookAndFeel()) {
-            UIUtil.installPopupMenuBorder((JComponent)contentPane);
+        final LookAndFeel lookAndFeel = UIManager.getLookAndFeel();
+        if (!"Motif".equals(lookAndFeel.getID())) {
+            LookAndFeel.installBorder((JComponent)contentPane, "PopupMenu.border");
         }
-        UIUtil.installPopupMenuColorAndFonts((JComponent)contentPane);
+        LookAndFeel.installColorsAndFont((JComponent)contentPane, "PopupMenu.background",
+                "PopupMenu.foreground", "PopupMenu.font");
     }
 
     public void show() {
