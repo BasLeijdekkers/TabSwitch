@@ -11,6 +11,10 @@ import org.jdom.Element;
 
 public class TabSwitchSettings implements ApplicationComponent, NamedJDOMExternalizable {
 
+    /**
+     * @noinspection PublicField,NonConstantFieldWithUpperCaseName
+     * externalized in settings file
+     */
     public boolean SHOW_RECENT_FILES;
 
     public TabSwitchSettings() {

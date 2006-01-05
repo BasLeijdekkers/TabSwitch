@@ -20,7 +20,16 @@ final class TabSwitch implements ProjectComponent {
     private static final TabSwitchKeyEventDispatcher tabSwitchKeyEventProcessor =
             new TabSwitchKeyEventDispatcher();
 
+    /**
+     * initialized in initComponent()
+     * @noinspection InstanceVariableMayNotBeInitialized
+     */
     TabSwitchSettings tabSwitchSettings;
+
+    /**
+     * @noinspection InstanceVariableMayNotBeInitialized
+     * initialized in initComponent()
+     */
     UISettings uiSettings;
 
     private Project project;
@@ -186,11 +195,12 @@ final class TabSwitch implements ProjectComponent {
         }
 
         public void dispose() {
+            uiSettings.removeUISettingsListener(this);
             synchronized (lock) {
                 fileEditorManager.removeFileEditorManagerListener(this);
                 stack.clear();
-                uiSettings.removeUISettingsListener(this);
             }
+
         }
     }
 }
