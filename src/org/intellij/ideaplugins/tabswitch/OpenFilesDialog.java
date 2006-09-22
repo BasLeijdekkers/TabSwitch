@@ -8,8 +8,6 @@ import javax.swing.JComponent;
 import javax.swing.JList;
 import javax.swing.ListSelectionModel;
 import javax.swing.border.EmptyBorder;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -28,11 +26,6 @@ final class OpenFilesDialog extends IdeaDialog {
     }
 
     protected JComponent createCenterPanel() {
-        list.addFocusListener(new FocusAdapter() {
-            public void focusLost(FocusEvent e) {
-                dispose();
-            }
-        });
         list.setBorder(new EmptyBorder(5, 5, 5, 5));
         list.setSelectedIndex(0);
         list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
