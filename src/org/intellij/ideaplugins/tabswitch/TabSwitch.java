@@ -15,6 +15,8 @@ import java.awt.KeyboardFocusManager;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.jetbrains.annotations.NotNull;
+
 final class TabSwitch implements ProjectComponent {
 
     private static final TabSwitchKeyEventDispatcher tabSwitchKeyEventProcessor =
@@ -42,6 +44,7 @@ final class TabSwitch implements ProjectComponent {
     public void disposeComponent() {
     }
 
+    @NotNull
     public String getComponentName() {
         return "tabswitch.TabSwitch";
     }
@@ -84,9 +87,9 @@ final class TabSwitch implements ProjectComponent {
         }
         final OpenFilesDialog openFilesDialog;
         if (uiSettings.EDITOR_TAB_LIMIT > 1 && !tabSwitchSettings.isShowRecentFiles()) {
-            openFilesDialog = new OpenFilesDialog(project, "Open Files", files);
+            openFilesDialog = new OpenFilesDialog(project, "Open Files", files, tabSwitchSettings.getScrollPaneSize());
         } else {
-            openFilesDialog = new OpenFilesDialog(project, "Recent Files", files);
+            openFilesDialog = new OpenFilesDialog(project, "Recent Files", files, tabSwitchSettings.getScrollPaneSize());
         }
         tabSwitchKeyEventProcessor.register(keyStroke, openFilesDialog);
         openFilesDialog.show();

@@ -1,7 +1,7 @@
 <project default="jar" name="TabSwitch">
 
-  <property name="idea.home" value="C:/Program Files/IDEA_Irida"/>
-  <property name="idea.plugin.dir" value="${user.home}/.IntelliJIDEA/config/plugins"/>
+  <property name="idea.home" value="C:\Program Files\java\idea_demetra"/>
+  <property name="idea.plugin.dir" value="${user.home}/.IntelliJIDEA60/config/plugins"/>
 
   <property name="project.name" value="TabSwitch"/>
   <property name="build.dir" value="build"/>
@@ -9,20 +9,29 @@
   <property name="build.jars.dir" value="${build.dir}/jars"/>
   <property name="src.dir" value="src"/>
   <property name="jar.file" value="${project.name}.jar"/>
+  <property name="retrotranslator.home" value="c:/program files/java/retrotranslator/"/>
 
-  <path id="compile.classpath">
-    <fileset dir="${idea.home}/lib">
+  <taskdef name="retrotranslate" classname="net.sf.retrotranslator.transformer.RetrotranslatorTask">
+    <classpath>
+      <pathelement path="${retrotranslator.home}/retrotranslator-transformer-1.0.8.jar"/>
+      <pathelement path="${retrotranslator.home}/retrotranslator-runtime-1.0.8.jar"/>
+      <pathelement path="${retrotranslator.home}/backport-util-concurrent.jar"/>
+    </classpath>
+  </taskdef>
+
+  <path id="project.classpath">
+    <pathelement path="C:/Program Files/Java/jdk1.4.2_12/jre/lib/rt.jar"/>
+    <pathelement path="${idea.home}/redist/openapi.jar"/>
+     <pathelement path="${idea.home}/lib/jdom.jar"/> 
+    <pathelement path="${idea.home}/redist/annotations.jar"/>
+    <pathelement path="${idea.home}/redist/extensions.jar"/>
+    <!--<fileset dir="${idea.home}/lib">
       <include name="openapi.jar"/>
       <include name="idea.jar"/>
       <include name="jdom.jar"/>
       <include name="annotations.jar"/>
       <include name="extensions.jar"/>
-    </fileset>
-  </path>
-
-  <path id="runtime.classpath">
-    <path refid="compile.classpath"/>
-    <pathelement location="${build.classes.dir}"/>
+    </fileset>-->
   </path>
 
   <target name="clean">
@@ -39,7 +48,7 @@
     <mkdir dir="${build.classes.dir}"/>
     <javac srcdir="${src.dir}" destdir="${build.classes.dir}" debug="true" deprecation="true">
       <classpath>
-        <path refid="compile.classpath"/>
+        <path refid="project.classpath"/>
       </classpath>
     </javac>
   </target>
@@ -53,7 +62,12 @@
         <include name="META-INF/plugin.xml"/>
       </fileset>
     </jar>
-
+    <retrotranslate
+    srcjar="${build.jars.dir}/${jar.file}"
+    destjar="${build.jars.dir}/${jar.file}"
+    verify="true" verbose="true">
+      <classpath refid="project.classpath"/>
+    </retrotranslate>
   </target>
 
   <target name="deploy" depends="jar" description="deploy the plugin">

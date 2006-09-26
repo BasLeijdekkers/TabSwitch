@@ -97,13 +97,6 @@ public final class Stack {
         return size;
     }
 
-    public Object top() {
-        if (size == 0) {
-            throw new EmptyStackException();
-        }
-        return elements[size - 1];
-    }
-
     public Object[] toArray() {
         final Object[] array = new Object[size];
         System.arraycopy(elements, 0, array, 0, size);
@@ -142,5 +135,12 @@ public final class Stack {
         }
         result.append(']');
         return result.toString();
+    }
+
+    public Object top() {
+        if (size == 0) {
+            throw new EmptyStackException();
+        }
+        return elements[size - 1];
     }
 }

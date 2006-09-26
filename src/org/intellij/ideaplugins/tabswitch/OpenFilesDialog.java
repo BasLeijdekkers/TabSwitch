@@ -6,6 +6,7 @@ import com.intellij.openapi.vfs.VirtualFile;
 
 import javax.swing.JComponent;
 import javax.swing.JList;
+import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.border.EmptyBorder;
 import java.awt.event.MouseAdapter;
@@ -17,17 +18,23 @@ final class OpenFilesDialog extends IdeaDialog {
     private final int maxLength;
     private final Project project;
 
-    OpenFilesDialog(Project project, String title, VirtualFile[] files) {
+    OpenFilesDialog(Project project, String title, VirtualFile[] files, int scrollPaneSize) {
         super(project, title);
         this.project = project;
         list = new JList(files);
         maxLength = files.length;
-        init();
+	    if (scrollPaneSize > maxLength) {
+		    list.setVisibleRowCount(maxLength);
+	    } else {
+		    list.setVisibleRowCount(scrollPaneSize);
+	    }
+	    init();
     }
 
     protected JComponent createCenterPanel() {
         list.setBorder(new EmptyBorder(5, 5, 5, 5));
         list.setSelectedIndex(0);
+        list.ensureIndexIsVisible(list.getSelectedIndex());
         list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         list.addMouseListener(new MouseAdapter() {
             public void mousePressed(MouseEvent event) {
@@ -35,7 +42,7 @@ final class OpenFilesDialog extends IdeaDialog {
             }
         });
         list.setCellRenderer(new TabSwitchListCellRenderer(project));
-        return list;
+	    return new JScrollPane(list);
     }
 
     public void next() {
@@ -44,6 +51,7 @@ final class OpenFilesDialog extends IdeaDialog {
             index = 0;
         }
         list.setSelectedIndex(index);
+        list.ensureIndexIsVisible(list.getSelectedIndex());
     }
 
     public void previous() {
@@ -52,6 +60,7 @@ final class OpenFilesDialog extends IdeaDialog {
             index = maxLength - 1;
         }
         list.setSelectedIndex(index);
+        list.ensureIndexIsVisible(list.getSelectedIndex());
     }
 
     public void select() {

@@ -2,7 +2,7 @@
 
 <idea-plugin url="http://www.intellij.org/twiki/bin/view/Main/TabSwitchPlugin">
   <name>TabSwitch</name>
-  <version>1.5.1</version>
+  <version>1.6.1</version>
   <description><![CDATA[
     Open files/tabs switcher: allows to quickly switch between tabs with less keystrokes than
     Recent Files. Open files are selected from a list in most recently used order. This works
@@ -15,6 +15,13 @@
   </description>
   <change-notes>
     <![CDATA[
+        1.6.1:<br> Previous version by accident only compiled for jdk 6.<br>
+
+        1.6:<br> Fixed DialogWrapper.dispose() being called twice, causing a NullPointerException on
+        IntelliJ IDEA build #5734.<br>
+        Added scroll bar when many (default > 20) files are open. A big thank you to Krishna Raj,
+        who provided this change.<br><br>
+
         1.5.1: Fixed java.lang.NoSuchMethodError in IDEA 5.0<br><br>
 
         1.5:<br>
@@ -37,7 +44,7 @@
         for IDEA #3354)<br><br>
     ]]>
   </change-notes>
-  <vendor email="leijdekkers@carp-technologies.nl">Bas Leijdekkers</vendor>
+  <vendor email="leijdekkers@carp-technologies*NOSPAM*.nl">Bas Leijdekkers</vendor>
   <idea-version since-build="3436"/>
   <project-components>
     <component>

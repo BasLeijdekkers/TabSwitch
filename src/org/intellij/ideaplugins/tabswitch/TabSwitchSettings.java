@@ -8,6 +8,7 @@ import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.application.Application;
 import com.intellij.openapi.components.ApplicationComponent;
 import org.jdom.Element;
+import org.jetbrains.annotations.NotNull;
 
 public class TabSwitchSettings implements ApplicationComponent, NamedJDOMExternalizable {
 
@@ -16,14 +17,17 @@ public class TabSwitchSettings implements ApplicationComponent, NamedJDOMExterna
      * externalized in settings file
      */
     public boolean SHOW_RECENT_FILES;
+    public int SCROLL_PANE_SIZE;
 
     public TabSwitchSettings() {
         SHOW_RECENT_FILES = false;
+        SCROLL_PANE_SIZE = 20;
     }
 
     public void disposeComponent() {
     }
 
+    @NotNull
     public String getComponentName() {
         return "tabswitch.TabSwitchSettings";
     }
@@ -35,6 +39,10 @@ public class TabSwitchSettings implements ApplicationComponent, NamedJDOMExterna
     public static TabSwitchSettings getInstance() {
         final Application application = ApplicationManager.getApplication();
         return application.getComponent(TabSwitchSettings.class);
+    }
+
+    public int getScrollPaneSize() {
+        return SCROLL_PANE_SIZE;
     }
 
     public void initComponent() {
