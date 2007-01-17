@@ -17,6 +17,7 @@ final class OpenFilesDialog extends IdeaDialog {
     private final JList list;
     private final int maxLength;
     private final Project project;
+    private boolean disposed = false;
 
     OpenFilesDialog(Project project, String title, VirtualFile[] files, int scrollPaneSize) {
         super(project, title);
@@ -42,7 +43,16 @@ final class OpenFilesDialog extends IdeaDialog {
             }
         });
         list.setCellRenderer(new TabSwitchListCellRenderer(project));
-	    return new JScrollPane(list);
+        return new JScrollPane(list);
+    }
+
+    public void dispose() {
+        disposed = true;
+        super.dispose();
+    }
+
+    public boolean isDisposed() {
+        return disposed;
     }
 
     public void next() {
@@ -52,6 +62,7 @@ final class OpenFilesDialog extends IdeaDialog {
         }
         list.setSelectedIndex(index);
         list.ensureIndexIsVisible(list.getSelectedIndex());
+        toFront();
     }
 
     public void previous() {

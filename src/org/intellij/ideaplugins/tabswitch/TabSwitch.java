@@ -9,13 +9,17 @@ import com.intellij.openapi.fileEditor.FileEditorManagerListener;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.project.ProjectManager;
 import com.intellij.openapi.vfs.VirtualFile;
+import com.intellij.openapi.ui.popup.PopupChooserBuilder;
+import org.jetbrains.annotations.NotNull;
 
 import javax.swing.KeyStroke;
+import javax.swing.JList;
+import javax.swing.ListSelectionModel;
 import java.awt.KeyboardFocusManager;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.HashSet;
 import java.util.Set;
-
-import org.jetbrains.annotations.NotNull;
 
 final class TabSwitch implements ProjectComponent {
 
@@ -36,6 +40,7 @@ final class TabSwitch implements ProjectComponent {
 
     private Project project;
     private TabSwitchListener listener = null;
+    private OpenFilesDialog openFilesDialog;
 
     TabSwitch(Project project) {
         this.project = project;
@@ -71,6 +76,12 @@ final class TabSwitch implements ProjectComponent {
     }
 
     public void projectOpened() {
+        if (openFilesDialog != null) {
+            if (!openFilesDialog.isDisposed()) {
+                openFilesDialog.dispose();
+            }
+            openFilesDialog = null;
+        }
         final KeyboardFocusManager manager = KeyboardFocusManager.getCurrentKeyboardFocusManager();
         manager.removeKeyEventDispatcher(tabSwitchKeyEventProcessor);
         manager.addKeyEventDispatcher(tabSwitchKeyEventProcessor);
@@ -81,11 +92,24 @@ final class TabSwitch implements ProjectComponent {
     }
 
     public void showOpenFiles(KeyStroke keyStroke) {
+        if (openFilesDialog != null && !openFilesDialog.isDisposed()) {
+            return;
+        }
         final VirtualFile[] files = listener.getFiles();
         if (files.length < 1) {
             return;
         }
-        final OpenFilesDialog openFilesDialog;
+        //final JList list = new JList(files);
+        //list.setSelectedIndex(0);
+        //list.ensureIndexIsVisible(list.getSelectedIndex());
+        //list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        //list.addMouseListener(new MouseAdapter() {
+        //    public void mousePressed(MouseEvent event) {
+        //        dispose();
+        //    }
+        //});
+        //list.setCellRenderer(new TabSwitchListCellRenderer(project));
+        //new PopupChooserBuilder(list).setTitle("Open Files").setMovable(true).createPopup().showCenteredInCurrentWindow(project);
         if (uiSettings.EDITOR_TAB_LIMIT > 1 && !tabSwitchSettings.isShowRecentFiles()) {
             openFilesDialog = new OpenFilesDialog(project, "Open Files", files, tabSwitchSettings.getScrollPaneSize());
         } else {

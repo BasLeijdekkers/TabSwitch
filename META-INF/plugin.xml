@@ -15,6 +15,8 @@
   </description>
   <change-notes>
     <![CDATA[
+        1.7:<br> Changes for compatibility with Selena.<br>
+
         1.6.1:<br> Previous version by accident only compiled for jdk 6.<br>
 
         1.6:<br> Fixed DialogWrapper.dispose() being called twice, causing a NullPointerException on
@@ -28,7 +30,7 @@
         Fixed NullPointerException when no project open.<br>
         Added native IDEA look to popup window (thanks to Alexey Efimov).<br>
         Now uses same icons as on the editor tabs.<br>
-        Added to always show recent files even if tab limit is greater than 1<br>
+        Added option to always show recent files even if tab limit is greater than 1<br>
         The plugin now uses Java 5 features and is retroweaved to work on jdk 1.4.2 and below.<br><br>
 
         1.0:<br>

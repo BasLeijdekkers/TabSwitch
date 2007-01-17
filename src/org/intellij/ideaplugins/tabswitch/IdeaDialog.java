@@ -58,10 +58,6 @@ public abstract class IdeaDialog extends DialogWrapper {
         return label;
     }
 
-    public void dispose() {
-        super.dispose();
-    }
-
     protected void init() {
         setModal(false);
         setUndecorated(true);
