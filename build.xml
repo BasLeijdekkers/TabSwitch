@@ -1,7 +1,7 @@
 <project default="jar" name="TabSwitch">
 
   <property name="idea.home" value="C:\Program Files\java\idea_demetra"/>
-  <property name="idea.plugin.dir" value="${user.home}/.IntelliJIDEA60/config/plugins"/>
+  <property name="idea.plugin.home" value="${user.home}/.IntelliJIDEA70/config/plugins"/>
 
   <property name="project.name" value="TabSwitch"/>
   <property name="build.dir" value="build"/>
@@ -70,9 +70,15 @@
     </retrotranslate>
   </target>
 
-  <target name="deploy" depends="jar" description="deploy the plugin">
-    <mkdir dir="${idea.plugin.dir}"/>
-    <copy file="${build.jars.dir}/${jar.file}" todir="${idea.plugin.dir}"/>
+  <target name="deploy" depends="jar" description="deploys the plugin to the default plugin dir">
+    <copy file="${build.jars.dir}/${ant.project.name}.jar"
+          todir="${idea.plugin.home}/${ant.project.name}/lib"/>
+    <copy file="lib/errorReporter.jar"
+          todir="${idea.plugin.home}/${ant.project.name}/lib"/>
+    <zip destfile="./${ant.project.name}.zip">
+      <zipfileset file="${build.jars.dir}/${ant.project.name}.jar" prefix="${ant.project.name}/lib"/>
+      <zipfileset file="lib/errorReporter.jar" prefix="${ant.project.name}/lib"/>
+    </zip>
   </target>
 
   <target name="src" description="zips up all sources for distribution">

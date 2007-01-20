@@ -9,15 +9,11 @@ import com.intellij.openapi.fileEditor.FileEditorManagerListener;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.project.ProjectManager;
 import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.openapi.ui.popup.PopupChooserBuilder;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.KeyStroke;
-import javax.swing.JList;
-import javax.swing.ListSelectionModel;
 import java.awt.KeyboardFocusManager;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.lang.ref.WeakReference;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -40,7 +36,8 @@ final class TabSwitch implements ProjectComponent {
 
     private Project project;
     private TabSwitchListener listener = null;
-    private OpenFilesDialog openFilesDialog;
+    private WeakReference<OpenFilesDialog> openFilesDialogReference =
+            new WeakReference(null);
 
     TabSwitch(Project project) {
         this.project = project;
@@ -64,6 +61,13 @@ final class TabSwitch implements ProjectComponent {
     }
 
     public void projectClosed() {
+        final OpenFilesDialog openFilesDialog = openFilesDialogReference.get();
+        if (openFilesDialog != null) {
+            if (!openFilesDialog.isDisposed()) {
+                openFilesDialog.dispose();
+            }
+            openFilesDialogReference.clear();
+        }
         final ProjectManager projectManager = ProjectManager.getInstance();
         final Project[] openProjects = projectManager.getOpenProjects();
         if (openProjects.length == 0) {
@@ -76,12 +80,6 @@ final class TabSwitch implements ProjectComponent {
     }
 
     public void projectOpened() {
-        if (openFilesDialog != null) {
-            if (!openFilesDialog.isDisposed()) {
-                openFilesDialog.dispose();
-            }
-            openFilesDialog = null;
-        }
         final KeyboardFocusManager manager = KeyboardFocusManager.getCurrentKeyboardFocusManager();
         manager.removeKeyEventDispatcher(tabSwitchKeyEventProcessor);
         manager.addKeyEventDispatcher(tabSwitchKeyEventProcessor);
@@ -92,6 +90,7 @@ final class TabSwitch implements ProjectComponent {
     }
 
     public void showOpenFiles(KeyStroke keyStroke) {
+        OpenFilesDialog openFilesDialog = openFilesDialogReference.get();
         if (openFilesDialog != null && !openFilesDialog.isDisposed()) {
             return;
         }
@@ -110,11 +109,13 @@ final class TabSwitch implements ProjectComponent {
         //});
         //list.setCellRenderer(new TabSwitchListCellRenderer(project));
         //new PopupChooserBuilder(list).setTitle("Open Files").setMovable(true).createPopup().showCenteredInCurrentWindow(project);
+        final int scrollPaneSize = tabSwitchSettings.getScrollPaneSize();
         if (uiSettings.EDITOR_TAB_LIMIT > 1 && !tabSwitchSettings.isShowRecentFiles()) {
-            openFilesDialog = new OpenFilesDialog(project, "Open Files", files, tabSwitchSettings.getScrollPaneSize());
+            openFilesDialog = new OpenFilesDialog(project, "Open Files", files, scrollPaneSize);
         } else {
-            openFilesDialog = new OpenFilesDialog(project, "Recent Files", files, tabSwitchSettings.getScrollPaneSize());
+            openFilesDialog = new OpenFilesDialog(project, "Recent Files", files, scrollPaneSize);
         }
+        openFilesDialogReference = new WeakReference(openFilesDialog);
         tabSwitchKeyEventProcessor.register(keyStroke, openFilesDialog);
         openFilesDialog.show();
     }

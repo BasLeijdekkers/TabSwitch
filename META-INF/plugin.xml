@@ -2,7 +2,7 @@
 
 <idea-plugin url="http://www.intellij.org/twiki/bin/view/Main/TabSwitchPlugin">
   <name>TabSwitch</name>
-  <version>1.6.1</version>
+  <version>1.7</version>
   <description><![CDATA[
     Open files/tabs switcher: allows to quickly switch between tabs with less keystrokes than
     Recent Files. Open files are selected from a list in most recently used order. This works
@@ -15,7 +15,9 @@
   </description>
   <change-notes>
     <![CDATA[
-        1.7:<br> Changes for compatibility with Selena.<br>
+        1.7:<br> Changes for compatibility with Selena. Integrated Etienne Studer's
+        PluginErrorReportSubmitter so that exceptions (should they happen) can be easily
+        submitted.<br>
 
         1.6.1:<br> Previous version by accident only compiled for jdk 6.<br>
 
@@ -62,15 +64,13 @@
     <action
     id="TabSwitchPlugin.NextTab"
     class="org.intellij.ideaplugins.tabswitch.NextTabAction"
-    text="TabSwitchPlugin.NextTab"
-    >
+    text="TabSwitchPlugin.NextTab">
       <keyboard-shortcut first-keystroke="alt A" keymap="$default"/>
     </action>
     <action
     id="TabSwitchPlugin.PreviousTab"
     class="org.intellij.ideaplugins.tabswitch.PreviousTabAction"
-    text="TabSwitchPlugin.PreviousTab"
-    >
+    text="TabSwitchPlugin.PreviousTab">
       <keyboard-shortcut first-keystroke="shift alt A" keymap="$default"/>
     </action>
     <action
@@ -79,4 +79,8 @@
     text="TabSwitchPlugin.SwitchBetweenTwoTabs">
     </action>
   </actions>
+  
+  <extensions xmlns="com.intellij">
+    <errorHandler implementation="nu.studer.idea.errorreporting.PluginErrorReportSubmitter"/>
+  </extensions>
 </idea-plugin>
