@@ -61,6 +61,7 @@
       <fileset dir=".">
         <include name="META-INF/plugin.xml"/>
       </fileset>
+      <fileset file="${src.dir}/org/intellij/ideaplugins/tabswitch/errorReporter.properties"/>
     </jar>
     <retrotranslate
     srcjar="${build.jars.dir}/${jar.file}"
