@@ -109,8 +109,8 @@ final class TabSwitch implements ProjectComponent {
         //});
         //list.setCellRenderer(new TabSwitchListCellRenderer(project));
         //new PopupChooserBuilder(list).setTitle("Open Files").setMovable(true).createPopup().showCenteredInCurrentWindow(project);
-        final int scrollPaneSize = tabSwitchSettings.getScrollPaneSize();
-        if (uiSettings.EDITOR_TAB_LIMIT > 1 && !tabSwitchSettings.isShowRecentFiles()) {
+        final int scrollPaneSize = tabSwitchSettings.SCROLL_PANE_SIZE;
+        if (uiSettings.EDITOR_TAB_LIMIT > 1 && !tabSwitchSettings.SHOW_RECENT_FILES) {
             openFilesDialog = new OpenFilesDialog(project, "Open Files", files, scrollPaneSize);
         } else {
             openFilesDialog = new OpenFilesDialog(project, "Recent Files", files, scrollPaneSize);
@@ -131,7 +131,7 @@ final class TabSwitch implements ProjectComponent {
             this.fileEditorManager = fileEditorManager;
             final int editorTabLimit = uiSettings.EDITOR_TAB_LIMIT;
             final int recentFilesLimit = uiSettings.RECENT_FILES_LIMIT;
-            if (editorTabLimit <= 1 || tabSwitchSettings.isShowRecentFiles()) {
+            if (editorTabLimit <= 1 || tabSwitchSettings.SHOW_RECENT_FILES) {
                 stack = new Stack(recentFilesLimit);
             } else {
                 stack = new Stack(editorTabLimit);
@@ -139,8 +139,10 @@ final class TabSwitch implements ProjectComponent {
         }
 
         public void fileClosed(FileEditorManager source, VirtualFile file) {
-            synchronized (lock) {
-                stack.remove(file);
+            if (uiSettings.EDITOR_TAB_LIMIT > 1 && !tabSwitchSettings.SHOW_RECENT_FILES) {
+                synchronized (lock) {
+                    stack.remove(file);
+                }
             }
         }
 
@@ -152,7 +154,7 @@ final class TabSwitch implements ProjectComponent {
         }
 
         public VirtualFile[] getFiles() {
-            if (uiSettings.EDITOR_TAB_LIMIT > 1 && !tabSwitchSettings.isShowRecentFiles()) {
+            if (uiSettings.EDITOR_TAB_LIMIT > 1 && !tabSwitchSettings.SHOW_RECENT_FILES) {
                 removeClosedFilesFromStack();
             }
             synchronized (lock) {

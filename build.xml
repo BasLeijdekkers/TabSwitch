@@ -22,21 +22,27 @@
   <path id="project.classpath">
     <pathelement path="C:/Program Files/Java/jdk1.4.2_12/jre/lib/rt.jar"/>
     <pathelement path="${idea.home}/redist/openapi.jar"/>
-     <pathelement path="${idea.home}/lib/jdom.jar"/> 
+    <pathelement path="${idea.home}/lib/jdom.jar"/>
     <pathelement path="${idea.home}/redist/annotations.jar"/>
     <pathelement path="${idea.home}/redist/extensions.jar"/>
-    <!--<fileset dir="${idea.home}/lib">
-      <include name="openapi.jar"/>
-      <include name="idea.jar"/>
-      <include name="jdom.jar"/>
-      <include name="annotations.jar"/>
-      <include name="extensions.jar"/>
-    </fileset>-->
   </path>
 
   <target name="clean">
     <delete dir="${build.dir}"/>
   </target>
+
+  <path id="javac2.classpath">
+    <fileset dir="${idea.home}/lib">
+      <include name="javac2.jar" />
+      <include name="jdom.jar" />
+      <include name="asm.jar" />
+      <include name="asm-commons.jar" />
+    </fileset>
+  </path>
+
+  <taskdef name="javac2" classname="com.intellij.ant.Javac2"
+           classpathref="javac2.classpath" />
+
 
   <target name="echo-properties">
     <echo message="java.vm.version = ${java.vm.version}"/>
@@ -46,11 +52,11 @@
 
   <target name="compile" depends="echo-properties">
     <mkdir dir="${build.classes.dir}"/>
-    <javac srcdir="${src.dir}" destdir="${build.classes.dir}" debug="true" deprecation="true">
+    <javac2 srcdir="${src.dir}" destdir="${build.classes.dir}" debug="true" deprecation="true">
       <classpath>
         <path refid="project.classpath"/>
       </classpath>
-    </javac>
+    </javac2>
   </target>
 
   <target name="jar" depends="compile" description="deploy the plugin">

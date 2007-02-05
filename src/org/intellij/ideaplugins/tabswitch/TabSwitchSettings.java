@@ -17,6 +17,11 @@ public class TabSwitchSettings implements ApplicationComponent, NamedJDOMExterna
      * externalized in settings file
      */
     public boolean SHOW_RECENT_FILES;
+
+    /**
+     * @noinspection PublicField,NonConstantFieldWithUpperCaseName
+     * externalized in settings file
+     */
     public int SCROLL_PANE_SIZE;
 
     public TabSwitchSettings() {
@@ -41,15 +46,7 @@ public class TabSwitchSettings implements ApplicationComponent, NamedJDOMExterna
         return application.getComponent(TabSwitchSettings.class);
     }
 
-    public int getScrollPaneSize() {
-        return SCROLL_PANE_SIZE;
-    }
-
     public void initComponent() {
-    }
-
-    public boolean isShowRecentFiles() {
-        return SHOW_RECENT_FILES;
     }
 
     public void readExternal(Element element) throws InvalidDataException {
