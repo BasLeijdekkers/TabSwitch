@@ -117,7 +117,7 @@ final class TabSwitch implements ProjectComponent {
         }
         openFilesDialogReference = new WeakReference(openFilesDialog);
         tabSwitchKeyEventProcessor.register(keyStroke, openFilesDialog);
-        openFilesDialog.show();
+        openFilesDialog.show(project);
     }
 
     private class TabSwitchListener

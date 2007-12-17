@@ -45,38 +45,40 @@ final class TabSwitchKeyEventDispatcher implements KeyEventDispatcher {
     }
 
     public boolean dispatchKeyEvent(KeyEvent keyEvent) {
-        if (openFilesDialog != null) {
-            final int id = keyEvent.getID();
-            final boolean pressed = id == KeyEvent.KEY_PRESSED;
-            final boolean released = id == KeyEvent.KEY_RELEASED;
-            if (pressed || released) {
-                final int keyCode = keyEvent.getKeyCode();
-                if (keyCode == mainKeyCode) {
-                    if (pressed) {
-                        if (mainModifiers == 0) {
-                            openFilesDialog.next();
-                            openFilesDialog.select();
-                            dispose();
-                        } else if (MaskUtil.getModifiers(mainModifiers) ==
-                                MaskUtil.getModifiers(keyEvent)) {
-                            if (keyEvent.isShiftDown()) {
-                                openFilesDialog.previous();
-                            } else {
-                                openFilesDialog.next();
-                            }
-                        }
-                    }
-                } else if (keyCode == downKeyCode) {
-                    if (released && openFilesDialog.isVisible()) {
-                        openFilesDialog.select();
-                        dispose();
-                    }
-                } else if (keyCode == KeyEvent.VK_SHIFT) {
-                    // no op
-                } else {
+        if (openFilesDialog == null) {
+            return false;
+        }
+        final int id = keyEvent.getID();
+        final boolean pressed = id == KeyEvent.KEY_PRESSED;
+        final boolean released = id == KeyEvent.KEY_RELEASED;
+        if (!pressed && !released) {
+            return false;
+        }
+        final int keyCode = keyEvent.getKeyCode();
+        if (keyCode == mainKeyCode) {
+            if (pressed) {
+                if (mainModifiers == 0) {
+                    openFilesDialog.next();
+                    openFilesDialog.select();
                     dispose();
+                } else if (MaskUtil.getModifiers(mainModifiers) ==
+                        MaskUtil.getModifiers(keyEvent)) {
+                    if (keyEvent.isShiftDown()) {
+                        openFilesDialog.previous();
+                    } else {
+                        openFilesDialog.next();
+                    }
                 }
             }
+        } else if (keyCode == downKeyCode) {
+            if (released && openFilesDialog.isVisible()) {
+                openFilesDialog.select();
+                dispose();
+            }
+        } else if (keyCode == KeyEvent.VK_SHIFT) {
+            // no op
+        } else {
+            dispose();
         }
         return false;
     }

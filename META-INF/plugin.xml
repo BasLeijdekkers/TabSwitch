@@ -52,7 +52,7 @@
     ]]>
   </change-notes>
   <vendor email="leijdekkers@carp-technologies*NOSPAM*.nl">Bas Leijdekkers</vendor>
-  <idea-version since-build="3436"/>
+  <idea-version since-build="7200"/>
   <project-components>
     <component>
       <implementation-class>org.intellij.ideaplugins.tabswitch.TabSwitch</implementation-class>
