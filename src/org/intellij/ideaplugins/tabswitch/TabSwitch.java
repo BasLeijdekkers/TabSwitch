@@ -98,17 +98,6 @@ final class TabSwitch implements ProjectComponent {
         if (files.length < 1) {
             return;
         }
-        //final JList list = new JList(files);
-        //list.setSelectedIndex(0);
-        //list.ensureIndexIsVisible(list.getSelectedIndex());
-        //list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        //list.addMouseListener(new MouseAdapter() {
-        //    public void mousePressed(MouseEvent event) {
-        //        dispose();
-        //    }
-        //});
-        //list.setCellRenderer(new TabSwitchListCellRenderer(project));
-        //new PopupChooserBuilder(list).setTitle("Open Files").setMovable(true).createPopup().showCenteredInCurrentWindow(project);
         final int scrollPaneSize = tabSwitchSettings.SCROLL_PANE_SIZE;
         if (uiSettings.EDITOR_TAB_LIMIT > 1 && !tabSwitchSettings.SHOW_RECENT_FILES) {
             openFilesDialog = new OpenFilesDialog(project, "Open Files", files, scrollPaneSize);
@@ -230,7 +219,6 @@ final class TabSwitch implements ProjectComponent {
                 fileEditorManager.removeFileEditorManagerListener(this);
                 stack.clear();
             }
-
         }
     }
 }

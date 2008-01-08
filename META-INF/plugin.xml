@@ -2,7 +2,7 @@
 
 <idea-plugin url="http://www.intellij.org/twiki/bin/view/Main/TabSwitchPlugin">
   <name>TabSwitch</name>
-  <version>1.7.1</version>
+  <version>1.8</version>
   <description><![CDATA[
     Open files/tabs switcher: allows to quickly switch between tabs with less keystrokes than
     Recent Files. Open files are selected from a list in most recently used order. This works
@@ -15,6 +15,8 @@
   </description>
   <change-notes>
     <![CDATA[
+        1.8:<br> 
+
         1.7.1:<br> Fix for Selena does not use Recent Files limit when Tab Limit is 1, reported
         by Nathan Brown.<br><br> 
 
@@ -83,7 +85,7 @@
     </action>
   </actions>
   
-  <extensions xmlns="com.intellij">
+  <extensions defaultExtensionNs="com.intellij">
     <errorHandler implementation="nu.studer.idea.errorreporting.PluginErrorReportSubmitter"/>
   </extensions>
 </idea-plugin>

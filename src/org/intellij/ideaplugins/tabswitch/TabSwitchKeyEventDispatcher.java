@@ -37,11 +37,10 @@ final class TabSwitchKeyEventDispatcher implements KeyEventDispatcher {
         this.openFilesDialog = openFilesDialog;
     }
 
-    private void dispose() {
-        openFilesDialog.dispose();
+    private void reset() {
         openFilesDialog = null;
-        mainKeyCode = -1;
-        mainModifiers = -1;
+        mainKeyCode = 0;
+        mainModifiers = 0;
     }
 
     public boolean dispatchKeyEvent(KeyEvent keyEvent) {
@@ -60,7 +59,7 @@ final class TabSwitchKeyEventDispatcher implements KeyEventDispatcher {
                 if (mainModifiers == 0) {
                     openFilesDialog.next();
                     openFilesDialog.select();
-                    dispose();
+                    reset();
                 } else if (MaskUtil.getModifiers(mainModifiers) ==
                         MaskUtil.getModifiers(keyEvent)) {
                     if (keyEvent.isShiftDown()) {
@@ -73,12 +72,12 @@ final class TabSwitchKeyEventDispatcher implements KeyEventDispatcher {
         } else if (keyCode == downKeyCode) {
             if (released && openFilesDialog.isVisible()) {
                 openFilesDialog.select();
-                dispose();
+                reset();
             }
         } else if (keyCode == KeyEvent.VK_SHIFT) {
             // no op
         } else {
-            dispose();
+            reset();
         }
         return false;
     }

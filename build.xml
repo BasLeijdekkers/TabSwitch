@@ -13,8 +13,8 @@
 
   <taskdef name="retrotranslate" classname="net.sf.retrotranslator.transformer.RetrotranslatorTask">
     <classpath>
-      <pathelement path="${retrotranslator.home}/retrotranslator-transformer-1.0.8.jar"/>
-      <pathelement path="${retrotranslator.home}/retrotranslator-runtime-1.0.8.jar"/>
+      <pathelement path="${retrotranslator.home}/retrotranslator-transformer-1.2.1.jar"/>
+      <pathelement path="${retrotranslator.home}/retrotranslator-runtime-1.2.1.jar"/>
       <pathelement path="${retrotranslator.home}/backport-util-concurrent.jar"/>
     </classpath>
   </taskdef>

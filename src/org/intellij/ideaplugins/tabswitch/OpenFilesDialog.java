@@ -8,12 +8,15 @@ import com.intellij.openapi.vfs.VirtualFile;
 
 import javax.swing.JList;
 import javax.swing.ListSelectionModel;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.event.ListSelectionEvent;
 import javax.swing.border.EmptyBorder;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.lang.reflect.Method;
+import java.lang.reflect.InvocationTargetException;
 
 final class OpenFilesDialog {
-
 
     private final JList list;
     private final int maxLength;
@@ -22,7 +25,6 @@ final class OpenFilesDialog {
     private boolean disposed = false;
 
     OpenFilesDialog(Project project, String title, VirtualFile[] files, int scrollPaneSize) {
-        //super(project, title);
         this.project = project;
         list = new JList(files);
         maxLength = files.length;
@@ -35,14 +37,11 @@ final class OpenFilesDialog {
         list.setSelectedIndex(0);
         list.ensureIndexIsVisible(list.getSelectedIndex());
         list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        list.addMouseListener(new MouseAdapter() {
-            public void mousePressed(MouseEvent event) {
-                popup.dispose();
-            }
-        });
+        final TabSwitchListener listener = new TabSwitchListener();
+        list.addListSelectionListener(listener);
+        list.addMouseListener(listener);
         list.setCellRenderer(new TabSwitchListCellRenderer(project));
         popup = new PopupChooserBuilder(list).setTitle(title).setMovable(true).createPopup();
-        //init();
     }
 
     public boolean isDisposed() {
@@ -73,6 +72,7 @@ final class OpenFilesDialog {
         if (virtualFile.isValid()) {
             fileEditorManager.openFile(virtualFile, true);
         }
+        dispose();
     }
 
     public void show(Project project) {
@@ -81,11 +81,43 @@ final class OpenFilesDialog {
 
     public void dispose() {
         popup.cancel();
-        popup.dispose();
+        disposePopup();
         disposed = true;
+    }
+
+    private void disposePopup() {
+        try{
+            final Method method = JBPopup.class.getMethod("dispose");
+            method.invoke(popup);
+        } catch (NoSuchMethodException e) {
+            // do not call the method if it does not exist:-)
+        } catch (InvocationTargetException e) {
+            throw new RuntimeException(e);
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public boolean isVisible() {
         return popup.isVisible();
+    }
+
+    private class TabSwitchListener extends MouseAdapter implements ListSelectionListener {
+
+        private int selectedIndex = 0;
+
+        public void mouseClicked(MouseEvent event) {
+            final JList list = (JList)event.getSource();
+            list.setSelectedIndex(selectedIndex);
+            select();
+        }
+
+        public void valueChanged(ListSelectionEvent event) {
+            final JList list = (JList)event.getSource();
+            final int selectedIndex = list.getSelectedIndex();
+            if (selectedIndex >= 0) {
+                this.selectedIndex = selectedIndex;
+            }
+        }
     }
 }
