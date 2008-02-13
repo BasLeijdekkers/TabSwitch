@@ -90,6 +90,10 @@ final class TabSwitch implements ProjectComponent {
     }
 
     public void showOpenFiles(KeyStroke keyStroke) {
+        //final ToolWindowManager toolWindowManager = ToolWindowManager.getInstance(project);
+        //final String[] windowIds = toolWindowManager.getToolWindowIds();
+        //System.out.println("Arrays.toString(windowIds): " + Arrays.toString(windowIds));
+
         OpenFilesDialog openFilesDialog = openFilesDialogReference.get();
         if (openFilesDialog != null && !openFilesDialog.isDisposed()) {
             return;

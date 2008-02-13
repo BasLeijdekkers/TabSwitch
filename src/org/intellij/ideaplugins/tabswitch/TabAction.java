@@ -17,6 +17,7 @@ public abstract class TabAction extends AnAction {
     public abstract boolean isNoModifierDownAllowed();
 
     public final void actionPerformed(AnActionEvent actionEvent) {
+        //System.out.println("actionEvent: " + actionEvent);
         final InputEvent inputEvent = actionEvent.getInputEvent();
         if (!(inputEvent instanceof KeyEvent)) {
             return;

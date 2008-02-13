@@ -1,6 +1,6 @@
 <project default="jar" name="TabSwitch">
 
-  <property name="idea.home" value="C:\Program Files\java\idea_demetra"/>
+  <property name="idea.home" value="C:\Program Files\idea_selena"/>
   <property name="idea.plugin.home" value="${user.home}/.IntelliJIDEA70/config/plugins"/>
 
   <property name="project.name" value="TabSwitch"/>
@@ -20,7 +20,7 @@
   </taskdef>
 
   <path id="project.classpath">
-    <pathelement path="C:/Program Files/Java/jdk1.4.2_12/jre/lib/rt.jar"/>
+    <pathelement path="C:/Program Files/Java/jdk1.5.0_12/jre/lib/rt.jar"/>
     <pathelement path="${idea.home}/redist/openapi.jar"/>
     <pathelement path="${idea.home}/lib/jdom.jar"/>
     <pathelement path="${idea.home}/redist/annotations.jar"/>
