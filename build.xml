@@ -11,14 +11,6 @@
   <property name="jar.file" value="${project.name}.jar"/>
   <property name="retrotranslator.home" value="c:/program files/java/retrotranslator/"/>
 
-  <taskdef name="retrotranslate" classname="net.sf.retrotranslator.transformer.RetrotranslatorTask">
-    <classpath>
-      <pathelement path="${retrotranslator.home}/retrotranslator-transformer-1.2.1.jar"/>
-      <pathelement path="${retrotranslator.home}/retrotranslator-runtime-1.2.1.jar"/>
-      <pathelement path="${retrotranslator.home}/backport-util-concurrent.jar"/>
-    </classpath>
-  </taskdef>
-
   <path id="project.classpath">
     <pathelement path="C:/Program Files/Java/jdk1.5.0_12/jre/lib/rt.jar"/>
     <pathelement path="${idea.home}/redist/openapi.jar"/>
@@ -69,12 +61,6 @@
       </fileset>
       <fileset file="${src.dir}/org/intellij/ideaplugins/tabswitch/errorReporter.properties"/>
     </jar>
-    <retrotranslate
-    srcjar="${build.jars.dir}/${jar.file}"
-    destjar="${build.jars.dir}/${jar.file}"
-    verify="true" verbose="true">
-      <classpath refid="project.classpath"/>
-    </retrotranslate>
   </target>
 
   <target name="deploy" depends="jar" description="deploys the plugin to the default plugin dir">

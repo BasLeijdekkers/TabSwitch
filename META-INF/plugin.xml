@@ -2,7 +2,8 @@
 
 <idea-plugin url="http://www.intellij.org/twiki/bin/view/Main/TabSwitchPlugin">
   <name>TabSwitch</name>
-  <version>1.8</version>
+  <version>2.0</version>
+  <idea-version since-build="8000" until-build="9499"/>
   <description><![CDATA[
     Open files/tabs switcher: allows to quickly switch between tabs with less keystrokes than
     Recent Files. Open files are selected from a list in most recently used order. This works
@@ -15,7 +16,9 @@
   </description>
   <change-notes>
     <![CDATA[
-        1.8:<br> 
+        2.0:<br> Completely reimplemented by Martin Fuhrer, with some additions by me. Now has the look
+        of the Recent Files popup and better behavior in the presence of deleted files. Special thanks
+        to Martin Fuhrer and Mark Scott.<br><br>
 
         1.7.1:<br> Fix for Selena does not use Recent Files limit when Tab Limit is 1, reported
         by Nathan Brown.<br><br> 
@@ -54,12 +57,6 @@
     ]]>
   </change-notes>
   <vendor email="leijdekkers@carp-technologies*NOSPAM*.nl">Bas Leijdekkers</vendor>
-  <idea-version since-build="7200"/>
-  <project-components>
-    <component>
-      <implementation-class>org.intellij.ideaplugins.tabswitch.TabSwitch</implementation-class>
-    </component>
-  </project-components>
   <application-components>
     <component>
       <implementation-class>org.intellij.ideaplugins.tabswitch.TabSwitchSettings</implementation-class>
@@ -69,19 +66,14 @@
     <action
     id="TabSwitchPlugin.NextTab"
     class="org.intellij.ideaplugins.tabswitch.NextTabAction"
-    text="TabSwitchPlugin.NextTab">
+    text="Switch To Next Tab...">
       <keyboard-shortcut first-keystroke="alt A" keymap="$default"/>
     </action>
     <action
     id="TabSwitchPlugin.PreviousTab"
     class="org.intellij.ideaplugins.tabswitch.PreviousTabAction"
-    text="TabSwitchPlugin.PreviousTab">
+    text="Switch To Previous Tab...">
       <keyboard-shortcut first-keystroke="shift alt A" keymap="$default"/>
-    </action>
-    <action
-    id="TabSwitchPlugin.SwitchTab"
-    class="org.intellij.ideaplugins.tabswitch.SwitchTabAction"
-    text="TabSwitchPlugin.SwitchBetweenTwoTabs">
     </action>
   </actions>
   
