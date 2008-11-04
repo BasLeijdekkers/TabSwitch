@@ -1,7 +1,7 @@
 <project default="jar" name="TabSwitch">
 
-  <property name="idea.home" value="C:\Program Files\idea_selena"/>
-  <property name="idea.plugin.home" value="${user.home}/.IntelliJIDEA70/config/plugins"/>
+  <property name="idea.home" value="/Applications/IntelliJ IDEA Diana.app" />
+  <property name="idea.plugin.home" value="${user.home}/Library/Application Support/IntelliJIDEA80"/>
 
   <property name="project.name" value="TabSwitch"/>
   <property name="build.dir" value="build"/>
@@ -9,10 +9,8 @@
   <property name="build.jars.dir" value="${build.dir}/jars"/>
   <property name="src.dir" value="src"/>
   <property name="jar.file" value="${project.name}.jar"/>
-  <property name="retrotranslator.home" value="c:/program files/java/retrotranslator/"/>
 
   <path id="project.classpath">
-    <pathelement path="C:/Program Files/Java/jdk1.5.0_12/jre/lib/rt.jar"/>
     <pathelement path="${idea.home}/redist/openapi.jar"/>
     <pathelement path="${idea.home}/lib/jdom.jar"/>
     <pathelement path="${idea.home}/redist/annotations.jar"/>
@@ -34,7 +32,6 @@
 
   <taskdef name="javac2" classname="com.intellij.ant.Javac2"
            classpathref="javac2.classpath" />
-
 
   <target name="echo-properties">
     <echo message="java.vm.version = ${java.vm.version}"/>
@@ -71,13 +68,14 @@
     <zip destfile="./${ant.project.name}.zip">
       <zipfileset file="${build.jars.dir}/${ant.project.name}.jar" prefix="${ant.project.name}/lib"/>
       <zipfileset file="lib/errorReporter.jar" prefix="${ant.project.name}/lib"/>
+      <zipfileset file="${project.name}_src.zip" prefix="${ant.project.name}/lib"/>
     </zip>
   </target>
 
   <target name="src" description="zips up all sources for distribution">
     <zip destfile="${project.name}_src.zip"
       basedir="."
-      includes="src/** META-INF/** build.xml"
+      includes="src/** META-INF/** build.xml lib/** *.ipr *.iml"
       excludes="CVS/**"
     />
 	</target>
