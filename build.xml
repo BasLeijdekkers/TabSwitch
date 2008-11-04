@@ -60,7 +60,7 @@
     </jar>
   </target>
 
-  <target name="deploy" depends="jar" description="deploys the plugin to the default plugin dir">
+  <target name="deploy" depends="jar, src" description="deploys the plugin to the default plugin dir">
     <copy file="${build.jars.dir}/${ant.project.name}.jar"
           todir="${idea.plugin.home}/${ant.project.name}/lib"/>
     <copy file="lib/errorReporter.jar"
@@ -68,7 +68,7 @@
     <zip destfile="./${ant.project.name}.zip">
       <zipfileset file="${build.jars.dir}/${ant.project.name}.jar" prefix="${ant.project.name}/lib"/>
       <zipfileset file="lib/errorReporter.jar" prefix="${ant.project.name}/lib"/>
-      <zipfileset file="${project.name}_src.zip" prefix="${ant.project.name}/lib"/>
+      <zipfileset file="${project.name}_src.zip" prefix="${ant.project.name}"/>
     </zip>
   </target>
 
