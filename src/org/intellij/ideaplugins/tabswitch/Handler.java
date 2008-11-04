@@ -52,7 +52,8 @@ class Handler implements KeyEventDispatcher {
 
     private final boolean reverse;
 
-    Handler(Project project, final List<VirtualFile> fileList, KeyEvent event, boolean reverse, boolean showRecentFiles) {
+    Handler(Project project, final List<VirtualFile> fileList, KeyEvent event, boolean reverse,
+            boolean showRecentFiles) {
         this.project = project;
 
         final JLabel path = new JLabel(" ");
@@ -115,27 +116,38 @@ class Handler implements KeyEventDispatcher {
         if (popup.isDisposed()) {
             KeyboardFocusManager.getCurrentKeyboardFocusManager().removeKeyEventDispatcher(this);
             consumed = false;
-        } else if ((event.getID() == KeyEvent.KEY_RELEASED) && modifiers.get(event.getKeyCode())) {
+        } else if ((event.getID() == KeyEvent.KEY_RELEASED) &&
+                modifiers.get(event.getKeyCode())) {
             close(true);
-        } else if ((event.getID() == KeyEvent.KEY_PRESSED) && (event.getKeyCode() == trigger)) {
-            move(event.isShiftDown());
         } else if (event.getID() == KeyEvent.KEY_PRESSED) {
-            switch (event.getKeyCode()) {
-            case KeyEvent.VK_UP:
-                move(true);
-                break;
-            case KeyEvent.VK_DOWN:
-                move(false);
-                break;
-            case KeyEvent.VK_ENTER:
-                close(true);
-                break;
-            case KeyEvent.VK_SHIFT:
-                break;
-            default:
-                close(false);
-                break;
-            }
+            final int keyCode = event.getKeyCode();
+            if (event.getKeyCode() == trigger) {
+                move(event.isShiftDown());
+            } else {
+                switch (keyCode) {
+                    case KeyEvent.VK_UP:
+                        move(true);
+                        break;
+                    case KeyEvent.VK_DOWN:
+                        move(false);
+                        break;
+                    case KeyEvent.VK_ENTER:
+                        close(true);
+                        break;
+                    case KeyEvent.VK_SHIFT:
+                        break;
+                    case KeyEvent.VK_CONTROL:
+                        break;
+                    case KeyEvent.VK_ALT:
+                        break;
+                    case KeyEvent.VK_ALT_GRAPH:
+                        break;
+                    case KeyEvent.VK_META:
+                        break;
+                    default:
+                        close(false);
+                        break;
+            }}
         }
         return consumed;
     }
@@ -155,12 +167,16 @@ class Handler implements KeyEventDispatcher {
     static ListCellRenderer getRenderer(final Project project) {
         return new ColoredListCellRenderer() {
             @Override
-            protected void customizeCellRenderer(JList list, Object value, int index, boolean selected, boolean hasFocus) {
+            protected void customizeCellRenderer(JList list, Object value, int index,
+                                                 boolean selected, boolean hasFocus) {
                 if (value instanceof VirtualFile) {
                     final VirtualFile file = (VirtualFile) value;
                     setIcon(IconUtil.getIcon(file, Iconable.ICON_FLAG_READ_STATUS, project));
-                    final FileStatus status = FileStatusManager.getInstance(project).getStatus(file);
-                    final TextAttributes attributes = new TextAttributes(status.getColor(), null, null, EffectType.LINE_UNDERSCORE, Font.PLAIN);
+                    final FileStatus status =
+                            FileStatusManager.getInstance(project).getStatus(file);
+                    final TextAttributes attributes =
+                            new TextAttributes(status.getColor(), null, null,
+                                    EffectType.LINE_UNDERSCORE, Font.PLAIN);
                     append(file.getName(), SimpleTextAttributes.fromTextAttributes(attributes));
                 }
             }
@@ -187,7 +203,8 @@ class Handler implements KeyEventDispatcher {
             if (parent != null) {
                 text = parent.getPresentableUrl();
                 final FontMetrics metrics = path.getFontMetrics(path.getFont());
-                while ((metrics.stringWidth(text) > path.getWidth()) && (text.indexOf(File.separatorChar, 4) > 0)) {
+                while ((metrics.stringWidth(text) > path.getWidth()) &&
+                        (text.indexOf(File.separatorChar, 4) > 0)) {
                     text = "..." + text.substring(text.indexOf(File.separatorChar, 4));
                 }
             }

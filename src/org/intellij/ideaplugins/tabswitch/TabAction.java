@@ -38,17 +38,20 @@ abstract class TabAction extends AnAction {
             final TabSwitchSettings tabSwitchSettings = TabSwitchSettings.getInstance();
             final UISettings uiSettings = UISettings.getInstance();
             final int editorTabLimit = uiSettings.EDITOR_TAB_LIMIT;
-            final boolean showRecentFiles = tabSwitchSettings.SHOW_RECENT_FILES || editorTabLimit == 1;
+            final boolean showRecentFiles = tabSwitchSettings.SHOW_RECENT_FILES ||
+                    editorTabLimit == 1;
             final List<VirtualFile> files = getFiles(project, showRecentFiles);
             if (!files.isEmpty()) {
-                new Handler(project, files, (KeyEvent) event.getInputEvent(), isReverse(), showRecentFiles).show();
+                new Handler(project, files, (KeyEvent) event.getInputEvent(), isReverse(),
+                        showRecentFiles).show();
             }
         }
     }
 
     @Override
     public void update(AnActionEvent event) {
-        event.getPresentation().setEnabled(PlatformDataKeys.PROJECT.getData(event.getDataContext()) != null);
+        event.getPresentation().setEnabled(
+                PlatformDataKeys.PROJECT.getData(event.getDataContext()) != null);
     }
 
     abstract boolean isReverse();
