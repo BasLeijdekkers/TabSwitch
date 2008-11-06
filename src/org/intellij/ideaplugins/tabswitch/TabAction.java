@@ -37,13 +37,13 @@ abstract class TabAction extends AnAction {
         if ((project != null) && (event.getInputEvent() instanceof KeyEvent)) {
             final TabSwitchSettings tabSwitchSettings = TabSwitchSettings.getInstance();
             final UISettings uiSettings = UISettings.getInstance();
-            final int editorTabLimit = uiSettings.EDITOR_TAB_LIMIT;
-            final boolean showRecentFiles = tabSwitchSettings.SHOW_RECENT_FILES ||
-                    editorTabLimit == 1;
-            final List<VirtualFile> files = getFiles(project, showRecentFiles);
+            final boolean editorTabLimitOne = uiSettings.EDITOR_TAB_LIMIT == 1;
+            final boolean showRecentFiles = tabSwitchSettings.SHOW_RECENT_FILES;
+            final List<VirtualFile> files = getFiles(project,
+                    showRecentFiles || editorTabLimitOne);
             if (!files.isEmpty()) {
                 new Handler(project, files, (KeyEvent) event.getInputEvent(), isReverse(),
-                        showRecentFiles).show();
+                        showRecentFiles, editorTabLimitOne).show();
             }
         }
     }

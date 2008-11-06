@@ -26,6 +26,7 @@ import com.intellij.openapi.vcs.FileStatus;
 import com.intellij.openapi.vcs.FileStatusManager;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.ui.ColoredListCellRenderer;
+import com.intellij.ui.LightColors;
 import com.intellij.ui.SimpleTextAttributes;
 import com.intellij.util.IconUtil;
 
@@ -36,7 +37,7 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.io.File;
 import java.util.BitSet;
-import java.util.List;
+import java.util.Collection;
 
 class Handler implements KeyEventDispatcher {
 
@@ -52,20 +53,20 @@ class Handler implements KeyEventDispatcher {
 
     private final boolean reverse;
 
-    Handler(Project project, final List<VirtualFile> fileList, KeyEvent event, boolean reverse,
-            boolean showRecentFiles) {
+    Handler(Project project, Collection<VirtualFile> fileList, KeyEvent event, boolean reverse,
+            boolean showRecentFiles, boolean editorTabLimitOne) {
         this.project = project;
 
         final JLabel path = new JLabel(" ");
         path.setHorizontalAlignment(SwingConstants.RIGHT);
         path.setFont(path.getFont().deriveFont((float) 10));
         final JComponent footer = buildFooter(path);
-        list = new JList(new SimpleListModel(fileList));
-        list.setCellRenderer(getRenderer(project));
+        list = new JList(fileList.toArray(new VirtualFile[fileList.size()]));
+        list.setCellRenderer(getRenderer(project, showRecentFiles));
         list.getSelectionModel().addListSelectionListener(getListener(list, path));
 
         final PopupChooserBuilder builder = new PopupChooserBuilder(list);
-        if (showRecentFiles) {
+        if (showRecentFiles || editorTabLimitOne) {
             builder.setTitle("Recent Files");
         } else {
             builder.setTitle("Open Files");
@@ -147,7 +148,7 @@ class Handler implements KeyEventDispatcher {
                     default:
                         close(false);
                         break;
-            }}
+                }}
         }
         return consumed;
     }
@@ -157,14 +158,14 @@ class Handler implements KeyEventDispatcher {
             public void valueChanged(ListSelectionEvent event) {
                 SwingUtilities.invokeLater(new Runnable() {
                     public void run() {
-                        update(list, path);
+                        updatePath(list, path);
                     }
                 });
             }
         };
     }
 
-    static ListCellRenderer getRenderer(final Project project) {
+    static ListCellRenderer getRenderer(final Project project, final boolean showRecentFiles) {
         return new ColoredListCellRenderer() {
             @Override
             protected void customizeCellRenderer(JList list, Object value, int index,
@@ -178,6 +179,10 @@ class Handler implements KeyEventDispatcher {
                             new TextAttributes(status.getColor(), null, null,
                                     EffectType.LINE_UNDERSCORE, Font.PLAIN);
                     append(file.getName(), SimpleTextAttributes.fromTextAttributes(attributes));
+                    if (showRecentFiles && !selected &&
+                            FileEditorManager.getInstance(project).isFileOpen(file)) {
+                        setBackground(LightColors.SLIGHTLY_GREEN);
+                    }
                 }
             }
         };
@@ -195,7 +200,7 @@ class Handler implements KeyEventDispatcher {
         popup.showCenteredInCurrentWindow(project);
     }
 
-    private static void update(JList list, JLabel path) {
+    private static void updatePath(JList list, JLabel path) {
         String text = " ";
         final Object[] values = list.getSelectedValues();
         if ((values != null) && (values.length == 1)) {
@@ -210,22 +215,5 @@ class Handler implements KeyEventDispatcher {
             }
         }
         path.setText(text);
-    }
-
-    private static class SimpleListModel extends AbstractListModel {
-
-        private final List<VirtualFile> list;
-
-        public SimpleListModel(List<VirtualFile> list) {
-            this.list = list;
-        }
-
-        public int getSize() {
-            return list.size();
-        }
-
-        public Object getElementAt(int index) {
-            return list.get(index);
-        }
     }
 }
