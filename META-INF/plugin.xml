@@ -16,44 +16,12 @@
   </description>
   <change-notes>
     <![CDATA[
+        2.1:<br> Added the same slightly green background for open files as the recent files list
+        has (again by Martin Fuhrer). Restored Switch Between Two Tabs action.<br><br>
+
         2.0:<br> Completely reimplemented by Martin Fuhrer, with some additions by me. Now has the look
         of the Recent Files popup and better behavior in the presence of deleted files. Special thanks
         to Martin Fuhrer and Mark Scott.<br><br>
-
-        1.7.1:<br> Fix for Selena does not use Recent Files limit when Tab Limit is 1, reported
-        by Nathan Brown.<br><br> 
-
-        1.7:<br> Changes for compatibility with Selena. Integrated Etienne Studer's
-        PluginErrorReportSubmitter so that exceptions (should they happen) can be easily
-        submitted.<br><br>
-
-        1.6.1:<br> Previous version by accident only compiled for jdk 6.<br><br>
-
-        1.6:<br> Fixed DialogWrapper.dispose() being called twice, causing a NullPointerException on
-        IntelliJ IDEA build #5734.<br>
-        Added scroll bar when many (default > 20) files are open. A big thank you to Krishna Raj,
-        who provided this change.<br><br>
-
-        1.5.1: Fixed java.lang.NoSuchMethodError in IDEA 5.0<br><br>
-
-        1.5:<br>
-        Fixed NullPointerException when no project open.<br>
-        Added native IDEA look to popup window (thanks to Alexey Efimov).<br>
-        Now uses same icons as on the editor tabs.<br>
-        Added option to always show recent files even if tab limit is greater than 1<br>
-        The plugin now uses Java 5 features and is retroweaved to work on jdk 1.4.2 and below.<br><br>
-
-        1.0:<br>
-        Worked around bug in IDEA 5.0.2 (FileEditorManagerListener.fileClosed() never called)<br>
-        Used Recent Files Limit setting for those who have a Tab Limit settings of 1<br>
-        Now possible to assign a key to quickly switch between two tabs without modifiers or
-        pop-up window (thanks to Marc Juul Christoffersen)<br><br>
-
-        0.7.5: Fixed NullPointerException introduced in previous version when opening new project
-         in same frame.<br><br>
-
-        0.7.4: All files opened when opening a project are now added to the TabSwitch menu again (bugfix
-        for IDEA #3354)<br><br>
     ]]>
   </change-notes>
   <vendor email="leijdekkers@carp-technologies*NOSPAM*.nl">Bas Leijdekkers</vendor>
@@ -74,6 +42,12 @@
     class="org.intellij.ideaplugins.tabswitch.PreviousTabAction"
     text="Switch To Previous Tab...">
       <keyboard-shortcut first-keystroke="shift alt A" keymap="$default"/>
+    </action>
+    <action
+    id="TabSwitchPlugin.SwitchTab"
+    class="org.intellij.ideaplugins.tabswitch.SwitchTabAction"
+    text="Switch Between Two Tabs (No UI, No Keyboard Modifier Needed)">
+      <keyboard-shortcut first-keystroke="alt DEAD_GRAVE" keymap="$default"/>
     </action>
   </actions>
   
