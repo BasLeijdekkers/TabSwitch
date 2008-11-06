@@ -2,7 +2,7 @@
 
 <idea-plugin url="http://www.intellij.org/twiki/bin/view/Main/TabSwitchPlugin">
   <name>TabSwitch</name>
-  <version>2.0</version>
+  <version>2.1</version>
   <idea-version since-build="8000" until-build="9499"/>
   <description><![CDATA[
     Open files/tabs switcher: allows to quickly switch between tabs with less keystrokes than
