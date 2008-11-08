@@ -23,6 +23,7 @@ import com.intellij.openapi.fileEditor.FileEditorManager;
 import com.intellij.openapi.fileEditor.impl.EditorHistoryManager;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VirtualFile;
+import org.jetbrains.annotations.Nullable;
 
 public class SwitchTabAction extends AnAction {
 
@@ -35,11 +36,12 @@ public class SwitchTabAction extends AnAction {
         final boolean showRecentFiles = tabSwitchSettings.SHOW_RECENT_FILES ||
                 editorTabLimit == 1;
         final VirtualFile file = getFile(project, showRecentFiles);
-        if (file.isValid()) {
+        if (file != null && file.isValid()) {
             FileEditorManager.getInstance(project).openFile(file, true);
         }
     }
 
+    @Nullable
     private static VirtualFile getFile(Project project, boolean showRecentFiles) {
         final FileEditorManager manager = FileEditorManager.getInstance(project);
         final VirtualFile[] files = EditorHistoryManager.getInstance(project).getFiles();
