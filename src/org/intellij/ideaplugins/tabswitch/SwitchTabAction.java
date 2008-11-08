@@ -33,12 +33,13 @@ public class SwitchTabAction extends AnAction {
         final TabSwitchSettings tabSwitchSettings = TabSwitchSettings.getInstance();
         final UISettings uiSettings = UISettings.getInstance();
         final int editorTabLimit = uiSettings.EDITOR_TAB_LIMIT;
-        final boolean showRecentFiles = tabSwitchSettings.SHOW_RECENT_FILES ||
-                editorTabLimit == 1;
+        final boolean showRecentFiles =
+                tabSwitchSettings.SHOW_RECENT_FILES || editorTabLimit == 1;
         final VirtualFile file = getFile(project, showRecentFiles);
-        if (file != null && file.isValid()) {
-            FileEditorManager.getInstance(project).openFile(file, true);
+        if (file == null || !file.isValid()) {
+            return;
         }
+        FileEditorManager.getInstance(project).openFile(file, true);
     }
 
     @Nullable
