@@ -2,7 +2,7 @@
 
 <idea-plugin url="http://www.intellij.org/twiki/bin/view/Main/TabSwitchPlugin">
   <name>TabSwitch</name>
-  <version>2.1</version>
+  <version>2.1.1</version>
   <idea-version since-build="8000" until-build="9499"/>
   <description><![CDATA[
     Open files/tabs switcher: allows to quickly switch between tabs with less keystrokes than
@@ -10,21 +10,13 @@
     very much like Alt-Tab in Windows or Ctrl-Tab in Opera. By default the action is mapped to
     Alt-A, but another popular assignment is Ctrl-Tab.<br><br>
 
-    This plugin was initialy developed by Timur Zambalayev but I started fixing some bugs caused
-    by openapi changes around April 2004. Since then I (Bas Leijdekkers) have taken over
-    development.]]>
+    Thanks to Timur Zambalayev for the original plugin, Martin Fuhrer for a major contribution
+    in the form of a rewrite and Mark Scott for patching a bug.]]>
   </description>
   <change-notes>
-    <![CDATA[
-        2.1:<br> Added the same slightly green background for open files as the recent files list
-        has (again by Martin Fuhrer). Restored Switch Between Two Tabs action.<br><br>
-
-        2.0:<br> Completely reimplemented by Martin Fuhrer, with some additions by me. Now has the look
-        of the Recent Files popup and better behavior in the presence of deleted files. Special thanks
-        to Martin Fuhrer and Mark Scott.<br><br>
-    ]]>
+      2.1.1: fix for NPE.
   </change-notes>
-  <vendor email="leijdekkers@carp-technologies*NOSPAM*.nl">Bas Leijdekkers</vendor>
+  <vendor url="http://twitter.com/inspectorbas" email="leijdekkers@carp-technologies*NOSPAM*.nl">Bas Leijdekkers</vendor>
   <application-components>
     <component>
       <implementation-class>org.intellij.ideaplugins.tabswitch.TabSwitchSettings</implementation-class>

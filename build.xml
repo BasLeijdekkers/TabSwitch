@@ -50,7 +50,7 @@
     </javac2>
   </target>
 
-  <target name="jar" depends="compile" description="deploy the plugin">
+  <target name="jar" depends="compile" description="prepare plugin for deployment">
     <mkdir dir="${build.jars.dir}"/>
     <delete file="${build.jars.dir}/${jar.file}"/>
     <jar jarfile="${build.jars.dir}/${jar.file}">
