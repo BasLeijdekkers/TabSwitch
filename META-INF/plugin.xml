@@ -2,8 +2,8 @@
 
 <idea-plugin url="http://www.intellij.org/twiki/bin/view/Main/TabSwitchPlugin">
   <name>TabSwitch</name>
-  <version>2.1.1</version>
-  <idea-version since-build="8000" until-build="9499"/>
+  <version>2.1.2</version>
+  <idea-version since-build="8000" until-build="9999"/>
   <description><![CDATA[
     Open files/tabs switcher: allows to quickly switch between tabs with less keystrokes than
     Recent Files. Open files are selected from a list in most recently used order. This works
@@ -14,7 +14,7 @@
     in the form of a rewrite and Mark Scott for patching a bug.]]>
   </description>
   <change-notes>
-      2.1.1: fix for NPE.
+      2.1.2: IDEA 8.1 EAP compatible.
   </change-notes>
   <vendor url="http://twitter.com/inspectorbas" email="leijdekkers@carp-technologies*NOSPAM*.nl">Bas Leijdekkers</vendor>
   <application-components>
@@ -42,7 +42,7 @@
       <keyboard-shortcut first-keystroke="alt DEAD_GRAVE" keymap="$default"/>
     </action>
   </actions>
-  
+
   <extensions defaultExtensionNs="com.intellij">
     <errorHandler implementation="nu.studer.idea.errorreporting.PluginErrorReportSubmitter"/>
   </extensions>
