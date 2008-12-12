@@ -42,8 +42,8 @@ abstract class TabAction extends AnAction {
             final List<VirtualFile> files = getFiles(project,
                     showRecentFiles || editorTabLimitOne);
             if (!files.isEmpty()) {
-                new Handler(project, files, (KeyEvent) event.getInputEvent(), isReverse(),
-                        showRecentFiles, editorTabLimitOne).show();
+                final Handler handler = new Handler(project, showRecentFiles, editorTabLimitOne);
+                handler.show(files, (KeyEvent)event.getInputEvent(), isReverse());
             }
         }
     }

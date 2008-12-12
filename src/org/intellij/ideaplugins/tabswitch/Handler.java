@@ -37,31 +37,26 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.io.File;
 import java.util.BitSet;
-import java.util.Collection;
+import java.util.List;
 
 class Handler implements KeyEventDispatcher {
 
     private final Project project;
-
     private final JList list;
-
     private final JBPopup popup;
 
-    private final int trigger;
-
+    private int trigger = 0;
     private final BitSet modifiers = new BitSet();
+    private boolean reverse = false;
 
-    private final boolean reverse;
-
-    Handler(Project project, Collection<VirtualFile> fileList, KeyEvent event, boolean reverse,
-            boolean showRecentFiles, boolean editorTabLimitOne) {
+    Handler(Project project, boolean showRecentFiles, boolean editorTabLimitOne) {
         this.project = project;
 
         final JLabel path = new JLabel(" ");
         path.setHorizontalAlignment(SwingConstants.RIGHT);
         path.setFont(path.getFont().deriveFont((float) 10));
         final JComponent footer = buildFooter(path);
-        list = new JList(fileList.toArray(new VirtualFile[fileList.size()]));
+        list = new JList();
         list.setCellRenderer(getRenderer(project, showRecentFiles));
         list.getSelectionModel().addListSelectionListener(getListener(list, path));
 
@@ -79,16 +74,10 @@ class Handler implements KeyEventDispatcher {
             }
         });
         popup = builder.createPopup();
-        trigger = event.getKeyCode();
-        modifiers.set(KeyEvent.VK_CONTROL, event.isControlDown());
-        modifiers.set(KeyEvent.VK_META, event.isMetaDown());
-        modifiers.set(KeyEvent.VK_ALT, event.isAltDown());
-        modifiers.set(KeyEvent.VK_ALT_GRAPH, event.isAltGraphDown());
-        this.reverse = reverse ^ event.isShiftDown();
     }
 
     private static JComponent buildFooter(Component footerComponent) {
-        final JPanel footer = new JPanel(new BorderLayout()) {
+        final JComponent footer = new JPanel(new BorderLayout()) {
             @Override
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
@@ -101,10 +90,10 @@ class Handler implements KeyEventDispatcher {
         return footer;
     }
 
-    private void close(boolean open) {
+    private void close(boolean openFile) {
         popup.cancel();
         KeyboardFocusManager.getCurrentKeyboardFocusManager().removeKeyEventDispatcher(this);
-        if (open) {
+        if (openFile) {
             final VirtualFile file = (VirtualFile) list.getSelectedValue();
             if (file.isValid()) {
                 FileEditorManager.getInstance(project).openFile(file, true);
@@ -195,9 +184,30 @@ class Handler implements KeyEventDispatcher {
         list.ensureIndexIsVisible(list.getSelectedIndex());
     }
 
-    void show() {
+    void show(final List<VirtualFile> fileList, KeyEvent event, boolean reverse) {
+        if (popup.isVisible()) {
+            move(false);
+            return;
+        }
+        list.setModel(new AbstractListModel() {
+            public int getSize() {
+                return fileList.size();
+            }
+
+            public Object getElementAt(int index) {
+                return fileList.get(index);
+            }
+        });
+        list.setVisibleRowCount(fileList.size());
+        trigger = event.getKeyCode();
+        modifiers.set(KeyEvent.VK_CONTROL, event.isControlDown());
+        modifiers.set(KeyEvent.VK_META, event.isMetaDown());
+        modifiers.set(KeyEvent.VK_ALT, event.isAltDown());
+        modifiers.set(KeyEvent.VK_ALT_GRAPH, event.isAltGraphDown());
+        this.reverse = reverse ^ event.isShiftDown();
         KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(this);
         popup.showCenteredInCurrentWindow(project);
+        move(false);
     }
 
     private static void updatePath(JList list, JLabel path) {
