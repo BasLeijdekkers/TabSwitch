@@ -15,9 +15,12 @@
  */
 package org.intellij.ideaplugins.tabswitch;
 
+import com.intellij.ide.ui.UISettings;
+import com.intellij.openapi.components.AbstractProjectComponent;
 import com.intellij.openapi.editor.markup.EffectType;
 import com.intellij.openapi.editor.markup.TextAttributes;
 import com.intellij.openapi.fileEditor.FileEditorManager;
+import com.intellij.openapi.fileEditor.impl.EditorHistoryManager;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.popup.JBPopup;
 import com.intellij.openapi.ui.popup.PopupChooserBuilder;
@@ -36,20 +39,32 @@ import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.BitSet;
+import java.util.Collections;
 import java.util.List;
 
-class Handler implements KeyEventDispatcher {
+public class Handler extends AbstractProjectComponent implements KeyEventDispatcher {
 
     private final Project project;
     private final JList list;
-    private final JBPopup popup;
+    private final PopupChooserBuilder builder;
+
+    private JBPopup popup = null;
+
+    private final boolean editorTabLimitOne;
+    private final boolean showRecentFiles;
 
     private int trigger = 0;
     private final BitSet modifiers = new BitSet();
     private boolean reverse = false;
 
-    Handler(Project project, boolean showRecentFiles, boolean editorTabLimitOne) {
+    Handler(Project project) {
+        super(project);
+        final TabSwitchSettings tabSwitchSettings = TabSwitchSettings.getInstance();
+        final UISettings uiSettings = UISettings.getInstance();
+        editorTabLimitOne = uiSettings.EDITOR_TAB_LIMIT == 1;
+        showRecentFiles = tabSwitchSettings.SHOW_RECENT_FILES;
         this.project = project;
 
         final JLabel path = new JLabel(" ");
@@ -60,20 +75,18 @@ class Handler implements KeyEventDispatcher {
         list.setCellRenderer(getRenderer(project, showRecentFiles));
         list.getSelectionModel().addListSelectionListener(getListener(list, path));
 
-        final PopupChooserBuilder builder = new PopupChooserBuilder(list);
+        builder = new PopupChooserBuilder(list);
         if (showRecentFiles || editorTabLimitOne) {
             builder.setTitle("Recent Files");
         } else {
             builder.setTitle("Open Files");
         }
-        builder.setMovable(true);
-        builder.setSouthComponent(footer);
+        builder.setMovable(true).setSouthComponent(footer);
         builder.setItemChoosenCallback(new Runnable() {
             public void run() {
                 close(true);
             }
         });
-        popup = builder.createPopup();
     }
 
     private static JComponent buildFooter(Component footerComponent) {
@@ -92,6 +105,8 @@ class Handler implements KeyEventDispatcher {
 
     private void close(boolean openFile) {
         popup.cancel();
+        popup.dispose();
+        popup = null;
         KeyboardFocusManager.getCurrentKeyboardFocusManager().removeKeyEventDispatcher(this);
         if (openFile) {
             final VirtualFile file = (VirtualFile) list.getSelectedValue();
@@ -104,6 +119,7 @@ class Handler implements KeyEventDispatcher {
     public boolean dispatchKeyEvent(KeyEvent event) {
         boolean consumed = true;
         if (popup.isDisposed()) {
+            System.out.println("popup disposed");
             KeyboardFocusManager.getCurrentKeyboardFocusManager().removeKeyEventDispatcher(this);
             consumed = false;
         } else if ((event.getID() == KeyEvent.KEY_RELEASED) &&
@@ -142,6 +158,23 @@ class Handler implements KeyEventDispatcher {
         return consumed;
     }
 
+    private List<VirtualFile> getFiles() {
+        final List<VirtualFile> result = new ArrayList();
+        final FileEditorManager manager = FileEditorManager.getInstance(project);
+        final VirtualFile[] files = EditorHistoryManager.getInstance(project).getFiles();
+        for (VirtualFile file : files) {
+            if (showRecentFiles || editorTabLimitOne || manager.isFileOpen(file)) {
+                result.add(file);
+            }
+        }
+        Collections.reverse(result);
+        return result;
+    }
+
+    public static Handler getHandler(Project project) {
+        return project.getComponent(Handler.class);
+    }
+
     private static ListSelectionListener getListener(final JList list, final JLabel path) {
         return new ListSelectionListener() {
             public void valueChanged(ListSelectionEvent event) {
@@ -154,7 +187,7 @@ class Handler implements KeyEventDispatcher {
         };
     }
 
-    static ListCellRenderer getRenderer(final Project project, final boolean showRecentFiles) {
+    private static ListCellRenderer getRenderer(final Project project, final boolean showRecentFiles) {
         return new ColoredListCellRenderer() {
             @Override
             protected void customizeCellRenderer(JList list, Object value, int index,
@@ -184,21 +217,26 @@ class Handler implements KeyEventDispatcher {
         list.ensureIndexIsVisible(list.getSelectedIndex());
     }
 
-    void show(final List<VirtualFile> fileList, KeyEvent event, boolean reverse) {
-        if (popup.isVisible()) {
+    public void show(KeyEvent event, boolean reverse) {
+        final List<VirtualFile> files = getFiles();
+        if (files.isEmpty()) {
+            return;
+        }
+        if (popup != null) {
             move(false);
             return;
         }
+        popup = builder.createPopup();
         list.setModel(new AbstractListModel() {
             public int getSize() {
-                return fileList.size();
+                return files.size();
             }
 
             public Object getElementAt(int index) {
-                return fileList.get(index);
+                return files.get(index);
             }
         });
-        list.setVisibleRowCount(fileList.size());
+        list.setVisibleRowCount(files.size());
         trigger = event.getKeyCode();
         modifiers.set(KeyEvent.VK_CONTROL, event.isControlDown());
         modifiers.set(KeyEvent.VK_META, event.isMetaDown());

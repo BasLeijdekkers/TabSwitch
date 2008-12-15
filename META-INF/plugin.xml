@@ -22,6 +22,12 @@
       <implementation-class>org.intellij.ideaplugins.tabswitch.TabSwitchSettings</implementation-class>
     </component>
   </application-components>
+  <project-components>
+    <component>
+      <implementation-class>org.intellij.ideaplugins.tabswitch.Handler</implementation-class>
+    </component>
+  </project-components>
+
   <actions>
     <action
     id="TabSwitchPlugin.NextTab"

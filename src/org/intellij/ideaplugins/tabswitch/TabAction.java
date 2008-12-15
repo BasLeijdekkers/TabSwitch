@@ -15,57 +15,32 @@
  */
 package org.intellij.ideaplugins.tabswitch;
 
-import com.intellij.ide.ui.UISettings;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.PlatformDataKeys;
-import com.intellij.openapi.fileEditor.FileEditorManager;
-import com.intellij.openapi.fileEditor.impl.EditorHistoryManager;
+import com.intellij.openapi.actionSystem.DataContext;
 import com.intellij.openapi.project.Project;
-import com.intellij.openapi.vfs.VirtualFile;
 
 import java.awt.event.KeyEvent;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 abstract class TabAction extends AnAction {
 
     @Override
     public void actionPerformed(AnActionEvent event) {
         final Project project = PlatformDataKeys.PROJECT.getData(event.getDataContext());
-        if ((project != null) && (event.getInputEvent() instanceof KeyEvent)) {
-            final TabSwitchSettings tabSwitchSettings = TabSwitchSettings.getInstance();
-            final UISettings uiSettings = UISettings.getInstance();
-            final boolean editorTabLimitOne = uiSettings.EDITOR_TAB_LIMIT == 1;
-            final boolean showRecentFiles = tabSwitchSettings.SHOW_RECENT_FILES;
-            final List<VirtualFile> files = getFiles(project,
-                    showRecentFiles || editorTabLimitOne);
-            if (!files.isEmpty()) {
-                final Handler handler = new Handler(project, showRecentFiles, editorTabLimitOne);
-                handler.show(files, (KeyEvent)event.getInputEvent(), isReverse());
-            }
+        if ((project == null) || !(event.getInputEvent() instanceof KeyEvent)) {
+            return;
         }
+        final Handler handler = Handler.getHandler(project);
+        handler.show((KeyEvent)event.getInputEvent(), isReverse());
     }
 
     @Override
     public void update(AnActionEvent event) {
-        event.getPresentation().setEnabled(
-                PlatformDataKeys.PROJECT.getData(event.getDataContext()) != null);
+        final DataContext dataContext = event.getDataContext();
+        final Project project = PlatformDataKeys.PROJECT.getData(dataContext);
+        event.getPresentation().setEnabled(project != null);
     }
 
     abstract boolean isReverse();
-
-    private static List<VirtualFile> getFiles(Project project, boolean showRecentFiles) {
-        final List<VirtualFile> result = new ArrayList();
-        final FileEditorManager manager = FileEditorManager.getInstance(project);
-        final VirtualFile[] files = EditorHistoryManager.getInstance(project).getFiles();
-        for (VirtualFile file : files) {
-            if (showRecentFiles || manager.isFileOpen(file)) {
-                result.add(file);
-            }
-        }
-        Collections.reverse(result);
-        return result;
-    }
 }
