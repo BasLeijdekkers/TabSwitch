@@ -14,7 +14,8 @@
     in the form of a rewrite and Mark Scott for patching a bug.]]>
   </description>
   <change-notes>
-      2.1.2: IDEA 8.1 EAP compatible.
+      2.1.2: IDEA 8.1 EAP compatible. Fixes a problem where sometimes multiple tabswitch popups
+    would appear.
   </change-notes>
   <vendor url="http://twitter.com/inspectorbas" email="leijdekkers@carp-technologies*NOSPAM*.nl">Bas Leijdekkers</vendor>
   <application-components>

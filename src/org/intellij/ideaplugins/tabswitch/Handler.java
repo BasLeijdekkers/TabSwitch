@@ -119,7 +119,6 @@ public class Handler extends AbstractProjectComponent implements KeyEventDispatc
     public boolean dispatchKeyEvent(KeyEvent event) {
         boolean consumed = true;
         if (popup.isDisposed()) {
-            System.out.println("popup disposed");
             KeyboardFocusManager.getCurrentKeyboardFocusManager().removeKeyEventDispatcher(this);
             consumed = false;
         } else if ((event.getID() == KeyEvent.KEY_RELEASED) &&
