@@ -3,18 +3,18 @@
 <idea-plugin url="http://www.intellij.org/twiki/bin/view/Main/TabSwitchPlugin">
   <name>TabSwitch</name>
   <version>2.1.2</version>
-  <idea-version since-build="8000" until-build="9999"/>
+  <idea-version since-build="8000" until-build="10500"/>
   <description><![CDATA[
-    Open files/tabs switcher: allows to quickly switch between tabs with less keystrokes than
-    Recent Files. Open files are selected from a list in most recently used order. This works
-    very much like Alt-Tab in Windows or Ctrl-Tab in Opera. By default the action is mapped to
+    Open files/tabs switcher to quickly switch between tabs with less keystrokes than
+    Recent Files. Open files are selected from a list in most recently used order, similarly
+    to Alt-Tab in Windows or Ctrl-Tab in Opera. By default the action is mapped to
     Alt-A, but another popular assignment is Ctrl-Tab.<br><br>
 
     Thanks to Timur Zambalayev for the original plugin, Martin Fuhrer for a major contribution
     in the form of a rewrite and Mark Scott for patching a bug.]]>
   </description>
   <change-notes>
-      2.1.2: IDEA 8.1 EAP compatible. Fixes a problem where sometimes multiple tabswitch popups
+      2.1.2: IDEA 8.1 EAP compatible. Fixes a problem where sometimes multiple TabSwitch popups
     would appear.
   </change-notes>
   <vendor url="http://twitter.com/inspectorbas" email="leijdekkers@carp-technologies*NOSPAM*.nl">Bas Leijdekkers</vendor>

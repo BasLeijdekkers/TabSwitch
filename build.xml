@@ -67,7 +67,10 @@
           todir="${idea.plugin.home}/${ant.project.name}/lib"/>
     <copy file="lib/errorReporter.jar"
           todir="${idea.plugin.home}/${ant.project.name}/lib"/>
-    <zip destfile="./${ant.project.name}.zip">
+  </target>
+
+  <target  name="zip" depends="jar" description="creates pluginn zip for distribution">
+      <zip destfile="./${ant.project.name}.zip">
       <zipfileset file="${build.jars.dir}/${ant.project.name}.jar" prefix="${ant.project.name}/lib"/>
       <zipfileset file="lib/errorReporter.jar" prefix="${ant.project.name}/lib"/>
       <!--<zipfileset file="${project.name}_src.zip" prefix="${ant.project.name}"/>-->
