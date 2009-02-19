@@ -222,8 +222,12 @@ public class Handler extends AbstractProjectComponent implements KeyEventDispatc
             return;
         }
         if (popup != null) {
-            move(false);
-            return;
+            if (!popup.isVisible()) {
+                popup.dispose();
+            } else {
+                move(false);
+                return;
+            }
         }
         popup = builder.createPopup();
         list.setModel(new AbstractListModel() {
