@@ -14,15 +14,21 @@
     in the form of a rewrite and Mark Scott for patching a bug.]]>
   </description>
   <change-notes><![CDATA[
-      2.1.4: Fixed TabSwitch popup does not show after switching to another application problem.
+    2.1.4: Fixed TabSwitch popup does not show after switching to another application problem.
     <br>
-      2.1.2: IDEA 8.1 EAP compatible. Fixes a problem where sometimes multiple TabSwitch popups
+    2.1.3: Removed until-build attribute from plugin to allow this plugin to be updated from
+    the plugin manager (see http://www.jetbrains.net/devnet/thread/279652 ).
+    <br>
+    2.1.2: IDEA 8.1 EAP compatible. Fixes a problem where sometimes multiple TabSwitch popups
     would appear.
   ]]></change-notes>
-  <vendor url="http://twitter.com/inspectorbas" email="leijdekkers@carp-technologies*NOSPAM*.nl">Bas Leijdekkers</vendor>
+  <vendor url="http://twitter.com/inspectorbas" email="leijdekkers@carp-technologies*NOSPAM*.nl">Bas
+    Leijdekkers
+  </vendor>
   <application-components>
     <component>
-      <implementation-class>org.intellij.ideaplugins.tabswitch.TabSwitchSettings</implementation-class>
+      <implementation-class>org.intellij.ideaplugins.tabswitch.TabSwitchSettings
+      </implementation-class>
     </component>
   </application-components>
   <project-components>
@@ -33,21 +39,21 @@
 
   <actions>
     <action
-    id="TabSwitchPlugin.NextTab"
-    class="org.intellij.ideaplugins.tabswitch.NextTabAction"
-    text="Switch To Next Tab...">
+            id="TabSwitchPlugin.NextTab"
+            class="org.intellij.ideaplugins.tabswitch.NextTabAction"
+            text="Switch To Next Tab...">
       <keyboard-shortcut first-keystroke="alt A" keymap="$default"/>
     </action>
     <action
-    id="TabSwitchPlugin.PreviousTab"
-    class="org.intellij.ideaplugins.tabswitch.PreviousTabAction"
-    text="Switch To Previous Tab...">
+            id="TabSwitchPlugin.PreviousTab"
+            class="org.intellij.ideaplugins.tabswitch.PreviousTabAction"
+            text="Switch To Previous Tab...">
       <keyboard-shortcut first-keystroke="shift alt A" keymap="$default"/>
     </action>
     <action
-    id="TabSwitchPlugin.SwitchTab"
-    class="org.intellij.ideaplugins.tabswitch.SwitchTabAction"
-    text="Switch Between Two Tabs (No UI, No Keyboard Modifier Needed)">
+            id="TabSwitchPlugin.SwitchTab"
+            class="org.intellij.ideaplugins.tabswitch.SwitchTabAction"
+            text="Switch Between Two Tabs (No UI, No Keyboard Modifier Needed)">
       <keyboard-shortcut first-keystroke="alt DEAD_GRAVE" keymap="$default"/>
     </action>
   </actions>
