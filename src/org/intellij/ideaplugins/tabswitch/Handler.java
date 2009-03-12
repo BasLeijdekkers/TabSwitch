@@ -38,6 +38,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseListener;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.BitSet;
@@ -70,7 +71,6 @@ public class Handler extends AbstractProjectComponent implements KeyEventDispatc
         final JLabel path = new JLabel(" ");
         path.setHorizontalAlignment(SwingConstants.RIGHT);
         path.setFont(path.getFont().deriveFont((float) 10));
-        final JComponent footer = buildFooter(path);
         list = new JList();
         list.setCellRenderer(getRenderer(project, showRecentFiles));
         list.getSelectionModel().addListSelectionListener(getListener(list, path));
@@ -81,6 +81,7 @@ public class Handler extends AbstractProjectComponent implements KeyEventDispatc
         } else {
             builder.setTitle("Open Files");
         }
+        final JComponent footer = buildFooter(path);
         builder.setMovable(true).setSouthComponent(footer);
         builder.setItemChoosenCallback(new Runnable() {
             public void run() {
@@ -106,6 +107,13 @@ public class Handler extends AbstractProjectComponent implements KeyEventDispatc
     private void close(boolean openFile) {
         popup.cancel();
         popup.dispose();
+
+        // workaround for MouseListener leak added in PopupChooserBuilder.createPopup()
+        final MouseListener[] listeners = list.getMouseListeners();
+        for (MouseListener listener : listeners) {
+            list.removeMouseListener(listener);
+        }
+
         popup = null;
         KeyboardFocusManager.getCurrentKeyboardFocusManager().removeKeyEventDispatcher(this);
         if (openFile) {
