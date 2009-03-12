@@ -1,9 +1,11 @@
 <project default="jar" name="TabSwitch">
 
-  <property name="idea.home" value="/Applications/IntelliJ IDEA Diana.app" />
-  <!--<property name="idea.home" value="c:/Program Files/idea_diana" />-->
+  <!--<property name="idea.home" value="/Applications/IntelliJ IDEA Diana.app" />-->
+  <property name="idea.home" value="c:/Program Files/idea-8.1-jdk15" />
+  <!--
   <property name="idea.plugin.home" value="${user.home}/Library/Application Support/IntelliJIDEA80"/>
-  <!--<property name="idea.plugin.home" value="${user.home}/.IntelliJIDEA80"/>-->
+  -->
+  <property name="idea.plugin.home" value="${user.home}/.IntelliJIDEA90/config/plugins"/>
 
   <property name="project.name" value="TabSwitch"/>
   <property name="build.dir" value="build"/>
@@ -13,8 +15,9 @@
   <property name="jar.file" value="${project.name}.jar"/>
 
   <path id="project.classpath">
-    <pathelement path="${idea.home}/redist/openapi.jar"/>
+    <pathelement path="${idea.home}/lib/openapi.jar"/>
     <pathelement path="${idea.home}/lib/util.jar"/>
+    <pathelement path="${idea.home}/lib/idea.jar"/>
     <pathelement path="${idea.home}/redist/annotations.jar"/>
     <pathelement path="${idea.home}/redist/extensions.jar"/>
   </path>
