@@ -17,13 +17,14 @@ package org.intellij.ideaplugins.tabswitch;
 
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
-import com.intellij.openapi.actionSystem.PlatformDataKeys;
 import com.intellij.openapi.actionSystem.DataContext;
+import com.intellij.openapi.actionSystem.PlatformDataKeys;
+import com.intellij.openapi.project.DumbAware;
 import com.intellij.openapi.project.Project;
 
 import java.awt.event.KeyEvent;
 
-abstract class TabAction extends AnAction {
+abstract class TabAction extends AnAction implements DumbAware {
 
     @Override
     public void actionPerformed(AnActionEvent event) {

@@ -2,9 +2,9 @@
 
 <idea-plugin url="http://www.intellij.org/twiki/bin/view/Main/TabSwitchPlugin">
   <name>TabSwitch</name>
-  <version>2.1.6</version>
-  <idea-version since-build="8000"/>
-  
+  <version>2.1.7</version>
+  <idea-version since-build="10360"/>
+
   <description><![CDATA[
     Open files/tabs switcher to quickly switch between tabs with less keystrokes than
     Recent Files. Open files are selected from a list in most recently used order, similarly
@@ -15,6 +15,7 @@
     in the form of a rewrite and Mark Scott for patching a bug.]]>
   </description>
   <change-notes><![CDATA[
+    2.1.7: Now usable during background indexing in Maia.<br>
     2.1.6: RubyMine compatible version.<br>
   ]]></change-notes>
 

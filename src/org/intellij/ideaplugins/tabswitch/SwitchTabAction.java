@@ -21,11 +21,12 @@ import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.PlatformDataKeys;
 import com.intellij.openapi.fileEditor.FileEditorManager;
 import com.intellij.openapi.fileEditor.impl.EditorHistoryManager;
+import com.intellij.openapi.project.DumbAware;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VirtualFile;
 import org.jetbrains.annotations.Nullable;
 
-public class SwitchTabAction extends AnAction {
+public class SwitchTabAction extends AnAction implements DumbAware {
 
     @Override
     public void actionPerformed(AnActionEvent event) {
