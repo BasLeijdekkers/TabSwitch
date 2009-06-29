@@ -39,6 +39,7 @@ import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.BitSet;
@@ -76,6 +77,16 @@ public class Handler extends AbstractProjectComponent implements KeyEventDispatc
         list.getSelectionModel().addListSelectionListener(getListener(list, path));
 
         builder = new PopupChooserBuilder(list);
+        final MouseMotionListener[] listeners = list.getMouseMotionListeners();
+        for (MouseMotionListener listener : listeners) {
+            final String className = listener.getClass().getName();
+            if (className.startsWith("com.intellij.openapi.ui.popup.PopupChooserBuilder")) {
+                // remove mouse motion listener added by PopupChooserBuilder
+                // to prevent selection moving when mouse is moved over the popup
+                // and TabSwitch is mapped to an Alt key combination.
+                list.removeMouseMotionListener(listener);
+            }
+        }
         if (showRecentFiles || editorTabLimitOne) {
             builder.setTitle("Recent Files");
         } else {
@@ -160,7 +171,8 @@ public class Handler extends AbstractProjectComponent implements KeyEventDispatc
                     default:
                         close(false);
                         break;
-                }}
+                }
+            }
         }
         return consumed;
     }
@@ -194,7 +206,8 @@ public class Handler extends AbstractProjectComponent implements KeyEventDispatc
         };
     }
 
-    private static ListCellRenderer getRenderer(final Project project, final boolean showRecentFiles) {
+    private static ListCellRenderer getRenderer(final Project project,
+                                                final boolean showRecentFiles) {
         return new ColoredListCellRenderer() {
             @Override
             protected void customizeCellRenderer(JList list, Object value, int index,
