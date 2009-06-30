@@ -15,7 +15,7 @@
     in the form of a rewrite and Mark Scott for patching a bug.]]>
   </description>
   <change-notes><![CDATA[
-    2.1.8: Now usable during background indexing in Maia.<br>
+    2.1.8: The TabSwitch actions are now available during background indexing in Maia.<br>
     2.1.7: Fix for mouse over popup changes selection problem reported by Michael Bushe.<br>
     2.1.6: RubyMine compatible version.<br>
   ]]></change-notes>
