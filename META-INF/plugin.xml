@@ -2,7 +2,7 @@
 
 <idea-plugin url="http://www.intellij.org/twiki/bin/view/Main/TabSwitchPlugin">
   <name>TabSwitch</name>
-  <version>2.1.7</version>
+  <version>2.1.8</version>
   <idea-version since-build="10360"/>
 
   <description><![CDATA[
@@ -15,7 +15,8 @@
     in the form of a rewrite and Mark Scott for patching a bug.]]>
   </description>
   <change-notes><![CDATA[
-    2.1.7: Now usable during background indexing in Maia.<br>
+    2.1.8: Now usable during background indexing in Maia.<br>
+    2.1.7: Fix for mouse over popup changes selection problem reported by Michael Bushe.<br>
     2.1.6: RubyMine compatible version.<br>
   ]]></change-notes>
 

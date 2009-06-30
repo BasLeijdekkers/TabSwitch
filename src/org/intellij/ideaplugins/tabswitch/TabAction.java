@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008 by Fuhrer Engineering AG, CH-2504 Biel/Bienne, Switzerland & Bas Leijdekkers
+ * Copyright (c) 2008-2009 by Fuhrer Engineering AG, CH-2504 Biel/Bienne, Switzerland & Bas Leijdekkers
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -33,7 +33,7 @@ abstract class TabAction extends AnAction implements DumbAware {
             return;
         }
         final Handler handler = Handler.getHandler(project);
-        handler.show((KeyEvent)event.getInputEvent(), isReverse());
+        handler.show((KeyEvent) event.getInputEvent(), isReverse());
     }
 
     @Override
