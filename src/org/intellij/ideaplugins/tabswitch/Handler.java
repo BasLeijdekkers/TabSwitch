@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008-2009 by Fuhrer Engineering AG, CH-2504 Biel/Bienne, Switzerland & Bas Leijdekkers
+ * Copyright (c) 2008-2011 by Fuhrer Engineering AG, CH-2504 Biel/Bienne, Switzerland & Bas Leijdekkers
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -130,7 +130,7 @@ public class Handler extends AbstractProjectComponent implements KeyEventDispatc
         if (openFile) {
             final VirtualFile file = (VirtualFile) list.getSelectedValue();
             if (file.isValid()) {
-                FileEditorManager.getInstance(project).openFile(file, true);
+                FileEditorManager.getInstance(project).openFile(file, true, true);
             }
         }
     }

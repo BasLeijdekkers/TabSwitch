@@ -1,5 +1,5 @@
 /*
- * Copyright 2008-2009 Bas Leijdekkers
+ * Copyright 2008-2011 Bas Leijdekkers
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -40,7 +40,7 @@ public class SwitchTabAction extends AnAction implements DumbAware {
         if (file == null || !file.isValid()) {
             return;
         }
-        FileEditorManager.getInstance(project).openFile(file, true);
+        FileEditorManager.getInstance(project).openFile(file, true, true);
     }
 
     @Nullable
