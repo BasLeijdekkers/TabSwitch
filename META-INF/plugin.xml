@@ -2,8 +2,8 @@
 
 <idea-plugin url="http://www.intellij.org/twiki/bin/view/Main/TabSwitchPlugin">
   <name>TabSwitch</name>
-  <version>2.1.8</version>
-  <idea-version since-build="10360"/>
+  <version>2.1.9</version>
+  <idea-version since-build="99.18"/>
 
   <description><![CDATA[
     Open files/tabs switcher to quickly switch between tabs with less keystrokes than
@@ -12,17 +12,19 @@
     Alt-A, but another popular assignment is Ctrl-Tab.<br><br>
 
     Thanks to Timur Zambalayev for the original plugin, Martin Fuhrer for a major contribution
-    in the form of a rewrite and Mark Scott for patching a bug.]]>
+    in the form of a rewrite and Mark Scott for patching a bug. Follow further development of
+    <a href="https://github.com/BasLeijdekkers/TabSwitch">this plugin on GitHub</a> or follow
+    <a href="http://twitter.com/inspectorbas">me on twitter</a> for announcements and other things.
+    ]]>
   </description>
   <change-notes><![CDATA[
+    2.1.9: Switch to open tab even if it is located in a different split pane.<br>
     2.1.8: The TabSwitch actions are now available during background indexing in Maia.<br>
     2.1.7: Fix for mouse over popup changes selection problem reported by Michael Bushe.<br>
     2.1.6: RubyMine compatible version.<br>
   ]]></change-notes>
 
-  <vendor url="http://twitter.com/inspectorbas" email="leijdekkers@carp-technologies*NOSPAM*.nl">Bas
-    Leijdekkers
-  </vendor>
+  <vendor url="http://twitter.com/inspectorbas" email="basleijdekkersYour Hat@gmail.com">Bas Leijdekkers (remove Your Hat to mail me;)</vendor>
   <application-components>
     <component>
       <implementation-class>org.intellij.ideaplugins.tabswitch.TabSwitchSettings
