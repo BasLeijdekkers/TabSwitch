@@ -3,12 +3,11 @@
   <property name="idea.home" value="/Applications/IntelliJ IDEA XI.app" />
   <property name="idea.plugin.home" value="${user.home}/Library/Application Support/IntelliJIdea11"/>
 
-  <property name="project.name" value="TabSwitch"/>
   <property name="build.dir" value="build"/>
   <property name="build.classes.dir" value="${build.dir}/classes"/>
   <property name="build.jars.dir" value="${build.dir}/jars"/>
   <property name="src.dir" value="src"/>
-  <property name="jar.file" value="${project.name}.jar"/>
+  <property name="jar.file" value="${ant.project.name}.jar"/>
 
   <path id="project.classpath">
     <pathelement path="${idea.home}/lib/openapi.jar"/>
@@ -43,9 +42,7 @@
   <target name="compile" depends="echo-properties">
     <mkdir dir="${build.classes.dir}"/>
     <javac2 srcdir="${src.dir}" destdir="${build.classes.dir}" debug="true" deprecation="true">
-      <classpath>
-        <path refid="project.classpath"/>
-      </classpath>
+      <classpath refid="project.classpath"/>
     </javac2>
   </target>
 
@@ -68,7 +65,7 @@
           todir="${idea.plugin.home}/${ant.project.name}/lib"/>
   </target>
 
-  <target  name="zip" depends="jar" description="creates pluginn zip for distribution">
+  <target name="zip" depends="jar" description="creates plugin zip for distribution">
       <zip destfile="./${ant.project.name}.zip">
       <zipfileset file="${build.jars.dir}/${ant.project.name}.jar" prefix="${ant.project.name}/lib"/>
       <zipfileset file="lib/errorReporter.jar" prefix="${ant.project.name}/lib"/>
@@ -77,7 +74,7 @@
   </target>
 
   <target name="src" description="zips up all sources for distribution">
-    <zip destfile="${project.name}_src.zip"
+    <zip destfile="${ant.project.name}_src.zip"
       basedir="."
       includes="src/** META-INF/** build.xml lib/** *.ipr *.iml"
       excludes="CVS/**"
