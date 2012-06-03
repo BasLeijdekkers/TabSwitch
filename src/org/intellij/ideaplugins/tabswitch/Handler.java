@@ -111,6 +111,7 @@ public class Handler extends AbstractProjectComponent implements KeyEventDispatc
     final JComponent footer = buildFooter(path);
     builder.setMovable(true).setSouthComponent(footer);
     builder.setItemChoosenCallback(new Runnable() {
+      @Override
       public void run() {
         close(true);
       }
@@ -151,6 +152,7 @@ public class Handler extends AbstractProjectComponent implements KeyEventDispatc
     }
   }
 
+  @Override
   public boolean dispatchKeyEvent(KeyEvent event) {
     boolean consumed = true;
     if (popup.isDisposed()) {
@@ -194,7 +196,7 @@ public class Handler extends AbstractProjectComponent implements KeyEventDispatc
   }
 
   private List<VirtualFile> getFiles() {
-    final List<VirtualFile> result = new ArrayList();
+    final List<VirtualFile> result = new ArrayList<VirtualFile>();
     final FileEditorManager manager = FileEditorManager.getInstance(project);
     final VirtualFile[] files = EditorHistoryManager.getInstance(project).getFiles();
     for (VirtualFile file : files) {
@@ -212,8 +214,10 @@ public class Handler extends AbstractProjectComponent implements KeyEventDispatc
 
   private static ListSelectionListener getListener(final JList list, final JLabel path) {
     return new ListSelectionListener() {
+      @Override
       public void valueChanged(ListSelectionEvent event) {
         SwingUtilities.invokeLater(new Runnable() {
+          @Override
           public void run() {
             updatePath(list, path);
           }
@@ -268,10 +272,12 @@ public class Handler extends AbstractProjectComponent implements KeyEventDispatc
     }
     popup = builder.createPopup();
     list.setModel(new AbstractListModel() {
+      @Override
       public int getSize() {
         return files.size();
       }
 
+      @Override
       public Object getElementAt(int index) {
         return files.get(index);
       }
