@@ -13,12 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.intellij.ideaplugins.tabswitch;
+package org.intellij.ideaplugins.tabswitch.action;
+
+import org.intellij.ideaplugins.tabswitch.filefetchers.FileFetcher;
+import org.intellij.ideaplugins.tabswitch.filefetchers.FileFetcherOpenTabFiles;
+
+import com.intellij.openapi.vfs.VirtualFile;
 
 public class NextTabAction extends TabAction {
 
-    @Override
-    boolean isReverse() {
-        return false;
-    }
+  private FileFetcher<VirtualFile> fileFetcher;
+
+  @Override
+  protected FileFetcher<VirtualFile> getFileFetcher() {
+    if (fileFetcher == null) fileFetcher = new FileFetcherOpenTabFiles();
+    return fileFetcher;
+  }
+
+  @Override
+  protected boolean moveDownOnShow() {
+    return true;
+  }
 }

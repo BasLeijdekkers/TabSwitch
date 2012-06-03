@@ -15,54 +15,57 @@
  */
 package org.intellij.ideaplugins.tabswitch;
 
-import com.intellij.openapi.application.Application;
+import org.jdom.Element;
+import org.jetbrains.annotations.NotNull;
+
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.components.ApplicationComponent;
 import com.intellij.openapi.util.DefaultJDOMExternalizer;
 import com.intellij.openapi.util.InvalidDataException;
 import com.intellij.openapi.util.NamedJDOMExternalizable;
 import com.intellij.openapi.util.WriteExternalException;
-import org.jdom.Element;
-import org.jetbrains.annotations.NotNull;
 
 public class TabSwitchSettings implements ApplicationComponent, NamedJDOMExternalizable {
 
-    /**
-     * @noinspection PublicField,NonConstantFieldWithUpperCaseName
-     * externalized in settings file
-     */
-    public boolean SHOW_RECENT_FILES;
+  /**
+   * @noinspection PublicField, NonConstantFieldWithUpperCaseName externalized in settings file
+   */
+  public boolean SHOW_RECENT_FILES;
 
+  public TabSwitchSettings() {
+    this.SHOW_RECENT_FILES = false;
+  }
 
-    public TabSwitchSettings() {
-        SHOW_RECENT_FILES = false;
-    }
+  public static TabSwitchSettings getInstance() {
+    return ApplicationManager.getApplication().getComponent(TabSwitchSettings.class);
+  }
 
-    public void disposeComponent() {
-    }
+  @Override
+  public void disposeComponent() {
+  }
 
-    @NotNull
-    public String getComponentName() {
-        return "tabswitch.TabSwitchSettings";
-    }
+  @Override
+  @NotNull
+  public String getComponentName() {
+    return "intellij.ideaplugins.tabswitch.TabSwitchSettings";
+  }
 
-    public String getExternalFileName() {
-        return "tab_switch";
-    }
+  @Override
+  public String getExternalFileName() {
+    return "tab_switch";
+  }
 
-    public static TabSwitchSettings getInstance() {
-        final Application application = ApplicationManager.getApplication();
-        return application.getComponent(TabSwitchSettings.class);
-    }
+  @Override
+  public void initComponent() {
+  }
 
-    public void initComponent() {
-    }
+  @Override
+  public void readExternal(Element element) throws InvalidDataException {
+    DefaultJDOMExternalizer.readExternal(this, element);
+  }
 
-    public void readExternal(Element element) throws InvalidDataException {
-        DefaultJDOMExternalizer.readExternal(this, element);
-    }
-
-    public void writeExternal(Element element) throws WriteExternalException {
-        DefaultJDOMExternalizer.writeExternal(this, element);
-    }
+  @Override
+  public void writeExternal(Element element) throws WriteExternalException {
+    DefaultJDOMExternalizer.writeExternal(this, element);
+  }
 }
