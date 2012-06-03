@@ -15,6 +15,35 @@
  */
 package org.intellij.ideaplugins.tabswitch;
 
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Font;
+import java.awt.FontMetrics;
+import java.awt.Graphics;
+import java.awt.KeyEventDispatcher;
+import java.awt.KeyboardFocusManager;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.BitSet;
+import java.util.Collections;
+import java.util.List;
+
+import javax.swing.AbstractListModel;
+import javax.swing.BorderFactory;
+import javax.swing.JComponent;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JPanel;
+import javax.swing.ListCellRenderer;
+import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+
 import com.intellij.ide.ui.UISettings;
 import com.intellij.openapi.components.AbstractProjectComponent;
 import com.intellij.openapi.editor.markup.EffectType;
@@ -33,259 +62,246 @@ import com.intellij.ui.LightColors;
 import com.intellij.ui.SimpleTextAttributes;
 import com.intellij.util.IconUtil;
 
-import javax.swing.*;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
-import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
-import java.io.File;
-import java.util.ArrayList;
-import java.util.BitSet;
-import java.util.Collections;
-import java.util.List;
-
 public class Handler extends AbstractProjectComponent implements KeyEventDispatcher {
 
-    private final Project project;
-    private final JList list;
-    private final PopupChooserBuilder builder;
+  private final Project project;
+  private final JList list;
+  private final PopupChooserBuilder builder;
 
-    private JBPopup popup = null;
+  private JBPopup popup = null;
 
-    private final boolean editorTabLimitOne;
-    private final boolean showRecentFiles;
+  private final boolean editorTabLimitOne;
+  private final boolean showRecentFiles;
 
-    private int trigger = 0;
-    private final BitSet modifiers = new BitSet();
-    private boolean reverse = false;
+  private int trigger = 0;
+  private final BitSet modifiers = new BitSet();
+  private boolean reverse = false;
 
-    Handler(Project project) {
-        super(project);
-        final TabSwitchSettings tabSwitchSettings = TabSwitchSettings.getInstance();
-        final UISettings uiSettings = UISettings.getInstance();
-        editorTabLimitOne = uiSettings.EDITOR_TAB_LIMIT == 1;
-        showRecentFiles = tabSwitchSettings.SHOW_RECENT_FILES;
-        this.project = project;
+  Handler(Project project) {
+    super(project);
+    final TabSwitchSettings tabSwitchSettings = TabSwitchSettings.getInstance();
+    final UISettings uiSettings = UISettings.getInstance();
+    editorTabLimitOne = uiSettings.EDITOR_TAB_LIMIT == 1;
+    showRecentFiles = tabSwitchSettings.SHOW_RECENT_FILES;
+    this.project = project;
 
-        final JLabel path = new JLabel(" ");
-        path.setHorizontalAlignment(SwingConstants.RIGHT);
-        path.setFont(path.getFont().deriveFont((float) 10));
-        list = new JList();
-        list.setCellRenderer(getRenderer(project, showRecentFiles));
-        list.getSelectionModel().addListSelectionListener(getListener(list, path));
+    final JLabel path = new JLabel(" ");
+    path.setHorizontalAlignment(SwingConstants.RIGHT);
+    path.setFont(path.getFont().deriveFont((float) 10));
+    list = new JList();
+    list.setCellRenderer(getRenderer(project, showRecentFiles));
+    list.getSelectionModel().addListSelectionListener(getListener(list, path));
 
-        builder = new PopupChooserBuilder(list);
-        final MouseMotionListener[] listeners = list.getMouseMotionListeners();
-        for (MouseMotionListener listener : listeners) {
-            final String className = listener.getClass().getName();
-            if (className.startsWith("com.intellij.openapi.ui.popup.PopupChooserBuilder")) {
-                // remove mouse motion listener added by PopupChooserBuilder
-                // to prevent selection moving when mouse is moved over the popup
-                // and TabSwitch is mapped to an Alt key combination.
-                list.removeMouseMotionListener(listener);
-            }
-        }
-        if (showRecentFiles || editorTabLimitOne) {
-            builder.setTitle("Recent Files");
-        } else {
-            builder.setTitle("Open Files");
-        }
-        final JComponent footer = buildFooter(path);
-        builder.setMovable(true).setSouthComponent(footer);
-        builder.setItemChoosenCallback(new Runnable() {
-            public void run() {
-                close(true);
-            }
-        });
+    builder = new PopupChooserBuilder(list);
+    final MouseMotionListener[] listeners = list.getMouseMotionListeners();
+    for (MouseMotionListener listener : listeners) {
+      final String className = listener.getClass().getName();
+      if (className.startsWith("com.intellij.openapi.ui.popup.PopupChooserBuilder")) {
+        // remove mouse motion listener added by PopupChooserBuilder
+        // to prevent selection moving when mouse is moved over the popup
+        // and TabSwitch is mapped to an Alt key combination.
+        list.removeMouseMotionListener(listener);
+      }
+    }
+    if (showRecentFiles || editorTabLimitOne) {
+      builder.setTitle("Recent Files");
+    } else {
+      builder.setTitle("Open Files");
+    }
+    final JComponent footer = buildFooter(path);
+    builder.setMovable(true).setSouthComponent(footer);
+    builder.setItemChoosenCallback(new Runnable() {
+      public void run() {
+        close(true);
+      }
+    });
+  }
+
+  private static JComponent buildFooter(Component footerComponent) {
+    final JComponent footer = new JPanel(new BorderLayout()) {
+      @Override
+      protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        g.setColor(new Color(0x87, 0x87, 0x87));
+        g.drawLine(0, 0, getWidth(), 0);
+      }
+    };
+    footer.setBorder(BorderFactory.createEmptyBorder(4, 4, 4, 4));
+    footer.add(footerComponent);
+    return footer;
+  }
+
+  private void close(boolean openFile) {
+    popup.cancel();
+    popup.dispose();
+
+    // workaround for MouseListener leak added in PopupChooserBuilder.createPopup()
+    final MouseListener[] listeners = list.getMouseListeners();
+    for (MouseListener listener : listeners) {
+      list.removeMouseListener(listener);
     }
 
-    private static JComponent buildFooter(Component footerComponent) {
-        final JComponent footer = new JPanel(new BorderLayout()) {
-            @Override
-            protected void paintComponent(Graphics g) {
-                super.paintComponent(g);
-                g.setColor(new Color(0x87, 0x87, 0x87));
-                g.drawLine(0, 0, getWidth(), 0);
-            }
-        };
-        footer.setBorder(BorderFactory.createEmptyBorder(4, 4, 4, 4));
-        footer.add(footerComponent);
-        return footer;
+    popup = null;
+    KeyboardFocusManager.getCurrentKeyboardFocusManager().removeKeyEventDispatcher(this);
+    if (openFile) {
+      final VirtualFile file = (VirtualFile) list.getSelectedValue();
+      if (file.isValid()) {
+        FileEditorManager.getInstance(project).openFile(file, true, true);
+      }
     }
+  }
 
-    private void close(boolean openFile) {
-        popup.cancel();
-        popup.dispose();
-
-        // workaround for MouseListener leak added in PopupChooserBuilder.createPopup()
-        final MouseListener[] listeners = list.getMouseListeners();
-        for (MouseListener listener : listeners) {
-            list.removeMouseListener(listener);
-        }
-
-        popup = null;
-        KeyboardFocusManager.getCurrentKeyboardFocusManager().removeKeyEventDispatcher(this);
-        if (openFile) {
-            final VirtualFile file = (VirtualFile) list.getSelectedValue();
-            if (file.isValid()) {
-                FileEditorManager.getInstance(project).openFile(file, true, true);
-            }
-        }
-    }
-
-    public boolean dispatchKeyEvent(KeyEvent event) {
-        boolean consumed = true;
-        if (popup.isDisposed()) {
-            KeyboardFocusManager.getCurrentKeyboardFocusManager().removeKeyEventDispatcher(this);
-            consumed = false;
-        } else if ((event.getID() == KeyEvent.KEY_RELEASED) &&
-                modifiers.get(event.getKeyCode())) {
+  public boolean dispatchKeyEvent(KeyEvent event) {
+    boolean consumed = true;
+    if (popup.isDisposed()) {
+      KeyboardFocusManager.getCurrentKeyboardFocusManager().removeKeyEventDispatcher(this);
+      consumed = false;
+    } else if ((event.getID() == KeyEvent.KEY_RELEASED) &&
+               modifiers.get(event.getKeyCode())) {
+      close(true);
+    } else if (event.getID() == KeyEvent.KEY_PRESSED) {
+      final int keyCode = event.getKeyCode();
+      if (event.getKeyCode() == trigger) {
+        move(event.isShiftDown());
+      } else {
+        switch (keyCode) {
+          case KeyEvent.VK_UP:
+            move(true);
+            break;
+          case KeyEvent.VK_DOWN:
+            move(false);
+            break;
+          case KeyEvent.VK_ENTER:
             close(true);
-        } else if (event.getID() == KeyEvent.KEY_PRESSED) {
-            final int keyCode = event.getKeyCode();
-            if (event.getKeyCode() == trigger) {
-                move(event.isShiftDown());
-            } else {
-                switch (keyCode) {
-                    case KeyEvent.VK_UP:
-                        move(true);
-                        break;
-                    case KeyEvent.VK_DOWN:
-                        move(false);
-                        break;
-                    case KeyEvent.VK_ENTER:
-                        close(true);
-                        break;
-                    case KeyEvent.VK_SHIFT:
-                        break;
-                    case KeyEvent.VK_CONTROL:
-                        break;
-                    case KeyEvent.VK_ALT:
-                        break;
-                    case KeyEvent.VK_ALT_GRAPH:
-                        break;
-                    case KeyEvent.VK_META:
-                        break;
-                    default:
-                        close(false);
-                        break;
-                }
-            }
+            break;
+          case KeyEvent.VK_SHIFT:
+            break;
+          case KeyEvent.VK_CONTROL:
+            break;
+          case KeyEvent.VK_ALT:
+            break;
+          case KeyEvent.VK_ALT_GRAPH:
+            break;
+          case KeyEvent.VK_META:
+            break;
+          default:
+            close(false);
+            break;
         }
-        return consumed;
+      }
     }
+    return consumed;
+  }
 
-    private List<VirtualFile> getFiles() {
-        final List<VirtualFile> result = new ArrayList();
-        final FileEditorManager manager = FileEditorManager.getInstance(project);
-        final VirtualFile[] files = EditorHistoryManager.getInstance(project).getFiles();
-        for (VirtualFile file : files) {
-            if (showRecentFiles || editorTabLimitOne || manager.isFileOpen(file)) {
-                result.add(file);
-            }
-        }
-        Collections.reverse(result);
-        return result;
+  private List<VirtualFile> getFiles() {
+    final List<VirtualFile> result = new ArrayList();
+    final FileEditorManager manager = FileEditorManager.getInstance(project);
+    final VirtualFile[] files = EditorHistoryManager.getInstance(project).getFiles();
+    for (VirtualFile file : files) {
+      if (showRecentFiles || editorTabLimitOne || manager.isFileOpen(file)) {
+        result.add(file);
+      }
     }
+    Collections.reverse(result);
+    return result;
+  }
 
-    public static Handler getHandler(Project project) {
-        return project.getComponent(Handler.class);
-    }
+  public static Handler getHandler(Project project) {
+    return project.getComponent(Handler.class);
+  }
 
-    private static ListSelectionListener getListener(final JList list, final JLabel path) {
-        return new ListSelectionListener() {
-            public void valueChanged(ListSelectionEvent event) {
-                SwingUtilities.invokeLater(new Runnable() {
-                    public void run() {
-                        updatePath(list, path);
-                    }
-                });
-            }
-        };
-    }
-
-    private static ListCellRenderer getRenderer(final Project project,
-                                                final boolean showRecentFiles) {
-        return new ColoredListCellRenderer() {
-            @Override
-            protected void customizeCellRenderer(JList list, Object value, int index,
-                                                 boolean selected, boolean hasFocus) {
-                if (value instanceof VirtualFile) {
-                    final VirtualFile file = (VirtualFile) value;
-                    setIcon(IconUtil.getIcon(file, Iconable.ICON_FLAG_READ_STATUS, project));
-                    final FileStatus status =
-                            FileStatusManager.getInstance(project).getStatus(file);
-                    final TextAttributes attributes =
-                            new TextAttributes(status.getColor(), null, null,
-                                    EffectType.LINE_UNDERSCORE, Font.PLAIN);
-                    append(file.getName(), SimpleTextAttributes.fromTextAttributes(attributes));
-                    if (showRecentFiles && !selected &&
-                            FileEditorManager.getInstance(project).isFileOpen(file)) {
-                        setBackground(LightColors.SLIGHTLY_GREEN);
-                    }
-                }
-            }
-        };
-    }
-
-    private void move(boolean up) {
-        final int offset = (up ^ reverse) ? -1 : 1;
-        final int size = list.getModel().getSize();
-        list.setSelectedIndex((list.getSelectedIndex() + size + offset) % size);
-        list.ensureIndexIsVisible(list.getSelectedIndex());
-    }
-
-    public void show(KeyEvent event, boolean reverse) {
-        final List<VirtualFile> files = getFiles();
-        if (files.isEmpty()) {
-            return;
-        }
-        if (popup != null) {
-            if (!popup.isVisible()) {
-                popup.dispose();
-            } else {
-                move(false);
-                return;
-            }
-        }
-        popup = builder.createPopup();
-        list.setModel(new AbstractListModel() {
-            public int getSize() {
-                return files.size();
-            }
-
-            public Object getElementAt(int index) {
-                return files.get(index);
-            }
+  private static ListSelectionListener getListener(final JList list, final JLabel path) {
+    return new ListSelectionListener() {
+      public void valueChanged(ListSelectionEvent event) {
+        SwingUtilities.invokeLater(new Runnable() {
+          public void run() {
+            updatePath(list, path);
+          }
         });
-        list.setVisibleRowCount(files.size());
-        trigger = event.getKeyCode();
-        modifiers.set(KeyEvent.VK_CONTROL, event.isControlDown());
-        modifiers.set(KeyEvent.VK_META, event.isMetaDown());
-        modifiers.set(KeyEvent.VK_ALT, event.isAltDown());
-        modifiers.set(KeyEvent.VK_ALT_GRAPH, event.isAltGraphDown());
-        this.reverse = reverse ^ event.isShiftDown();
-        KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(this);
-        popup.showCenteredInCurrentWindow(project);
-        move(false);
-    }
+      }
+    };
+  }
 
-    private static void updatePath(JList list, JLabel path) {
-        String text = " ";
-        final Object[] values = list.getSelectedValues();
-        if ((values != null) && (values.length == 1)) {
-            final VirtualFile parent = ((VirtualFile) values[0]).getParent();
-            if (parent != null) {
-                text = parent.getPresentableUrl();
-                final FontMetrics metrics = path.getFontMetrics(path.getFont());
-                while ((metrics.stringWidth(text) > path.getWidth()) &&
-                        (text.indexOf(File.separatorChar, 4) > 0)) {
-                    text = "..." + text.substring(text.indexOf(File.separatorChar, 4));
-                }
-            }
+  private static ListCellRenderer getRenderer(final Project project,
+                                              final boolean showRecentFiles) {
+    return new ColoredListCellRenderer() {
+      @Override
+      protected void customizeCellRenderer(JList list, Object value, int index,
+                                           boolean selected, boolean hasFocus) {
+        if (value instanceof VirtualFile) {
+          final VirtualFile file = (VirtualFile) value;
+          setIcon(IconUtil.getIcon(file, Iconable.ICON_FLAG_READ_STATUS, project));
+          final FileStatus status =
+            FileStatusManager.getInstance(project).getStatus(file);
+          final TextAttributes attributes =
+            new TextAttributes(status.getColor(), null, null,
+                               EffectType.LINE_UNDERSCORE, Font.PLAIN);
+          append(file.getName(), SimpleTextAttributes.fromTextAttributes(attributes));
+          if (showRecentFiles && !selected &&
+              FileEditorManager.getInstance(project).isFileOpen(file)) {
+            setBackground(LightColors.SLIGHTLY_GREEN);
+          }
         }
-        path.setText(text);
+      }
+    };
+  }
+
+  private void move(boolean up) {
+    final int offset = (up ^ reverse) ? -1 : 1;
+    final int size = list.getModel().getSize();
+    list.setSelectedIndex((list.getSelectedIndex() + size + offset) % size);
+    list.ensureIndexIsVisible(list.getSelectedIndex());
+  }
+
+  public void show(KeyEvent event, boolean reverse) {
+    final List<VirtualFile> files = getFiles();
+    if (files.isEmpty()) {
+      return;
     }
+    if (popup != null) {
+      if (!popup.isVisible()) {
+        popup.dispose();
+      } else {
+        move(false);
+        return;
+      }
+    }
+    popup = builder.createPopup();
+    list.setModel(new AbstractListModel() {
+      public int getSize() {
+        return files.size();
+      }
+
+      public Object getElementAt(int index) {
+        return files.get(index);
+      }
+    });
+    list.setVisibleRowCount(files.size());
+    trigger = event.getKeyCode();
+    modifiers.set(KeyEvent.VK_CONTROL, event.isControlDown());
+    modifiers.set(KeyEvent.VK_META, event.isMetaDown());
+    modifiers.set(KeyEvent.VK_ALT, event.isAltDown());
+    modifiers.set(KeyEvent.VK_ALT_GRAPH, event.isAltGraphDown());
+    this.reverse = reverse ^ event.isShiftDown();
+    KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(this);
+    popup.showCenteredInCurrentWindow(project);
+    move(false);
+  }
+
+  private static void updatePath(JList list, JLabel path) {
+    String text = " ";
+    final Object[] values = list.getSelectedValues();
+    if ((values != null) && (values.length == 1)) {
+      final VirtualFile parent = ((VirtualFile) values[0]).getParent();
+      if (parent != null) {
+        text = parent.getPresentableUrl();
+        final FontMetrics metrics = path.getFontMetrics(path.getFont());
+        while ((metrics.stringWidth(text) > path.getWidth()) &&
+               (text.indexOf(File.separatorChar, 4) > 0)) {
+          text = "..." + text.substring(text.indexOf(File.separatorChar, 4));
+        }
+      }
+    }
+    path.setText(text);
+  }
 }
