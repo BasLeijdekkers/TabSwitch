@@ -32,14 +32,17 @@ public class FileFetcherChangedFilesInVcs implements FileFetcher<VirtualFile> {
    */
   @Override
   public List<VirtualFile> getFiles(final Project project) {
-    List<VirtualFile> files = new ArrayList<VirtualFile>();
-    Collection<Change> changes = getChanges(project);
+    final List<VirtualFile> files = new ArrayList<VirtualFile>();
+    final Collection<Change> changes = getChanges(project);
     if (changes != null) {
       final int editorTabLimit = UISettings.getInstance().EDITOR_TAB_LIMIT;
       int i = 0;
       for (Change change : changes) {
-        files.add(change.getVirtualFile());
-        if (i++ == editorTabLimit) break;
+        final VirtualFile virtualFile = change.getVirtualFile();
+        if (virtualFile != null) {
+          files.add(virtualFile);
+          if (i++ == editorTabLimit) break;
+        }
       }
       Collections.sort(files, VIRTUAL_FILE_NAME_COMPARATOR);
     }
