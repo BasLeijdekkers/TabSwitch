@@ -1,0 +1,6 @@
+Tried on:
+ - Intellij IDEA 11.1.2
+ - Webstorm
+
+New feature added: 
+ - list all the modified files in you VCS's default change list. Mapped it to CRTL+E on my Mac.
