@@ -39,7 +39,7 @@ public class FileFetcherChangedFilesInVcs implements FileFetcher<VirtualFile> {
       int i = 0;
       for (Change change : changes) {
         final VirtualFile virtualFile = change.getVirtualFile();
-        if (virtualFile != null) {
+        if (virtualFile != null && !virtualFile.isDirectory()) {
           files.add(virtualFile);
           if (i++ == editorTabLimit) break;
         }
