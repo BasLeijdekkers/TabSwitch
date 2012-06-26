@@ -8,13 +8,11 @@ import javax.swing.ListCellRenderer;
 
 import com.intellij.openapi.editor.markup.EffectType;
 import com.intellij.openapi.editor.markup.TextAttributes;
-import com.intellij.openapi.fileEditor.FileEditorManager;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.Iconable;
 import com.intellij.openapi.vcs.FileStatusManager;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.ui.ColoredListCellRenderer;
-import com.intellij.ui.LightColors;
 import com.intellij.ui.SimpleTextAttributes;
 import com.intellij.util.IconUtil;
 
@@ -53,9 +51,6 @@ public interface ListCellRendererFactory<R extends ListCellRenderer> {
                                                                  EffectType.LINE_UNDERSCORE,
                                                                  Font.PLAIN);
             append(file.getName(), SimpleTextAttributes.fromTextAttributes(attributes));
-            if (!selected && FileEditorManager.getInstance(project).isFileOpen(file)) {
-              setBackground(LightColors.SLIGHTLY_GREEN);
-            }
           }
         }
       };
