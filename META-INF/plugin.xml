@@ -2,7 +2,7 @@
 
 <idea-plugin url="http://www.intellij.org/twiki/bin/view/Main/TabSwitchPlugin">
   <name>TabSwitch</name>
-  <version>3.0.1</version>
+  <version>3.0.2</version>
   <idea-version since-build="117.418"/>
 
   <description><![CDATA[
