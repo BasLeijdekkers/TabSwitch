@@ -18,6 +18,7 @@
     ]]>
   </description>
   <change-notes><![CDATA[
+    3.0.2: Do not include directories when listing recent VCS changes popup window. Removed light green background color from popup list.<br/>
     3.0.1: Added new TabSwitch Action to display modified files in the default change list of your VCS. Large refactoring.<br>
     3.0.0: Fixed bug where it moved two steps down on each move-down-action.
     2.2.0: Cleaning up some code.<br>
