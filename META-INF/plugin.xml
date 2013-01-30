@@ -1,7 +1,7 @@
 <!DOCTYPE idea-plugin PUBLIC "Plugin/DTD" "http://plugins.intellij.net/plugin.dtd">
 
-<idea-plugin url="http://www.intellij.org/twiki/bin/view/Main/TabSwitchPlugin">
-  <name>TabSwitch</name>
+<idea-plugin url="https://github.com/mustah/TabSwitch">
+  <name>TabSwitch2</name>
   <version>3.0.2</version>
   <idea-version since-build="117.418"/>
 
@@ -13,8 +13,8 @@
 
     Thanks to Timur Zambalayev for the original plugin, Martin Fuhrer for a major contribution
     in the form of a rewrite and Mark Scott for patching a bug. Follow further development of
-    <a href="https://github.com/BasLeijdekkers/TabSwitch">this plugin on GitHub</a> or follow
-    <a href="http://twitter.com/inspectorbas">me on twitter</a> for announcements and other things.
+    <a href="https://github.com/mustah/TabSwitch">this plugin on GitHub</a> or follow
+    <a href="https://twitter.com/_musten_">me on twitter</a> for announcements and other things.
     ]]>
   </description>
   <change-notes><![CDATA[
@@ -28,9 +28,7 @@
     2.1.6: RubyMine compatible version.<br>
   ]]></change-notes>
 
-  <vendor url="http://twitter.com/inspectorbas" email="basleijdekkersYour Hat@gmail.com">Bas Leijdekkers (remove Your
-    Hat to mail me;)
-  </vendor>
+  <vendor url="https://twitter.com/_musten_" email="must.tahir@gmail.com">Must</vendor>
   <application-components>
     <component>
       <implementation-class>org.intellij.ideaplugins.tabswitch.TabSwitchSettings</implementation-class>

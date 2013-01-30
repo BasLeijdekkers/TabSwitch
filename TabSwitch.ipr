@@ -34,7 +34,11 @@
       <entry name="?*.tld" />
       <entry name="?*.ftl" />
     </wildcardResourcePatterns>
-    <annotationProcessing enabled="false" useClasspath="true" />
+    <annotationProcessing>
+      <profile default="true" name="Default" enabled="false">
+        <processorPath useClasspath="true" />
+      </profile>
+    </annotationProcessing>
   </component>
   <component name="CopyrightManager" default="">
     <module2copyright />
@@ -151,10 +155,80 @@
           <option name="REPORT_REDUNDANT_INITIALIZER" value="true" />
         </inspection_tool>
       </profile>
+      <profile version="1.0" is_locked="false">
+        <option name="myName" value="must" />
+        <option name="myLocal" value="false" />
+        <inspection_tool class="CollectionsFieldAccessReplaceableByMethodCall" enabled="true" level="WARNING" enabled_by_default="true" />
+        <inspection_tool class="ConstructorCount" enabled="false" level="bad practice" enabled_by_default="false">
+          <option name="m_limit" value="6" />
+        </inspection_tool>
+        <inspection_tool class="ELValidationInJSP" enabled="false" level="WARNING" enabled_by_default="false" />
+        <inspection_tool class="FieldMayBeFinal" enabled="true" level="bad practice" enabled_by_default="true" />
+        <inspection_tool class="FinalMethodInFinalClass" enabled="true" level="WARNING" enabled_by_default="true" />
+        <inspection_tool class="Fix shebang" enabled="true" level="WARNING" enabled_by_default="true">/bin/sh#/bin/bash</inspection_tool>
+        <inspection_tool class="MissingOverrideAnnotation" enabled="true" level="WARNING" enabled_by_default="true">
+          <option name="ignoreObjectMethods" value="true" />
+          <option name="ignoreAnonymousClassMethods" value="false" />
+        </inspection_tool>
+        <inspection_tool class="RequiredAttributes" enabled="true" level="WARNING" enabled_by_default="true">
+          <option name="myAdditionalRequiredHtmlAttributes" value="alt" />
+        </inspection_tool>
+        <inspection_tool class="SizeReplaceableByIsEmpty" enabled="true" level="bad practice" enabled_by_default="true" />
+        <inspection_tool class="SqlNoDataSourceInspection" enabled="false" level="WARNING" enabled_by_default="false" />
+        <inspection_tool class="ThrowableResultOfMethodCallIgnored" enabled="false" level="WARNING" enabled_by_default="false" />
+        <inspection_tool class="UnusedDeclaration" enabled="false" level="WARNING" enabled_by_default="false">
+          <option name="ADD_MAINS_TO_ENTRIES" value="true" />
+          <option name="ADD_APPLET_TO_ENTRIES" value="true" />
+          <option name="ADD_SERVLET_TO_ENTRIES" value="true" />
+          <option name="ADD_NONJAVA_TO_ENTRIES" value="true" />
+        </inspection_tool>
+        <inspection_tool class="UtilityClass" enabled="false" level="bad practice" enabled_by_default="false">
+          <option name="ignorableAnnotations">
+            <value />
+          </option>
+        </inspection_tool>
+        <inspection_tool class="UtilityClassWithPublicConstructor" enabled="true" level="bad practice" enabled_by_default="true" />
+        <inspection_tool class="UtilityClassWithoutPrivateConstructor" enabled="true" level="bad practice" enabled_by_default="true">
+          <option name="ignoreClassesWithOnlyMain" value="false" />
+          <option name="ignorableAnnotations">
+            <value />
+          </option>
+        </inspection_tool>
+        <inspection_tool class="groupsTestNG" enabled="true" level="WARNING" enabled_by_default="true">
+          <option name="groups">
+            <value>
+              <list size="1">
+                <item index="0" class="java.lang.String" itemvalue="unit" />
+              </list>
+            </value>
+          </option>
+        </inspection_tool>
+      </profile>
     </profiles>
-    <option name="PROJECT_PROFILE" value="Project Default" />
+    <option name="PROJECT_PROFILE" value="must" />
     <option name="USE_PROJECT_PROFILE" value="true" />
     <version value="1.0" />
+    <info>
+      <option name="FOREGROUND" />
+      <option name="BACKGROUND" value="f6cb82" />
+      <option name="FONT_TYPE" value="0" />
+      <option name="EFFECT_COLOR" value="ffffff" />
+      <option name="EFFECT_TYPE" value="2" />
+      <option name="ERROR_STRIPE_COLOR" />
+      <option name="myName" value="bad practice" />
+      <option name="myVal" value="50" />
+      <option name="myExternalName" value="bad practice" />
+      <option name="myDefaultAttributes">
+        <value>
+          <option name="FOREGROUND" />
+          <option name="BACKGROUND" />
+          <option name="FONT_TYPE" value="0" />
+          <option name="EFFECT_COLOR" />
+          <option name="EFFECT_TYPE" value="0" />
+          <option name="ERROR_STRIPE_COLOR" />
+        </value>
+      </option>
+    </info>
   </component>
   <component name="JavadocGenerationManager">
     <option name="OUTPUT_DIRECTORY" />
@@ -318,7 +392,7 @@
   <component name="ProjectResources">
     <default-html-doctype>http://www.w3.org/1999/xhtml</default-html-doctype>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_6" assert-keyword="true" jdk-15="true" project-jdk-name="IDEA IU-117.418" project-jdk-type="IDEA JDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_6" assert-keyword="true" jdk-15="true" project-jdk-name="IDEA IU-123.123" project-jdk-type="IDEA JDK">
     <output url="file://$PROJECT_DIR$/out" />
   </component>
   <component name="VcsDirectoryMappings">
