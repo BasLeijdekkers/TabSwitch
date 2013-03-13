@@ -26,7 +26,9 @@ public class NextTabAction extends TabAction {
 
   @Override
   protected FileFetcher<VirtualFile> getFileFetcher() {
-    if (fileFetcher == null) fileFetcher = new FileFetcherOpenTabFiles();
+    if (fileFetcher == null) {
+      fileFetcher = new FileFetcherOpenTabFiles();
+    }
     return fileFetcher;
   }
 

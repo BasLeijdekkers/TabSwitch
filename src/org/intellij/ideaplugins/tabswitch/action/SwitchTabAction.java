@@ -32,22 +32,21 @@ public class SwitchTabAction extends AnAction implements DumbAware {
 
   @Override
   public void actionPerformed(AnActionEvent event) {
-    final Project project = PlatformDataKeys.PROJECT.getData(event.getDataContext());
-    final int editorTabLimit = UISettings.getInstance().EDITOR_TAB_LIMIT;
-    final boolean showRecentFiles = TabSwitchSettings.getInstance().SHOW_RECENT_FILES || editorTabLimit == 1;
-    final VirtualFile file = getFile(project, showRecentFiles);
-    if (file == null || !file.isValid()) {
-      return;
+    Project project = PlatformDataKeys.PROJECT.getData(event.getDataContext());
+    int editorTabLimit = UISettings.getInstance().EDITOR_TAB_LIMIT;
+    boolean showRecentFiles = TabSwitchSettings.getInstance().SHOW_RECENT_FILES || editorTabLimit == 1;
+    VirtualFile file = getFileOrNull(project, showRecentFiles);
+    if (file != null && file.isValid()) {
+      FileEditorManager.getInstance(project).openFile(file, true, true);
     }
-    FileEditorManager.getInstance(project).openFile(file, true, true);
   }
 
   @Nullable
-  private static VirtualFile getFile(Project project, boolean showRecentFiles) {
-    final FileEditorManager manager = FileEditorManager.getInstance(project);
-    final VirtualFile[] files = EditorHistoryManager.getInstance(project).getFiles();
+  private static VirtualFile getFileOrNull(Project project, boolean showRecentFiles) {
+    FileEditorManager manager = FileEditorManager.getInstance(project);
+    VirtualFile[] files = EditorHistoryManager.getInstance(project).getFiles();
     for (int i = files.length - 2; i >= 0; i--) {
-      final VirtualFile file = files[i];
+      VirtualFile file = files[i];
       if (showRecentFiles || manager.isFileOpen(file)) {
         return file;
       }

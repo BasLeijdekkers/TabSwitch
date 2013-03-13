@@ -23,7 +23,12 @@ import com.intellij.openapi.vfs.VirtualFile;
  */
 public class FileFetcherChangedFilesInVcs implements FileFetcher<VirtualFile> {
 
-  private static final Comparator<VirtualFile> VIRTUAL_FILE_NAME_COMPARATOR = new VirtualFileNameComparator();
+  private static final Comparator<VirtualFile> VIRTUAL_FILE_NAME_COMPARATOR = new Comparator<VirtualFile>() {
+    @Override
+    public int compare(final VirtualFile vf1, final VirtualFile vf2) {
+      return vf1.getName().compareToIgnoreCase(vf2.getName());
+    }
+  };
 
   /**
    * @param project an idea project.
@@ -32,21 +37,21 @@ public class FileFetcherChangedFilesInVcs implements FileFetcher<VirtualFile> {
    */
   @Override
   public List<VirtualFile> getFiles(final Project project) {
-    final List<VirtualFile> files = new ArrayList<VirtualFile>();
-    final Collection<Change> changes = getChanges(project);
+    List<VirtualFile> changedFiles = new ArrayList<VirtualFile>();
+    Collection<Change> changes = getChanges(project);
     if (changes != null) {
-      final int editorTabLimit = UISettings.getInstance().EDITOR_TAB_LIMIT;
+      int editorTabLimit = UISettings.getInstance().EDITOR_TAB_LIMIT;
       int i = 0;
       for (Change change : changes) {
-        final VirtualFile virtualFile = change.getVirtualFile();
+        VirtualFile virtualFile = change.getVirtualFile();
         if (virtualFile != null && !virtualFile.isDirectory()) {
-          files.add(virtualFile);
+          changedFiles.add(virtualFile);
           if (i++ == editorTabLimit) break;
         }
       }
-      Collections.sort(files, VIRTUAL_FILE_NAME_COMPARATOR);
+      Collections.sort(changedFiles, VIRTUAL_FILE_NAME_COMPARATOR);
     }
-    return files;
+    return changedFiles;
   }
 
   /**
@@ -57,13 +62,5 @@ public class FileFetcherChangedFilesInVcs implements FileFetcher<VirtualFile> {
   private Collection<Change> getChanges(final Project project) {
     LocalChangeList defaultChangeList = ChangeListManager.getInstance(project).getDefaultChangeList();
     return defaultChangeList != null ? defaultChangeList.getChanges() : null;
-  }
-
-  private static final class VirtualFileNameComparator implements Comparator<VirtualFile> {
-
-    @Override
-    public int compare(final VirtualFile vf1, final VirtualFile vf2) {
-      return vf1.getName().compareToIgnoreCase(vf2.getName());
-    }
   }
 }

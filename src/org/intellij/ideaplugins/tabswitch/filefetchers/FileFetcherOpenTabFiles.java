@@ -20,15 +20,19 @@ public class FileFetcherOpenTabFiles implements FileFetcher<VirtualFile> {
 
   @Override
   public List<VirtualFile> getFiles(final Project project) {
-    List<VirtualFile> result = new ArrayList<VirtualFile>();
     FileEditorManager fileEditorManager = FileEditorManager.getInstance(project);
-    VirtualFile[] files = EditorHistoryManager.getInstance(project).getFiles();
-    for (VirtualFile file : files) {
-      if (fileEditorManager.isFileOpen(file)) {
-        result.add(file);
-      }
-    }
+    List<VirtualFile> result = getOpenFiles(fileEditorManager, EditorHistoryManager.getInstance(project).getFiles());
     Collections.reverse(result);
     return result;
+  }
+
+  private List<VirtualFile> getOpenFiles(final FileEditorManager fileEditorManager, final VirtualFile[] files) {
+    List<VirtualFile> openFiles = new ArrayList<VirtualFile>();
+    for (VirtualFile file : files) {
+      if (fileEditorManager.isFileOpen(file)) {
+        openFiles.add(file);
+      }
+    }
+    return openFiles;
   }
 }

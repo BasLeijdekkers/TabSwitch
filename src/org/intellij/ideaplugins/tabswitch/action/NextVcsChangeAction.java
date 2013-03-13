@@ -17,7 +17,9 @@ public class NextVcsChangeAction extends TabAction {
 
   @Override
   protected FileFetcher<VirtualFile> getFileFetcher() {
-    if (fileFetcher == null) fileFetcher = new FileFetcherChangedFilesInVcs();
+    if (fileFetcher == null) {
+      fileFetcher = new FileFetcherChangedFilesInVcs();
+    }
     return fileFetcher;
   }
 

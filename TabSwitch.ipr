@@ -165,7 +165,6 @@
         <inspection_tool class="ELValidationInJSP" enabled="false" level="WARNING" enabled_by_default="false" />
         <inspection_tool class="FieldMayBeFinal" enabled="true" level="bad practice" enabled_by_default="true" />
         <inspection_tool class="FinalMethodInFinalClass" enabled="true" level="WARNING" enabled_by_default="true" />
-        <inspection_tool class="Fix shebang" enabled="true" level="WARNING" enabled_by_default="true">/bin/sh#/bin/bash</inspection_tool>
         <inspection_tool class="MissingOverrideAnnotation" enabled="true" level="WARNING" enabled_by_default="true">
           <option name="ignoreObjectMethods" value="true" />
           <option name="ignoreAnonymousClassMethods" value="false" />
@@ -205,8 +204,8 @@
         </inspection_tool>
       </profile>
     </profiles>
-    <option name="PROJECT_PROFILE" value="must" />
-    <option name="USE_PROJECT_PROFILE" value="true" />
+    <option name="PROJECT_PROFILE" />
+    <option name="USE_PROJECT_PROFILE" value="false" />
     <version value="1.0" />
     <info>
       <option name="FOREGROUND" />
@@ -392,7 +391,7 @@
   <component name="ProjectResources">
     <default-html-doctype>http://www.w3.org/1999/xhtml</default-html-doctype>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_6" assert-keyword="true" jdk-15="true" project-jdk-name="IDEA IU-123.123" project-jdk-type="IDEA JDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_6" assert-keyword="true" jdk-15="true" project-jdk-name="IDEA IU-123.169" project-jdk-type="IDEA JDK">
     <output url="file://$PROJECT_DIR$/out" />
   </component>
   <component name="VcsDirectoryMappings">
