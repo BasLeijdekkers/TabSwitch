@@ -1,4 +1,4 @@
-package org.intellij.ideaplugins.tabswitch;
+package org.intellij.ideaplugins.tabswitch.component;
 
 import java.awt.FontMetrics;
 import java.io.File;

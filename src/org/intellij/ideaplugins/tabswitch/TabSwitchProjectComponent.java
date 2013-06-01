@@ -29,6 +29,7 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 
 import org.intellij.ideaplugins.tabswitch.component.FooterComponentFactory;
+import org.intellij.ideaplugins.tabswitch.component.ListComponentFactory;
 import org.intellij.ideaplugins.tabswitch.component.PathLabelComponentFactory;
 import org.intellij.ideaplugins.tabswitch.filefetcher.FileFetcher;
 
@@ -54,9 +55,9 @@ public class TabSwitchProjectComponent extends AbstractProjectComponent implemen
 
     JLabel pathLabel = new PathLabelComponentFactory().create();
 
-    this.list = new JList();
-    list.setCellRenderer(new ListCellRendererWithColorFactory().create(project));
-    list.getSelectionModel().addListSelectionListener(new ListSelectionListenerWithPathUpdaterFactory().create(list, pathLabel));
+    this.list = new ListComponentFactory(project)
+      .withPathLabel(pathLabel)
+      .create();
 
     this.builder = new PopupChooserBuilder(list).setTitle("Open files");
 
