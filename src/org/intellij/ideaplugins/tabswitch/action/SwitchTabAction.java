@@ -33,24 +33,27 @@ public class SwitchTabAction extends AnAction implements DumbAware {
   @Override
   public void actionPerformed(AnActionEvent event) {
     Project project = PlatformDataKeys.PROJECT.getData(event.getDataContext());
-    int editorTabLimit = UISettings.getInstance().EDITOR_TAB_LIMIT;
-    boolean showRecentFiles = TabSwitchSettings.getInstance().SHOW_RECENT_FILES || editorTabLimit == 1;
-    VirtualFile file = getFileOrNull(project, showRecentFiles);
+    FileEditorManager fileEditorManager = FileEditorManager.getInstance(project);
+    VirtualFile file = getFileOrNull(project, fileEditorManager);
     if (file != null && file.isValid()) {
-      FileEditorManager.getInstance(project).openFile(file, true, true);
+      fileEditorManager.openFile(file, true, true);
     }
   }
 
   @Nullable
-  private static VirtualFile getFileOrNull(Project project, boolean showRecentFiles) {
-    FileEditorManager manager = FileEditorManager.getInstance(project);
+  private VirtualFile getFileOrNull(Project project, final FileEditorManager fileEditorManager) {
+    final boolean showRecentFiles = canShowRecentFiles();
     VirtualFile[] files = EditorHistoryManager.getInstance(project).getFiles();
     for (int i = files.length - 2; i >= 0; i--) {
       VirtualFile file = files[i];
-      if (showRecentFiles || manager.isFileOpen(file)) {
+      if (showRecentFiles || fileEditorManager.isFileOpen(file)) {
         return file;
       }
     }
     return null;
+  }
+
+  private boolean canShowRecentFiles() {
+    return TabSwitchSettings.getInstance().SHOW_RECENT_FILES || UISettings.getInstance().EDITOR_TAB_LIMIT == 1;
   }
 }
