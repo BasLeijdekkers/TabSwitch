@@ -17,10 +17,9 @@ import com.intellij.openapi.vfs.VirtualFile;
 /**
  * <br> User: must <br> Date: 2013-06-01
  */
-public class ListSelectionListenerFactoryImpl implements ListSelectionListenerFactory<ListSelectionListener> {
+class ListSelectionListenerWithPathUpdaterFactory {
 
-  @Override
-  public ListSelectionListener create(final JList list, final JLabel pathLabel) {
+  ListSelectionListener create(final JList list, final JLabel pathLabel) {
     return new ListSelectionListener() {
       @Override
       public void valueChanged(ListSelectionEvent event) {

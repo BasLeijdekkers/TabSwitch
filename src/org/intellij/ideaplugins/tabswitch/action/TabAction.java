@@ -18,7 +18,7 @@ package org.intellij.ideaplugins.tabswitch.action;
 import java.awt.event.KeyEvent;
 
 import org.intellij.ideaplugins.tabswitch.TabSwitchProjectComponent;
-import org.intellij.ideaplugins.tabswitch.filefetchers.FileFetcher;
+import org.intellij.ideaplugins.tabswitch.filefetcher.FileFetcher;
 
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;

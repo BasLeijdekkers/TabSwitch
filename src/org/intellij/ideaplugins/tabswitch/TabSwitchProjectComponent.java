@@ -28,7 +28,9 @@ import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JList;
 
-import org.intellij.ideaplugins.tabswitch.filefetchers.FileFetcher;
+import org.intellij.ideaplugins.tabswitch.component.FooterComponentFactory;
+import org.intellij.ideaplugins.tabswitch.component.PathLabelComponentFactory;
+import org.intellij.ideaplugins.tabswitch.filefetcher.FileFetcher;
 
 import com.intellij.openapi.components.AbstractProjectComponent;
 import com.intellij.openapi.fileEditor.FileEditorManager;
@@ -54,7 +56,7 @@ public class TabSwitchProjectComponent extends AbstractProjectComponent implemen
 
     this.list = new JList();
     list.setCellRenderer(new ListCellRendererWithColorFactory().create(project));
-    list.getSelectionModel().addListSelectionListener(new ListSelectionListenerFactoryImpl().create(list, pathLabel));
+    list.getSelectionModel().addListSelectionListener(new ListSelectionListenerWithPathUpdaterFactory().create(list, pathLabel));
 
     this.builder = new PopupChooserBuilder(list).setTitle("Open files");
 

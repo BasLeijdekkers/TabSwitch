@@ -1,4 +1,4 @@
-package org.intellij.ideaplugins.tabswitch.filefetchers;
+package org.intellij.ideaplugins.tabswitch.filefetcher;
 
 import java.util.ArrayList;
 import java.util.Collection;

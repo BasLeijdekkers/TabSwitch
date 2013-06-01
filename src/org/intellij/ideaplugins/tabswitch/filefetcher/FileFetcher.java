@@ -1,4 +1,4 @@
-package org.intellij.ideaplugins.tabswitch.filefetchers;
+package org.intellij.ideaplugins.tabswitch.filefetcher;
 
 import java.util.List;
 
@@ -19,5 +19,4 @@ public interface FileFetcher<F> {
    * @return List of files of type F, or empty. Not {@code null}.
    */
   List<F> getFiles(Project project);
-
 }
