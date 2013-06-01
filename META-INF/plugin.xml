@@ -2,7 +2,7 @@
 
 <idea-plugin url="https://github.com/mustah/TabSwitch">
   <name>TabSwitch3</name>
-  <version>3.1</version>
+  <version>3.0.3</version>
   <idea-version since-build="129.451"/>
 
   <description><![CDATA[
@@ -18,7 +18,7 @@
     ]]>
   </description>
   <change-notes><![CDATA[
-    3.1  : Lots of code clean ups.
+    3.0.3: Lots of code clean ups. Does not display same file in the list twice anymore.
     3.0.2: Do not include directories when listing recent VCS changes popup window. Removed light green background color from popup list.<br/>
     3.0.1: Added new TabSwitch Action to display modified files in the default change list of your VCS. Large refactoring.<br>
     3.0.0: Fixed bug where it moved two steps down on each move-down-action.
