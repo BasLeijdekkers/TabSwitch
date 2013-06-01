@@ -38,19 +38,16 @@ public class FileFetcherChangedFilesInVcs implements FileFetcher<VirtualFile> {
   @Override
   public List<VirtualFile> getFiles(final Project project) {
     List<VirtualFile> changedFiles = new ArrayList<VirtualFile>();
-    Collection<Change> changes = getChanges(project);
-    if (changes != null) {
-      int editorTabLimit = UISettings.getInstance().EDITOR_TAB_LIMIT;
-      int i = 0;
-      for (Change change : changes) {
-        VirtualFile virtualFile = change.getVirtualFile();
-        if (virtualFile != null && !virtualFile.isDirectory()) {
-          changedFiles.add(virtualFile);
-          if (i++ == editorTabLimit) break;
-        }
+    int editorTabLimit = UISettings.getInstance().EDITOR_TAB_LIMIT;
+    int i = 0;
+    for (Change change : getChanges(project)) {
+      VirtualFile virtualFile = change.getVirtualFile();
+      if (possibleToListVirtualFile(virtualFile)) {
+        changedFiles.add(virtualFile);
+        if (i++ == editorTabLimit) break;
       }
-      Collections.sort(changedFiles, VIRTUAL_FILE_NAME_COMPARATOR);
     }
+    Collections.sort(changedFiles, VIRTUAL_FILE_NAME_COMPARATOR);
     return changedFiles;
   }
 
@@ -61,6 +58,10 @@ public class FileFetcherChangedFilesInVcs implements FileFetcher<VirtualFile> {
    */
   private Collection<Change> getChanges(final Project project) {
     LocalChangeList defaultChangeList = ChangeListManager.getInstance(project).getDefaultChangeList();
-    return defaultChangeList != null ? defaultChangeList.getChanges() : null;
+    return defaultChangeList != null ? defaultChangeList.getChanges() : Collections.<Change>emptyList();
+  }
+
+  private boolean possibleToListVirtualFile(final VirtualFile virtualFile) {
+    return virtualFile != null && !virtualFile.isDirectory();
   }
 }

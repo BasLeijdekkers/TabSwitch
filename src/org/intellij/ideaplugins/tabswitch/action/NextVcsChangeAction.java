@@ -13,13 +13,10 @@ import com.intellij.openapi.vfs.VirtualFile;
  */
 public class NextVcsChangeAction extends TabAction {
 
-  private FileFetcher<VirtualFile> fileFetcher;
+  private final FileFetcher<VirtualFile> fileFetcher = new FileFetcherChangedFilesInVcs();
 
   @Override
   protected FileFetcher<VirtualFile> getFileFetcher() {
-    if (fileFetcher == null) {
-      fileFetcher = new FileFetcherChangedFilesInVcs();
-    }
     return fileFetcher;
   }
 

@@ -28,10 +28,6 @@ import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JList;
 
-import org.intellij.ideaplugins.tabswitch.ComponentFactory.FooterComponentFactory;
-import org.intellij.ideaplugins.tabswitch.ComponentFactory.PathLabelFactory;
-import org.intellij.ideaplugins.tabswitch.ListCellRendererFactory.ListCellRendererFactoryImpl;
-import org.intellij.ideaplugins.tabswitch.ListSelectionListenerFactory.ListSelectionListenerFactoryImpl;
 import org.intellij.ideaplugins.tabswitch.filefetchers.FileFetcher;
 
 import com.intellij.openapi.components.AbstractProjectComponent;
@@ -47,14 +43,14 @@ public class TabSwitchProjectComponent extends AbstractProjectComponent implemen
   private final PopupChooserBuilder builder;
   private final BitSet modifiers = new BitSet();
 
-  private JBPopup popup = null;
+  private JBPopup popup;
   private int trigger = 0;
-  private boolean reverse = false;
+  private boolean reverse;
 
   public TabSwitchProjectComponent(final Project project) {
     super(project);
 
-    final JLabel pathLabel = new PathLabelFactory().create();
+    JLabel pathLabel = new PathLabelComponentFactory().create();
 
     this.list = new JList();
     list.setCellRenderer(new ListCellRendererFactoryImpl().create(project));
@@ -68,13 +64,16 @@ public class TabSwitchProjectComponent extends AbstractProjectComponent implemen
 
     JComponent footerComponent = new FooterComponentFactory().create();
     footerComponent.add(pathLabel);
-    builder.setMovable(true).setSouthComponent(footerComponent);
-    builder.setItemChoosenCallback(new Runnable() {
-      @Override
-      public void run() {
-        close(true);
-      }
-    });
+
+    builder
+      .setMovable(true)
+      .setSouthComponent(footerComponent)
+      .setItemChoosenCallback(new Runnable() {
+        @Override
+        public void run() {
+          close(true);
+        }
+      });
   }
 
   public static TabSwitchProjectComponent getHandler(final Project project) {
@@ -183,7 +182,7 @@ public class TabSwitchProjectComponent extends AbstractProjectComponent implemen
 
     KeyboardFocusManager.getCurrentKeyboardFocusManager().removeKeyEventDispatcher(this);
     if (openFile) {
-      final VirtualFile file = (VirtualFile) list.getSelectedValue();
+      VirtualFile file = (VirtualFile) list.getSelectedValue();
       if (file.isValid()) {
         FileEditorManager.getInstance(myProject).openFile(file, true, true);
       }
