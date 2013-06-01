@@ -29,6 +29,17 @@ import com.intellij.openapi.vfs.VirtualFile;
 
 public abstract class TabAction extends AnAction implements DumbAware {
 
+  /**
+   * @return Not {@code null}. A strategy to get a list of {@code VirtualFile}:s to be used in the popup chooser window
+   *         list.
+   */
+  protected abstract FileFetcher<VirtualFile> getFileFetcher();
+
+  /**
+   * @return true if to move down selected index position one step on show of list popup chooser window.
+   */
+  protected abstract boolean moveDownOnShow();
+
   @Override
   public void actionPerformed(AnActionEvent event) {
     Project project = PlatformDataKeys.PROJECT.getData(event.getDataContext());
@@ -44,17 +55,6 @@ public abstract class TabAction extends AnAction implements DumbAware {
     Project project = PlatformDataKeys.PROJECT.getData(event.getDataContext());
     event.getPresentation().setEnabled(project != null);
   }
-
-  /**
-   * @return Not {@code null}. A strategy to get a list of {@code VirtualFile}:s to be used in the popup chooser window
-   *         list.
-   */
-  protected abstract FileFetcher<VirtualFile> getFileFetcher();
-
-  /**
-   * @return true if to move down selected index position one step on show of list popup chooser window.
-   */
-  protected abstract boolean moveDownOnShow();
 
   private boolean canShowTabSwitchPopup(final AnActionEvent event, final Project project) {
     return project != null && event.getInputEvent() instanceof KeyEvent;

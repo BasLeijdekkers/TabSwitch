@@ -29,7 +29,7 @@ public class FileFetcherOpenTabFiles implements FileFetcher<VirtualFile> {
   private List<VirtualFile> getOpenFiles(final FileEditorManager fileEditorManager, final VirtualFile[] files) {
     List<VirtualFile> openFiles = new ArrayList<VirtualFile>();
     for (VirtualFile file : files) {
-      if (fileEditorManager.isFileOpen(file)) {
+      if (fileEditorManager.isFileOpen(file) && !openFiles.contains(file)) {
         openFiles.add(file);
       }
     }
