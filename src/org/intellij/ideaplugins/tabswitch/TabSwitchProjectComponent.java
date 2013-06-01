@@ -53,7 +53,7 @@ public class TabSwitchProjectComponent extends AbstractProjectComponent implemen
     JLabel pathLabel = new PathLabelComponentFactory().create();
 
     this.list = new JList();
-    list.setCellRenderer(new ListCellRendererFactoryImpl().create(project));
+    list.setCellRenderer(new ListCellRendererWithColorFactory().create(project));
     list.getSelectionModel().addListSelectionListener(new ListSelectionListenerFactoryImpl().create(list, pathLabel));
 
     this.builder = new PopupChooserBuilder(list).setTitle("Open files");
@@ -62,8 +62,9 @@ public class TabSwitchProjectComponent extends AbstractProjectComponent implemen
       removeMouseMotionListener(listener);
     }
 
-    JComponent footerComponent = new FooterComponentFactory().create();
-    footerComponent.add(pathLabel);
+    JComponent footerComponent = new FooterComponentFactory()
+      .withPathLabel(pathLabel)
+      .create();
 
     builder
       .setMovable(true)

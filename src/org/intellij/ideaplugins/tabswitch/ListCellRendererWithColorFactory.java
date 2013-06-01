@@ -18,9 +18,8 @@ import com.intellij.util.IconUtil;
 /**
  * Simple ListCellRenderer factory. This is the default one to render the popuped list.
  */
-public class ListCellRendererFactoryImpl implements ListCellRendererFactory<ListCellRenderer> {
+public class ListCellRendererWithColorFactory {
 
-  @Override
   public ListCellRenderer create(final Project project) {
     return new ColoredListCellRenderer() {
       @Override

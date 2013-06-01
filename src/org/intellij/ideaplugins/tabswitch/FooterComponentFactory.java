@@ -5,6 +5,7 @@ import java.awt.Graphics;
 
 import javax.swing.BorderFactory;
 import javax.swing.JComponent;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import com.intellij.ui.Gray;
@@ -18,6 +19,8 @@ import com.intellij.ui.Gray;
  */
 public class FooterComponentFactory implements ComponentFactory<JComponent> {
 
+  private JLabel pathLabel;
+
   @Override
   public JComponent create() {
     JComponent footer = new JPanel(new BorderLayout()) {
@@ -28,8 +31,16 @@ public class FooterComponentFactory implements ComponentFactory<JComponent> {
         g.drawLine(0, 0, getWidth(), 0);
       }
     };
+
     footer.setBorder(BorderFactory.createEmptyBorder(4, 4, 4, 4));
 
+    if (pathLabel != null) footer.add(pathLabel);
+
     return footer;
+  }
+
+  public FooterComponentFactory withPathLabel(final JLabel pathLabel) {
+    this.pathLabel = pathLabel;
+    return this;
   }
 }

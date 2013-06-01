@@ -9,6 +9,9 @@ import javax.swing.SwingUtilities;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 import com.intellij.openapi.vfs.VirtualFile;
 
 /**
@@ -32,18 +35,27 @@ public class ListSelectionListenerFactoryImpl implements ListSelectionListenerFa
   }
 
   private void updatePath(JList list, JLabel path) {
-    String text = "";
-    final Object[] selectedValues = list.getSelectedValues();
-    if ((selectedValues != null) && (selectedValues.length == 1)) {
-      VirtualFile parent = ((VirtualFile) selectedValues[0]).getParent();
-      if (parent != null) {
-        text = parent.getPresentableUrl();
-        FontMetrics fontMetrics = path.getFontMetrics(path.getFont());
-        while ((fontMetrics.stringWidth(text) > path.getWidth()) && (text.indexOf(File.separatorChar, 4) > 0)) {
-          text = "..." + text.substring(text.indexOf(File.separatorChar, 4));
-        }
-      }
+    path.setText(getPathTextOrEmptyString(path, list.getSelectedValues()));
+  }
+
+  @NotNull
+  private String getPathTextOrEmptyString(JLabel path, Object[] selectedValues) {
+    return onlyOneFileIsSelected(selectedValues)
+           ? getPathTextForSelectedFile(path, ((VirtualFile) selectedValues[0]).getParent())
+           : "";
+  }
+
+  private boolean onlyOneFileIsSelected(Object[] selectedValues) {
+    return selectedValues != null && selectedValues.length == 1;
+  }
+
+  private String getPathTextForSelectedFile(JLabel path, @Nullable VirtualFile parent) {
+    if (parent == null) return "";
+    String text = parent.getPresentableUrl();
+    FontMetrics fontMetrics = path.getFontMetrics(path.getFont());
+    while ((fontMetrics.stringWidth(text) > path.getWidth()) && (text.indexOf(File.separatorChar, 4) > 0)) {
+      text = "..." + text.substring(text.indexOf(File.separatorChar, 4));
     }
-    path.setText(text);
+    return text;
   }
 }
