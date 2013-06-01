@@ -1,9 +1,9 @@
 <!DOCTYPE idea-plugin PUBLIC "Plugin/DTD" "http://plugins.intellij.net/plugin.dtd">
 
 <idea-plugin url="https://github.com/mustah/TabSwitch">
-  <name>TabSwitch2</name>
-  <version>3.0.2</version>
-  <idea-version since-build="117.418"/>
+  <name>TabSwitch3</name>
+  <version>3.1</version>
+  <idea-version since-build="129.451"/>
 
   <description><![CDATA[
     Open files/tabs switcher to quickly switch between tabs with less keystrokes than
@@ -18,6 +18,7 @@
     ]]>
   </description>
   <change-notes><![CDATA[
+    3.1  : Lots of code clean ups.
     3.0.2: Do not include directories when listing recent VCS changes popup window. Removed light green background color from popup list.<br/>
     3.0.1: Added new TabSwitch Action to display modified files in the default change list of your VCS. Large refactoring.<br>
     3.0.0: Fixed bug where it moved two steps down on each move-down-action.
