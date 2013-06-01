@@ -75,7 +75,7 @@ public class TabSwitchProjectComponent extends AbstractProjectComponent implemen
       .setItemChoosenCallback(new Runnable() {
         @Override
         public void run() {
-          close(true);
+          onCloseOpenSelectedFile();
         }
       });
   }
@@ -91,9 +91,9 @@ public class TabSwitchProjectComponent extends AbstractProjectComponent implemen
       KeyboardFocusManager.getCurrentKeyboardFocusManager().removeKeyEventDispatcher(this);
       consumed = false;
     } else if ((event.getID() == KeyEvent.KEY_RELEASED) && modifiers.get(event.getKeyCode())) {
-      close(true);
+      onCloseOpenSelectedFile();
     } else if (event.getID() == KeyEvent.KEY_PRESSED) {
-      final int keyCode = event.getKeyCode();
+      int keyCode = event.getKeyCode();
       if (keyCode == trigger) {
         move(event.isShiftDown());
       } else {
@@ -105,7 +105,7 @@ public class TabSwitchProjectComponent extends AbstractProjectComponent implemen
             moveDown();
             break;
           case KeyEvent.VK_ENTER:
-            close(true);
+            onCloseOpenSelectedFile();
             break;
           case KeyEvent.VK_SHIFT:
           case KeyEvent.VK_CONTROL:
@@ -114,7 +114,7 @@ public class TabSwitchProjectComponent extends AbstractProjectComponent implemen
           case KeyEvent.VK_META:
             break;
           default:
-            close(false);
+            close();
             break;
         }
       }
@@ -134,7 +134,9 @@ public class TabSwitchProjectComponent extends AbstractProjectComponent implemen
         return;
       }
     }
+
     popup = builder.createPopup();
+
     list.setModel(new AbstractListModel() {
       @Override
       public int getSize() {
@@ -146,14 +148,20 @@ public class TabSwitchProjectComponent extends AbstractProjectComponent implemen
         return files.get(index);
       }
     });
+
     list.setVisibleRowCount(files.size());
+
     trigger = event.getKeyCode();
+
     modifiers.set(KeyEvent.VK_CONTROL, event.isControlDown());
     modifiers.set(KeyEvent.VK_META, event.isMetaDown());
     modifiers.set(KeyEvent.VK_ALT, event.isAltDown());
     modifiers.set(KeyEvent.VK_ALT_GRAPH, event.isAltGraphDown());
+
     this.reverse = event.isShiftDown();
+
     KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(this);
+
     popup.showCenteredInCurrentWindow(myProject);
 
     if (moveDownOnShow) moveDown();
@@ -175,21 +183,29 @@ public class TabSwitchProjectComponent extends AbstractProjectComponent implemen
     list.ensureIndexIsVisible(currentIndex);
   }
 
-  private void close(boolean openFile) {
+  private void onCloseOpenSelectedFile() {
+    close();
+    openSelectedFile();
+  }
+
+  private void close() {
+    disposePopup();
+    removeMouseListeners();
+    KeyboardFocusManager.getCurrentKeyboardFocusManager().removeKeyEventDispatcher(this);
+  }
+
+  private void openSelectedFile() {
+    VirtualFile file = (VirtualFile) list.getSelectedValue();
+    if (file.isValid()) {
+      FileEditorManager.getInstance(myProject).openFile(file, true, true);
+    }
+  }
+
+  private void disposePopup() {
     if (popup != null) {
       popup.cancel();
       popup.dispose();
       popup = null;
-    }
-
-    removeMouseListeners();
-
-    KeyboardFocusManager.getCurrentKeyboardFocusManager().removeKeyEventDispatcher(this);
-    if (openFile) {
-      VirtualFile file = (VirtualFile) list.getSelectedValue();
-      if (file.isValid()) {
-        FileEditorManager.getInstance(myProject).openFile(file, true, true);
-      }
     }
   }
 
