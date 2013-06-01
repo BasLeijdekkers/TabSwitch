@@ -1,5 +1,6 @@
 package org.intellij.ideaplugins.tabswitch.component;
 
+import java.awt.Color;
 import java.awt.Font;
 
 import javax.swing.JList;
@@ -31,7 +32,7 @@ class ListCellRendererWithColorFactory {
         if (value instanceof VirtualFile) {
           VirtualFile file = (VirtualFile) value;
           setIcon(IconUtil.getIcon(file, Iconable.ICON_FLAG_READ_STATUS, project));
-          TextAttributes attributes = new TextAttributes(FileStatusManager.getInstance(project).getStatus(file).getColor(),
+          TextAttributes attributes = new TextAttributes(getForegroundColor(file, project),
                                                          null,
                                                          null,
                                                          EffectType.LINE_UNDERSCORE,
@@ -40,5 +41,9 @@ class ListCellRendererWithColorFactory {
         }
       }
     };
+  }
+
+  private Color getForegroundColor(final VirtualFile file, final Project project) {
+    return FileStatusManager.getInstance(project).getStatus(file).getColor();
   }
 }
