@@ -32,12 +32,11 @@ class ListCellRendererWithColorFactory {
         if (value instanceof VirtualFile) {
           VirtualFile file = (VirtualFile) value;
           setIcon(IconUtil.getIcon(file, Iconable.ICON_FLAG_READ_STATUS, project));
-          TextAttributes attributes = new TextAttributes(getForegroundColor(file, project),
-                                                         null,
-                                                         null,
-                                                         EffectType.LINE_UNDERSCORE,
-                                                         Font.PLAIN);
-          append(file.getName(), SimpleTextAttributes.fromTextAttributes(attributes));
+          append(file.getName(), SimpleTextAttributes.fromTextAttributes(new TextAttributes(getForegroundColor(file, project),
+                                                                                            null,
+                                                                                            null,
+                                                                                            EffectType.LINE_UNDERSCORE,
+                                                                                            Font.PLAIN)));
         }
       }
     };

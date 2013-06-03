@@ -6,6 +6,8 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import org.jetbrains.annotations.NotNull;
+
 import com.intellij.ide.ui.UISettings;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vcs.changes.Change;
@@ -35,6 +37,7 @@ public class FileFetcherChangedFilesInVcs implements FileFetcher<VirtualFile> {
    *
    * @return Not {@code null}. Alphabetically sorted list of modified files.
    */
+  @NotNull
   @Override
   public List<VirtualFile> getFiles(final Project project) {
     List<VirtualFile> changedFiles = new ArrayList<VirtualFile>();
@@ -56,6 +59,7 @@ public class FileFetcherChangedFilesInVcs implements FileFetcher<VirtualFile> {
    *
    * @return {@code null} if no change list is available or if there are no changes currently made.
    */
+  @NotNull
   private Collection<Change> getChanges(final Project project) {
     LocalChangeList defaultChangeList = ChangeListManager.getInstance(project).getDefaultChangeList();
     return defaultChangeList != null ? defaultChangeList.getChanges() : Collections.<Change>emptyList();

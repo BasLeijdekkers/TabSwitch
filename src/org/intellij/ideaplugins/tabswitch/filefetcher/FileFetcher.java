@@ -2,6 +2,8 @@ package org.intellij.ideaplugins.tabswitch.filefetcher;
 
 import java.util.List;
 
+import org.jetbrains.annotations.NotNull;
+
 import com.intellij.openapi.project.Project;
 
 /**
@@ -18,5 +20,6 @@ public interface FileFetcher<F> {
    *
    * @return List of files of type F, or empty. Not {@code null}.
    */
+  @NotNull
   List<F> getFiles(Project project);
 }

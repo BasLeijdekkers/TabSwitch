@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.jetbrains.annotations.NotNull;
+
 import com.intellij.openapi.fileEditor.FileEditorManager;
 import com.intellij.openapi.fileEditor.impl.EditorHistoryManager;
 import com.intellij.openapi.project.Project;
@@ -18,6 +20,7 @@ import com.intellij.openapi.vfs.VirtualFile;
  */
 public class FileFetcherOpenTabFiles implements FileFetcher<VirtualFile> {
 
+  @NotNull
   @Override
   public List<VirtualFile> getFiles(final Project project) {
     FileEditorManager fileEditorManager = FileEditorManager.getInstance(project);
@@ -26,6 +29,7 @@ public class FileFetcherOpenTabFiles implements FileFetcher<VirtualFile> {
     return result;
   }
 
+  @NotNull
   private List<VirtualFile> getOpenFiles(final FileEditorManager fileEditorManager, final VirtualFile[] files) {
     List<VirtualFile> openFiles = new ArrayList<VirtualFile>();
     for (VirtualFile file : files) {

@@ -48,6 +48,7 @@ class ListSelectionListenerWithPathUpdaterFactory {
     return selectedValues != null && selectedValues.length == 1;
   }
 
+  @NotNull
   private String getPathTextForSelectedFile(JLabel path, @Nullable VirtualFile parent) {
     if (parent == null) return "";
     String text = parent.getPresentableUrl();
