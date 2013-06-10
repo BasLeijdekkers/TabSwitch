@@ -127,6 +127,7 @@ public class TabSwitchProjectComponent extends AbstractProjectComponent implemen
     if (files.isEmpty()) {
       return;
     }
+
     if (popup != null) {
       if (!popup.isVisible()) {
         popup.dispose();
@@ -137,6 +138,27 @@ public class TabSwitchProjectComponent extends AbstractProjectComponent implemen
 
     popup = builder.createPopup();
 
+    prepareListWithFiles(files);
+
+    trigger = event.getKeyCode();
+
+    modifiers.set(KeyEvent.VK_CONTROL, event.isControlDown());
+    modifiers.set(KeyEvent.VK_META, event.isMetaDown());
+    modifiers.set(KeyEvent.VK_ALT, event.isAltDown());
+    modifiers.set(KeyEvent.VK_ALT_GRAPH, event.isAltGraphDown());
+
+    reverse = event.isShiftDown();
+
+    KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(this);
+
+    popup.showCenteredInCurrentWindow(myProject);
+
+    if (moveDownOnShow) {
+      moveDown();
+    }
+  }
+
+  private void prepareListWithFiles(final List<VirtualFile> files) {
     list.setModel(new AbstractListModel() {
       @Override
       public int getSize() {
@@ -150,21 +172,6 @@ public class TabSwitchProjectComponent extends AbstractProjectComponent implemen
     });
 
     list.setVisibleRowCount(files.size());
-
-    trigger = event.getKeyCode();
-
-    modifiers.set(KeyEvent.VK_CONTROL, event.isControlDown());
-    modifiers.set(KeyEvent.VK_META, event.isMetaDown());
-    modifiers.set(KeyEvent.VK_ALT, event.isAltDown());
-    modifiers.set(KeyEvent.VK_ALT_GRAPH, event.isAltGraphDown());
-
-    this.reverse = event.isShiftDown();
-
-    KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(this);
-
-    popup.showCenteredInCurrentWindow(myProject);
-
-    if (moveDownOnShow) moveDown();
   }
 
   private void moveUp() {
