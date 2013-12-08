@@ -15,7 +15,7 @@ public class ListComponentFactory implements ComponentFactory<JList> {
 
   private JLabel pathLabel;
 
-  public ListComponentFactory(final Project project) {
+  public ListComponentFactory(Project project) {
     this.project = project;
   }
 
@@ -27,7 +27,7 @@ public class ListComponentFactory implements ComponentFactory<JList> {
     return list;
   }
 
-  public ListComponentFactory withPathLabel(final JLabel pathLabel) {
+  public ListComponentFactory withPathLabel(JLabel pathLabel) {
     this.pathLabel = pathLabel;
     return this;
   }

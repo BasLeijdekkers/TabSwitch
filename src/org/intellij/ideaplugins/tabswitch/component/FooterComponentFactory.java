@@ -39,7 +39,7 @@ public class FooterComponentFactory implements ComponentFactory<JComponent> {
     return footer;
   }
 
-  public FooterComponentFactory withPathLabel(final JLabel pathLabel) {
+  public FooterComponentFactory withPathLabel(JLabel pathLabel) {
     this.pathLabel = pathLabel;
     return this;
   }

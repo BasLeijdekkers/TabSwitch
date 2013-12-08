@@ -31,7 +31,7 @@ public abstract class TabAction extends AnAction implements DumbAware {
 
   /**
    * @return Not {@code null}. A strategy to get a list of {@code VirtualFile}:s to be used in the popup chooser window
-   *         list.
+   * list.
    */
   protected abstract FileFetcher<VirtualFile> getFileFetcher();
 
@@ -44,9 +44,7 @@ public abstract class TabAction extends AnAction implements DumbAware {
   public void actionPerformed(AnActionEvent event) {
     Project project = PlatformDataKeys.PROJECT.getData(event.getDataContext());
     if (canShowTabSwitchPopup(event, project)) {
-      TabSwitchProjectComponent.getHandler(project).show((KeyEvent) event.getInputEvent(),
-                                                         getFileFetcher(),
-                                                         moveDownOnShow());
+      TabSwitchProjectComponent.getHandler(project).show((KeyEvent) event.getInputEvent(), getFileFetcher(), moveDownOnShow());
     }
   }
 

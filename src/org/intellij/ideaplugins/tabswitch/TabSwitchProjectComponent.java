@@ -50,7 +50,7 @@ public class TabSwitchProjectComponent extends AbstractProjectComponent implemen
   private int trigger = 0;
   private boolean reverse;
 
-  public TabSwitchProjectComponent(final Project project) {
+  public TabSwitchProjectComponent(Project project) {
     super(project);
 
     JLabel pathLabel = new PathLabelComponentFactory().create();
@@ -80,12 +80,12 @@ public class TabSwitchProjectComponent extends AbstractProjectComponent implemen
       });
   }
 
-  public static TabSwitchProjectComponent getHandler(final Project project) {
+  public static TabSwitchProjectComponent getHandler(Project project) {
     return project.getComponent(TabSwitchProjectComponent.class);
   }
 
   @Override
-  public boolean dispatchKeyEvent(final KeyEvent event) {
+  public boolean dispatchKeyEvent(KeyEvent event) {
     boolean consumed = true;
     if (popup != null && popup.isDisposed()) {
       KeyboardFocusManager.getCurrentKeyboardFocusManager().removeKeyEventDispatcher(this);
@@ -122,8 +122,8 @@ public class TabSwitchProjectComponent extends AbstractProjectComponent implemen
     return consumed;
   }
 
-  public void show(final KeyEvent event, final FileFetcher<VirtualFile> fileFetcher, final boolean moveDownOnShow) {
-    final List<VirtualFile> files = fileFetcher.getFiles(myProject);
+  public void show(KeyEvent event, FileFetcher<VirtualFile> fileFetcher, boolean moveDownOnShow) {
+    List<VirtualFile> files = fileFetcher.getFiles(myProject);
     if (files.isEmpty()) {
       return;
     }
@@ -183,9 +183,9 @@ public class TabSwitchProjectComponent extends AbstractProjectComponent implemen
   }
 
   private void move(boolean up) {
-    final int offset = (up ^ reverse) ? -1 : 1;
-    final int size = list.getModel().getSize();
-    final int currentIndex = (list.getSelectedIndex() + size + offset) % size;
+    int offset = (up ^ reverse) ? -1 : 1;
+    int size = list.getModel().getSize();
+    int currentIndex = (list.getSelectedIndex() + size + offset) % size;
     list.setSelectedIndex(currentIndex);
     list.ensureIndexIsVisible(currentIndex);
   }
@@ -231,7 +231,7 @@ public class TabSwitchProjectComponent extends AbstractProjectComponent implemen
    *
    * @param listener a MouseMotionListener.
    */
-  private void removeMouseMotionListener(final MouseMotionListener listener) {
+  private void removeMouseMotionListener(MouseMotionListener listener) {
     if (listener.getClass().getName().startsWith("com.intellij.openapi.ui.popup.PopupChooserBuilder")) {
       list.removeMouseMotionListener(listener);
     }

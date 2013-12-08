@@ -22,27 +22,24 @@ import com.intellij.util.IconUtil;
 class ListCellRendererWithColorFactory {
 
   ListCellRenderer create(final Project project) {
-    return new ColoredListCellRenderer() {
+    return new ColoredListCellRenderer<VirtualFile>() {
       @Override
-      protected void customizeCellRenderer(final JList list,
-                                           final Object value,
-                                           final int index,
-                                           final boolean selected,
-                                           final boolean hasFocus) {
-        if (value instanceof VirtualFile) {
-          VirtualFile file = (VirtualFile) value;
-          setIcon(IconUtil.getIcon(file, Iconable.ICON_FLAG_READ_STATUS, project));
-          append(file.getName(), SimpleTextAttributes.fromTextAttributes(new TextAttributes(getForegroundColor(file, project),
-                                                                                            null,
-                                                                                            null,
-                                                                                            EffectType.LINE_UNDERSCORE,
-                                                                                            Font.PLAIN)));
-        }
+      protected void customizeCellRenderer(JList list,
+                                           VirtualFile file,
+                                           int index,
+                                           boolean selected,
+                                           boolean hasFocus) {
+        setIcon(IconUtil.getIcon(file, Iconable.ICON_FLAG_READ_STATUS, project));
+        append(file.getName(), SimpleTextAttributes.fromTextAttributes(new TextAttributes(getForegroundColor(file, project),
+                                                                                          null,
+                                                                                          null,
+                                                                                          EffectType.LINE_UNDERSCORE,
+                                                                                          Font.PLAIN)));
       }
     };
   }
 
-  private Color getForegroundColor(final VirtualFile file, final Project project) {
+  private Color getForegroundColor(VirtualFile file, Project project) {
     return FileStatusManager.getInstance(project).getStatus(file).getColor();
   }
 }

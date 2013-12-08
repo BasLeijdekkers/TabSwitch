@@ -22,7 +22,7 @@ public class FileFetcherOpenTabFiles implements FileFetcher<VirtualFile> {
 
   @NotNull
   @Override
-  public List<VirtualFile> getFiles(final Project project) {
+  public List<VirtualFile> getFiles(Project project) {
     FileEditorManager fileEditorManager = FileEditorManager.getInstance(project);
     List<VirtualFile> result = getOpenFiles(fileEditorManager, EditorHistoryManager.getInstance(project).getFiles());
     Collections.reverse(result);
@@ -30,7 +30,7 @@ public class FileFetcherOpenTabFiles implements FileFetcher<VirtualFile> {
   }
 
   @NotNull
-  private List<VirtualFile> getOpenFiles(final FileEditorManager fileEditorManager, final VirtualFile[] files) {
+  private List<VirtualFile> getOpenFiles(FileEditorManager fileEditorManager, VirtualFile[] files) {
     List<VirtualFile> openFiles = new ArrayList<VirtualFile>();
     for (VirtualFile file : files) {
       if (fileEditorManager.isFileOpen(file) && !openFiles.contains(file)) {
