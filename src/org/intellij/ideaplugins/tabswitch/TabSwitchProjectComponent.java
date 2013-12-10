@@ -59,8 +59,6 @@ public class TabSwitchProjectComponent extends AbstractProjectComponent implemen
       .withPathLabel(pathLabel)
       .create();
 
-    this.builder = new PopupChooserBuilder(list).setTitle("Open files");
-
     for (MouseMotionListener listener : list.getMouseMotionListeners()) {
       removeMouseMotionListener(listener);
     }
@@ -69,7 +67,8 @@ public class TabSwitchProjectComponent extends AbstractProjectComponent implemen
       .withPathLabel(pathLabel)
       .create();
 
-    builder
+    this.builder = new PopupChooserBuilder(list)
+      .setTitle("Open files")
       .setMovable(true)
       .setSouthComponent(footerComponent)
       .setItemChoosenCallback(new Runnable() {
@@ -124,7 +123,7 @@ public class TabSwitchProjectComponent extends AbstractProjectComponent implemen
 
   public void show(KeyEvent event, FileFetcher<VirtualFile> fileFetcher, boolean moveDownOnShow) {
     List<VirtualFile> files = fileFetcher.getFiles(myProject);
-    if (files.isEmpty()) {
+    if (files.size() <= 1) {
       return;
     }
 
@@ -203,7 +202,7 @@ public class TabSwitchProjectComponent extends AbstractProjectComponent implemen
 
   private void openSelectedFile() {
     VirtualFile file = (VirtualFile) list.getSelectedValue();
-    if (file.isValid()) {
+    if (file != null && file.isValid()) {
       FileEditorManager.getInstance(myProject).openFile(file, true, true);
     }
   }

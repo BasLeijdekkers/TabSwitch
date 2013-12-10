@@ -54,7 +54,7 @@ public abstract class TabAction extends AnAction implements DumbAware {
     event.getPresentation().setEnabled(project != null);
   }
 
-  private boolean canShowTabSwitchPopup(final AnActionEvent event, final Project project) {
+  private boolean canShowTabSwitchPopup(AnActionEvent event, final Project project) {
     return project != null && event.getInputEvent() instanceof KeyEvent;
   }
 }

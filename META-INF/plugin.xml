@@ -3,13 +3,13 @@
 <idea-plugin url="https://github.com/mustah/TabSwitch">
   <name>TabSwitch3</name>
   <version>3.0.3</version>
-  <idea-version since-build="129.451"/>
+  <idea-version since-build="133.193"/>
 
   <description><![CDATA[
     Open files/tabs switcher to quickly switch between tabs with less keystrokes than
     Recent Files. Open files are selected from a list in most recently used order, similarly
-    to Alt-Tab in Windows or Ctrl-Tab in Opera. By default the action is mapped to
-    Alt-A, but another popular assignment is Ctrl-Tab.<br><br>
+    to Alt+Tab in Windows or Ctrl-Tab in Opera. By default the action is mapped to
+    Alt+A, but another popular assignment is CMD+E.<br><br>
 
     Thanks to Timur Zambalayev for the original plugin, Martin Fuhrer for a major contribution
     in the form of a rewrite and Mark Scott for patching a bug. Follow further development of
