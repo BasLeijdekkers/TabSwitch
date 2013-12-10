@@ -28,9 +28,7 @@ import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JList;
 
-import org.intellij.ideaplugins.tabswitch.component.FooterComponentFactory;
-import org.intellij.ideaplugins.tabswitch.component.ListComponentFactory;
-import org.intellij.ideaplugins.tabswitch.component.PathLabelComponentFactory;
+import org.intellij.ideaplugins.tabswitch.component.Components;
 import org.intellij.ideaplugins.tabswitch.filefetcher.FileFetcher;
 
 import com.intellij.openapi.components.AbstractProjectComponent;
@@ -42,9 +40,9 @@ import com.intellij.openapi.vfs.VirtualFile;
 
 public class TabSwitchProjectComponent extends AbstractProjectComponent implements KeyEventDispatcher {
 
+  private final BitSet modifiers = new BitSet();
   private final JList list;
   private final PopupChooserBuilder builder;
-  private final BitSet modifiers = new BitSet();
 
   private JBPopup popup;
   private int trigger = 0;
@@ -53,24 +51,18 @@ public class TabSwitchProjectComponent extends AbstractProjectComponent implemen
   public TabSwitchProjectComponent(Project project) {
     super(project);
 
-    JLabel pathLabel = new PathLabelComponentFactory().create();
-
-    this.list = new ListComponentFactory(project)
-      .withPathLabel(pathLabel)
-      .create();
+    JLabel pathLabel = Components.newPathLabel();
+    JComponent listFooter = Components.newListFooter(pathLabel);
+    this.list = Components.newList(project, pathLabel);
 
     for (MouseMotionListener listener : list.getMouseMotionListeners()) {
       removeMouseMotionListener(listener);
     }
 
-    JComponent footerComponent = new FooterComponentFactory()
-      .withPathLabel(pathLabel)
-      .create();
-
     this.builder = new PopupChooserBuilder(list)
       .setTitle("Open files")
       .setMovable(true)
-      .setSouthComponent(footerComponent)
+      .setSouthComponent(listFooter)
       .setItemChoosenCallback(new Runnable() {
         @Override
         public void run() {
