@@ -17,6 +17,7 @@ package org.intellij.ideaplugins.tabswitch.action;
 
 import org.intellij.ideaplugins.tabswitch.filefetcher.FileFetcher;
 import org.intellij.ideaplugins.tabswitch.filefetcher.FileFetcherOpenTabFiles;
+import org.jetbrains.annotations.NotNull;
 
 import com.intellij.openapi.vfs.VirtualFile;
 
@@ -24,6 +25,7 @@ public class NextTabAction extends TabAction {
 
   private final FileFetcher<VirtualFile> fileFetcher = new FileFetcherOpenTabFiles();
 
+  @NotNull
   @Override
   protected FileFetcher<VirtualFile> getFileFetcher() {
     return fileFetcher;

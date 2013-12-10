@@ -19,6 +19,7 @@ import java.awt.event.KeyEvent;
 
 import org.intellij.ideaplugins.tabswitch.TabSwitchProjectComponent;
 import org.intellij.ideaplugins.tabswitch.filefetcher.FileFetcher;
+import org.jetbrains.annotations.NotNull;
 
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
@@ -33,6 +34,7 @@ public abstract class TabAction extends AnAction implements DumbAware {
    * @return Not {@code null}. A strategy to get a list of {@code VirtualFile}:s to be used in the popup chooser window
    * list.
    */
+  @NotNull
   protected abstract FileFetcher<VirtualFile> getFileFetcher();
 
   /**

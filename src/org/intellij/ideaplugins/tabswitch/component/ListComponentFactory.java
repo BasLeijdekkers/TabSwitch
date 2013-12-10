@@ -34,6 +34,7 @@ class ListComponentFactory {
     this.project = project;
   }
 
+  @NotNull
   JList create(JLabel pathLabel) {
     JList list = new JBList();
     list.setCellRenderer(new ListCellRendererWithColorFactory().create(project));

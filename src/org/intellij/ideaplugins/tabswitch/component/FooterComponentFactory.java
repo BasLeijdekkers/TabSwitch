@@ -8,6 +8,8 @@ import javax.swing.BorderFactory;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 
+import org.jetbrains.annotations.NotNull;
+
 import com.intellij.ui.Gray;
 
 /**
@@ -15,6 +17,7 @@ import com.intellij.ui.Gray;
  */
 class FooterComponentFactory {
 
+  @NotNull
   JComponent create(Component pathLabel) {
     JComponent footer = newFooterJPanel();
 
