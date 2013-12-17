@@ -1,7 +1,7 @@
 <project default="jar" name="TabSwitch">
 
-  <property name="idea.home" value="/Applications/IntelliJ IDEA 12.app"/>
-  <property name="idea.plugin.home" value="${user.home}/Library/Application Support/IntelliJIdea12"/>
+  <property name="idea.home" value="/Applications/IntelliJ IDEA 13.app"/>
+  <property name="idea.plugin.home" value="${user.home}/Library/Application Support/IntelliJIdea13"/>
 
   <property name="build.dir" value="build"/>
   <property name="build.classes.dir" value="${build.dir}/classes"/>
