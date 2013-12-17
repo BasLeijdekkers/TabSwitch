@@ -12,7 +12,6 @@ import javax.swing.SwingUtilities;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import com.intellij.openapi.editor.markup.EffectType;
@@ -34,7 +33,6 @@ class ListComponentFactory {
     this.project = project;
   }
 
-  @NotNull
   JList create(JLabel pathLabel) {
     JList list = new JBList();
     list.setCellRenderer(new ListCellRendererWithColorFactory().create(project));
@@ -96,7 +94,6 @@ class ListComponentFactory {
       path.setText(getPathTextOrEmptyString(path, list.getSelectedValues()));
     }
 
-    @NotNull
     private String getPathTextOrEmptyString(JLabel path, Object[] selectedValues) {
       return onlyOneFileIsSelected(selectedValues)
              ? getPathTextForSelectedFile(path, ((VirtualFile) selectedValues[0]).getParent())
@@ -107,7 +104,6 @@ class ListComponentFactory {
       return selectedValues != null && selectedValues.length == 1;
     }
 
-    @NotNull
     private String getPathTextForSelectedFile(JLabel path, @Nullable VirtualFile parent) {
       if (parent == null) return "";
       String text = parent.getPresentableUrl();

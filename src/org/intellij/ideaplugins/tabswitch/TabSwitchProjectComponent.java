@@ -29,7 +29,6 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 
 import org.intellij.ideaplugins.tabswitch.component.Components;
-import org.intellij.ideaplugins.tabswitch.filefetcher.FileFetcher;
 
 import com.intellij.openapi.components.AbstractProjectComponent;
 import com.intellij.openapi.fileEditor.FileEditorManager;
@@ -113,8 +112,7 @@ public class TabSwitchProjectComponent extends AbstractProjectComponent implemen
     return consumed;
   }
 
-  public void show(KeyEvent event, FileFetcher<VirtualFile> fileFetcher, boolean moveDownOnShow) {
-    List<VirtualFile> files = fileFetcher.getFiles(myProject);
+  public void show(KeyEvent event, boolean moveDownOnShow, List<VirtualFile> files) {
     if (files.size() <= 1) {
       return;
     }

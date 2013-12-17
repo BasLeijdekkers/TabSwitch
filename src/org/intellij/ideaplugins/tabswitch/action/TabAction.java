@@ -16,10 +16,9 @@
 package org.intellij.ideaplugins.tabswitch.action;
 
 import java.awt.event.KeyEvent;
+import java.util.List;
 
 import org.intellij.ideaplugins.tabswitch.TabSwitchProjectComponent;
-import org.intellij.ideaplugins.tabswitch.filefetcher.FileFetcher;
-import org.jetbrains.annotations.NotNull;
 
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
@@ -30,12 +29,7 @@ import com.intellij.openapi.vfs.VirtualFile;
 
 public abstract class TabAction extends AnAction implements DumbAware {
 
-  /**
-   * @return Not {@code null}. A strategy to get a list of {@code VirtualFile}:s to be used in the popup chooser window
-   * list.
-   */
-  @NotNull
-  protected abstract FileFetcher<VirtualFile> getFileFetcher();
+  protected abstract List<VirtualFile> getOpenFiles(Project project);
 
   /**
    * @return true if to move down selected index position one step on show of list popup chooser window.
@@ -46,7 +40,7 @@ public abstract class TabAction extends AnAction implements DumbAware {
   public void actionPerformed(AnActionEvent event) {
     Project project = PlatformDataKeys.PROJECT.getData(event.getDataContext());
     if (canShowTabSwitchPopup(event, project)) {
-      TabSwitchProjectComponent.getHandler(project).show((KeyEvent) event.getInputEvent(), getFileFetcher(), moveDownOnShow());
+      TabSwitchProjectComponent.getHandler(project).show(getKeyEvent(event), moveDownOnShow(), getOpenFiles(project));
     }
   }
 
@@ -54,6 +48,10 @@ public abstract class TabAction extends AnAction implements DumbAware {
   public void update(AnActionEvent event) {
     Project project = PlatformDataKeys.PROJECT.getData(event.getDataContext());
     event.getPresentation().setEnabled(project != null);
+  }
+
+  private KeyEvent getKeyEvent(AnActionEvent event) {
+    return (KeyEvent) event.getInputEvent();
   }
 
   private boolean canShowTabSwitchPopup(AnActionEvent event, final Project project) {
