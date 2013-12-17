@@ -54,12 +54,13 @@ public class TabSwitchProjectComponent extends AbstractProjectComponent implemen
     JLabel pathLabel = Components.newPathLabel();
     JComponent listFooter = Components.newListFooter(pathLabel);
     this.list = Components.newList(project, pathLabel);
+    this.builder = new PopupChooserBuilder(list);
 
     for (MouseMotionListener listener : list.getMouseMotionListeners()) {
       removeMouseMotionListener(listener);
     }
 
-    this.builder = new PopupChooserBuilder(list)
+    this.builder
       .setTitle("Open files")
       .setMovable(true)
       .setSouthComponent(listFooter)
