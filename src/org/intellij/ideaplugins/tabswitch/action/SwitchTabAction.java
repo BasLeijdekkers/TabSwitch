@@ -54,6 +54,6 @@ public class SwitchTabAction extends AnAction implements DumbAware {
   }
 
   private boolean canShowRecentFiles() {
-    return TabSwitchSettings.getInstance().SHOW_RECENT_FILES || UISettings.getInstance().EDITOR_TAB_LIMIT == 1;
+    return TabSwitchSettings.getInstance().SHOW_RECENT_FILES || UISettings.getInstance().EDITOR_TAB_LIMIT > 0;
   }
 }
