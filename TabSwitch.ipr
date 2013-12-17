@@ -393,7 +393,11 @@
     <option name="PREFERRED_PROJECT_CODE_STYLE" value="IBE-style" />
   </component>
   <component name="ProjectDictionaryState">
-    <dictionary name="must" />
+    <dictionary name="must">
+      <words>
+        <w>openapi</w>
+      </words>
+    </dictionary>
   </component>
   <component name="ProjectModuleManager">
     <modules>

@@ -24,7 +24,6 @@ import java.util.BitSet;
 import java.util.List;
 
 import javax.swing.AbstractListModel;
-import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JList;
 
@@ -51,17 +50,15 @@ public class TabSwitchProjectComponent extends AbstractProjectComponent implemen
     super(project);
 
     JLabel pathLabel = Components.newPathLabel();
-    JComponent listFooter = Components.newListFooter(pathLabel);
     this.list = Components.newList(project, pathLabel);
+    this.builder = new PopupChooserBuilder(list);
 
-    for (MouseMotionListener listener : list.getMouseMotionListeners()) {
-      removeMouseMotionListener(listener);
-    }
+    removeMouseMotionListeners();
 
-    this.builder = new PopupChooserBuilder(list)
+    this.builder
       .setTitle("Open files")
       .setMovable(true)
-      .setSouthComponent(listFooter)
+      .setSouthComponent(Components.newListFooter(pathLabel))
       .setItemChoosenCallback(new Runnable() {
         @Override
         public void run() {
@@ -211,6 +208,12 @@ public class TabSwitchProjectComponent extends AbstractProjectComponent implemen
   private void removeMouseListeners() {
     for (MouseListener listener : list.getMouseListeners()) {
       list.removeMouseListener(listener);
+    }
+  }
+
+  private void removeMouseMotionListeners() {
+    for (MouseMotionListener listener : list.getMouseMotionListeners()) {
+      removeMouseMotionListener(listener);
     }
   }
 
