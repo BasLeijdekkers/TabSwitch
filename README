@@ -1,5 +1,5 @@
 Tried on:
- - Intellij IDEA 12.1.3
+ - Intellij IDEA 12.1.x
  - Webstorm
 
 TabSwitch version 3.x.x includes:
@@ -8,4 +8,4 @@ TabSwitch version 3.x.x includes:
 
  2. Some code clean ups.
 
- 3. Created possibility to display a list of modified files in the default change list of the selected VCS. (I've personally mapped it to CTRL+E)
+ 3. Created possibility to display a list of modified files in the default change list of the selected VCS. (I've personally mapped it to CMD+ALT+E)
