@@ -122,9 +122,9 @@ public class TabSwitchProjectComponent extends AbstractProjectComponent implemen
       }
     }
 
-    popup = builder.createPopup();
-
     prepareListWithFiles(files);
+
+    popup = builder.createPopup();
 
     trigger = event.getKeyCode();
 
@@ -171,9 +171,8 @@ public class TabSwitchProjectComponent extends AbstractProjectComponent implemen
   private void move(boolean up) {
     int offset = (up ^ reverse) ? -1 : 1;
     int size = list.getModel().getSize();
-    int currentIndex = (list.getSelectedIndex() + size + offset) % size;
-    list.setSelectedIndex(currentIndex);
-    list.ensureIndexIsVisible(currentIndex);
+    list.setSelectedIndex((list.getSelectedIndex() + size + offset) % size);
+    list.ensureIndexIsVisible(list.getSelectedIndex());
   }
 
   private void onCloseOpenSelectedFile() {
