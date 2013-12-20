@@ -1,10 +1,11 @@
 package org.intellij.ideaplugins.tabswitch.filefetcher;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 import com.intellij.openapi.fileEditor.FileEditorManager;
+import com.intellij.openapi.fileEditor.impl.EditorHistoryManager;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VirtualFile;
 
@@ -19,8 +20,19 @@ public class FileFetcherOpenTabFiles implements FileFetcher<VirtualFile> {
 
   @Override
   public List<VirtualFile> getFiles(Project project) {
-    List<VirtualFile> result = Arrays.asList(FileEditorManager.getInstance(project).getOpenFiles());
-    Collections.reverse(result);
-    return result;
+    FileEditorManager fileEditorManager = FileEditorManager.getInstance(project);
+    List<VirtualFile> openFiles = getOpenFiles(fileEditorManager, EditorHistoryManager.getInstance(project).getFiles());
+    Collections.reverse(openFiles);
+    return openFiles;
+  }
+
+  private List<VirtualFile> getOpenFiles(FileEditorManager fileEditorManager, VirtualFile[] files) {
+    List<VirtualFile> openFiles = new ArrayList<VirtualFile>();
+    for (VirtualFile file : files) {
+      if (fileEditorManager.isFileOpen(file) && !openFiles.contains(file)) {
+        openFiles.add(file);
+      }
+    }
+    return openFiles;
   }
 }
