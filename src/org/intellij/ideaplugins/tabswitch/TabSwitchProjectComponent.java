@@ -122,9 +122,9 @@ public class TabSwitchProjectComponent extends AbstractProjectComponent implemen
       }
     }
 
-    prepareListWithFiles(files);
-
     popup = builder.createPopup();
+
+    prepareListWithFiles(files);
 
     trigger = event.getKeyCode();
 
