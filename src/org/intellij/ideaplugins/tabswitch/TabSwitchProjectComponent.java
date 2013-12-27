@@ -110,10 +110,6 @@ public class TabSwitchProjectComponent extends AbstractProjectComponent implemen
   }
 
   public void show(KeyEvent event, boolean moveDownOnShow, List<VirtualFile> files) {
-    if (files.size() <= 1) {
-      return;
-    }
-
     if (popup != null) {
       if (!popup.isVisible()) {
         popup.dispose();
@@ -122,9 +118,9 @@ public class TabSwitchProjectComponent extends AbstractProjectComponent implemen
       }
     }
 
-    popup = builder.createPopup();
-
     prepareListWithFiles(files);
+
+    popup = builder.createPopup();
 
     trigger = event.getKeyCode();
 
