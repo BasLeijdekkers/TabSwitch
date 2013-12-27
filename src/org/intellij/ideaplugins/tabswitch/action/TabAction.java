@@ -38,7 +38,7 @@ public abstract class TabAction extends AnAction implements DumbAware {
 
   @Override
   public void actionPerformed(AnActionEvent event) {
-    Project project = PlatformDataKeys.PROJECT.getData(event.getDataContext());
+    Project project = getProject(event);
     if (canShowTabSwitchPopup(event, project)) {
       TabSwitchProjectComponent.getHandler(project).show(getKeyEvent(event), moveDownOnShow(), getOpenFiles(project));
     }
@@ -46,8 +46,11 @@ public abstract class TabAction extends AnAction implements DumbAware {
 
   @Override
   public void update(AnActionEvent event) {
-    Project project = PlatformDataKeys.PROJECT.getData(event.getDataContext());
-    event.getPresentation().setEnabled(project != null);
+    event.getPresentation().setEnabled(getProject(event) != null);
+  }
+
+  private Project getProject(AnActionEvent event) {
+    return PlatformDataKeys.PROJECT.getData(event.getDataContext());
   }
 
   private boolean canShowTabSwitchPopup(AnActionEvent event, Project project) {
