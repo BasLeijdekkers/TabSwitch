@@ -18,11 +18,11 @@
     ]]>
   </description>
   <change-notes><![CDATA[
-    3.0.4: When only one file is opened - do not display the TabSwitch list. Also some refactorings.
-    3.0.3: Lots of code clean ups. Does not display same file in the list twice anymore.
+    3.0.4: When only one file is opened - do not display the TabSwitch list. Also some refactorings.<br/>
+    3.0.3: Lots of code clean ups. Does not display same file in the list twice anymore.<br/>
     3.0.2: Do not include directories when listing recent VCS changes popup window. Removed light green background color from popup list.<br/>
     3.0.1: Added new TabSwitch Action to display modified files in the default change list of your VCS. Large refactoring.<br>
-    3.0.0: Fixed bug where it moved two steps down on each move-down-action.
+    3.0.0: Fixed bug where it moved two steps down on each move-down-action.<br/>
     2.2.0: Cleaning up some code.<br>
     2.1.9: Switch to open tab even if it is located in a different split pane.<br>
     2.1.8: The TabSwitch actions are now available during background indexing in Maia.<br>
