@@ -14,7 +14,7 @@
     Thanks to Timur Zambalayev for the original plugin, Martin Fuhrer for a major contribution
     in the form of a rewrite and Mark Scott for patching a bug. Follow further development of
     <a href="https://github.com/mustah/TabSwitch">this plugin on GitHub</a> or follow
-    <a href="https://twitter.com/_musten_">me on twitter</a> for announcements and other things.
+    <a href="https://twitter.com/_musten_">me on twitter</a> for announcements and other things.<br/><br/>
     ]]>
   </description>
   <change-notes><![CDATA[
@@ -27,7 +27,7 @@
     2.1.9: Switch to open tab even if it is located in a different split pane.<br>
     2.1.8: The TabSwitch actions are now available during background indexing in Maia.<br>
     2.1.7: Fix for mouse over popup changes selection problem reported by Michael Bushe.<br>
-    2.1.6: RubyMine compatible version.<br>
+    2.1.6: RubyMine compatible version.<br><br/>
   ]]></change-notes>
 
   <vendor url="https://twitter.com/_musten_" email="must.tahir@gmail.com">Must</vendor>
