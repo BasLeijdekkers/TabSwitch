@@ -6,9 +6,6 @@ import javax.swing.JList;
 
 import com.intellij.openapi.project.Project;
 
-/**
- * <br> User: must <br> Date: 2013-12-10
- */
 public final class Components {
 
   private Components() {

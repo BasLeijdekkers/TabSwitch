@@ -8,12 +8,6 @@ import org.intellij.ideaplugins.tabswitch.filefetcher.FileFetcherChangedFilesInV
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VirtualFile;
 
-/**
- * <pre>
- * User: must
- * Date: 2012-06-02
- * </pre>
- */
 public class NextVcsChangeAction extends TabAction {
 
   private final FileFetcher<VirtualFile> fileFetcher = new FileFetcherChangedFilesInVcs();

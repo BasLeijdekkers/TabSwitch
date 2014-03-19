@@ -6,10 +6,6 @@ import com.intellij.openapi.project.Project;
 
 /**
  * Should provide a way to fetch a list of files, of type {@code FILE}.
- * <pre>
- * User: must
- * Date: 2012-06-02
- * </pre>
  */
 public interface FileFetcher<FILE> {
 

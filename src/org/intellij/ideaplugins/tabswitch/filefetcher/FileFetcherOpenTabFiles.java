@@ -12,10 +12,6 @@ import com.intellij.openapi.vfs.VirtualFile;
 
 /**
  * Creates a list of {@link VirtualFile} by fetching all the files that are open in tabs in current project.
- * <pre>
- * User: must
- * Date: 2012-06-02
- * </pre>
  */
 public class FileFetcherOpenTabFiles implements FileFetcher<VirtualFile> {
 
