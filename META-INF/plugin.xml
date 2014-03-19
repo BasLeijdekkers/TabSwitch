@@ -18,7 +18,7 @@
     ]]>
   </description>
   <change-notes><![CDATA[
-    3.0.5: Project is upgraded to use java 7.
+    3.0.5: Project is upgraded to use java 7.<br/>
     3.0.4: When only one file is opened - do not display the TabSwitch list. Also some refactorings.<br/>
     3.0.3: Lots of code clean ups. Does not display same file in the list twice anymore.<br/>
     3.0.2: Do not include directories when listing recent VCS changes popup window. Removed light green background color from popup list.<br/>
