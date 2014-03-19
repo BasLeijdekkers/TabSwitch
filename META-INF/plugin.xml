@@ -2,8 +2,8 @@
 
 <idea-plugin url="https://github.com/mustah/TabSwitch">
   <name>TabSwitch3</name>
-  <version>3.0.4</version>
-  <idea-version since-build="133.330"/>
+  <version>3.0.5</version>
+  <idea-version since-build="135.475"/>
 
   <description><![CDATA[
     Open files/tabs switcher to quickly switch between tabs with less keystrokes than
