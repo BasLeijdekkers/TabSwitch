@@ -28,7 +28,7 @@ public class FileFetcherOpenTabFiles implements FileFetcher<VirtualFile> {
   }
 
   private List<VirtualFile> getOpenFiles(FileEditorManager fileEditorManager, VirtualFile[] files) {
-    List<VirtualFile> openFiles = new ArrayList<VirtualFile>();
+    List<VirtualFile> openFiles = new ArrayList<>();
     int editorTabLimit = UISettings.getInstance().EDITOR_TAB_LIMIT;
     for (VirtualFile file : files) {
       if (openFiles.size() < editorTabLimit && fileEditorManager.isFileOpen(file) && !openFiles.contains(file)) {

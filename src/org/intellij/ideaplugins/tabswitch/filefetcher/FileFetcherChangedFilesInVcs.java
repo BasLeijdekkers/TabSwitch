@@ -37,7 +37,7 @@ public class FileFetcherChangedFilesInVcs implements FileFetcher<VirtualFile> {
    */
   @Override
   public List<VirtualFile> getFiles(Project project) {
-    List<VirtualFile> changedFiles = new ArrayList<VirtualFile>();
+    List<VirtualFile> changedFiles = new ArrayList<>();
     int editorTabLimit = UISettings.getInstance().EDITOR_TAB_LIMIT;
     int i = 0;
     for (Change change : getChanges(project)) {
