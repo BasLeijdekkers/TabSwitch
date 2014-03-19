@@ -8,7 +8,6 @@ import com.intellij.openapi.project.Project;
  * Should provide a way to fetch a list of files, of type {@code FILE}.
  */
 public interface FileFetcher<FILE> {
-
   /**
    * @param project an idea project.
    *
