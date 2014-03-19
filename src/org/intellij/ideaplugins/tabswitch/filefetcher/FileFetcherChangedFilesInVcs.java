@@ -6,8 +6,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import org.jetbrains.annotations.NotNull;
-
 import com.intellij.ide.ui.UISettings;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vcs.changes.Change;
@@ -27,7 +25,7 @@ public class FileFetcherChangedFilesInVcs implements FileFetcher<VirtualFile> {
 
   private static final Comparator<VirtualFile> VIRTUAL_FILE_NAME_COMPARATOR = new Comparator<VirtualFile>() {
     @Override
-    public int compare(final VirtualFile vf1, final VirtualFile vf2) {
+    public int compare(VirtualFile vf1, VirtualFile vf2) {
       return vf1.getName().compareToIgnoreCase(vf2.getName());
     }
   };
@@ -37,9 +35,8 @@ public class FileFetcherChangedFilesInVcs implements FileFetcher<VirtualFile> {
    *
    * @return Not {@code null}. Alphabetically sorted list of modified files.
    */
-  @NotNull
   @Override
-  public List<VirtualFile> getFiles(final Project project) {
+  public List<VirtualFile> getFiles(Project project) {
     List<VirtualFile> changedFiles = new ArrayList<VirtualFile>();
     int editorTabLimit = UISettings.getInstance().EDITOR_TAB_LIMIT;
     int i = 0;
@@ -59,13 +56,12 @@ public class FileFetcherChangedFilesInVcs implements FileFetcher<VirtualFile> {
    *
    * @return {@code null} if no change list is available or if there are no changes currently made.
    */
-  @NotNull
-  private Collection<Change> getChanges(final Project project) {
+  private Collection<Change> getChanges(Project project) {
     LocalChangeList defaultChangeList = ChangeListManager.getInstance(project).getDefaultChangeList();
     return defaultChangeList != null ? defaultChangeList.getChanges() : Collections.<Change>emptyList();
   }
 
-  private boolean possibleToListVirtualFile(final VirtualFile virtualFile) {
+  private boolean possibleToListVirtualFile(VirtualFile virtualFile) {
     return virtualFile != null && !virtualFile.isDirectory();
   }
 }

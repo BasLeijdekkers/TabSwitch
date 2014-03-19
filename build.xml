@@ -33,14 +33,8 @@
 
   <taskdef name="javac2" classname="com.intellij.ant.Javac2" classpathref="javac2.classpath"/>
 
-  <target name="echo-properties">
-    <echo message="java.vm.version = ${java.vm.version}"/>
-    <echo message="ant.version = ${ant.version}"/>
-    <echo message="os.name = ${os.name}"/>
-  </target>
-
-  <target name="compile" depends="echo-properties">
-    <mkdir dir="${build.classes.dir}"/>
+  <target name="compile">
+  <mkdir dir="${build.classes.dir}"/>
     <javac2 srcdir="${src.dir}" destdir="${build.classes.dir}" debug="true" deprecation="true"
             includeantruntime="true">
       <classpath refid="project.classpath"/>

@@ -4,8 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import org.jetbrains.annotations.NotNull;
-
+import com.intellij.ide.ui.UISettings;
 import com.intellij.openapi.fileEditor.FileEditorManager;
 import com.intellij.openapi.fileEditor.impl.EditorHistoryManager;
 import com.intellij.openapi.project.Project;
@@ -20,20 +19,19 @@ import com.intellij.openapi.vfs.VirtualFile;
  */
 public class FileFetcherOpenTabFiles implements FileFetcher<VirtualFile> {
 
-  @NotNull
   @Override
-  public List<VirtualFile> getFiles(final Project project) {
+  public List<VirtualFile> getFiles(Project project) {
     FileEditorManager fileEditorManager = FileEditorManager.getInstance(project);
-    List<VirtualFile> result = getOpenFiles(fileEditorManager, EditorHistoryManager.getInstance(project).getFiles());
-    Collections.reverse(result);
-    return result;
+    List<VirtualFile> openFiles = getOpenFiles(fileEditorManager, EditorHistoryManager.getInstance(project).getFiles());
+    Collections.reverse(openFiles);
+    return openFiles;
   }
 
-  @NotNull
-  private List<VirtualFile> getOpenFiles(final FileEditorManager fileEditorManager, final VirtualFile[] files) {
+  private List<VirtualFile> getOpenFiles(FileEditorManager fileEditorManager, VirtualFile[] files) {
     List<VirtualFile> openFiles = new ArrayList<VirtualFile>();
+    int editorTabLimit = UISettings.getInstance().EDITOR_TAB_LIMIT;
     for (VirtualFile file : files) {
-      if (fileEditorManager.isFileOpen(file) && !openFiles.contains(file)) {
+      if (openFiles.size() < editorTabLimit && fileEditorManager.isFileOpen(file) && !openFiles.contains(file)) {
         openFiles.add(file);
       }
     }

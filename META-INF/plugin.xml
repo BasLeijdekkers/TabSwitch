@@ -2,31 +2,32 @@
 
 <idea-plugin url="https://github.com/mustah/TabSwitch">
   <name>TabSwitch3</name>
-  <version>3.0.3</version>
-  <idea-version since-build="129.451"/>
+  <version>3.0.4</version>
+  <idea-version since-build="133.330"/>
 
   <description><![CDATA[
     Open files/tabs switcher to quickly switch between tabs with less keystrokes than
     Recent Files. Open files are selected from a list in most recently used order, similarly
-    to Alt-Tab in Windows or Ctrl-Tab in Opera. By default the action is mapped to
-    Alt-A, but another popular assignment is Ctrl-Tab.<br><br>
+    to Alt+Tab in Windows or Ctrl-Tab in Opera. By default the action is mapped to
+    Alt+A, but another popular assignment is CMD+E.<br><br>
 
     Thanks to Timur Zambalayev for the original plugin, Martin Fuhrer for a major contribution
     in the form of a rewrite and Mark Scott for patching a bug. Follow further development of
     <a href="https://github.com/mustah/TabSwitch">this plugin on GitHub</a> or follow
-    <a href="https://twitter.com/_musten_">me on twitter</a> for announcements and other things.
+    <a href="https://twitter.com/_musten_">me on twitter</a> for announcements and other things.<br/><br/>
     ]]>
   </description>
   <change-notes><![CDATA[
-    3.0.3: Lots of code clean ups. Does not display same file in the list twice anymore.
+    3.0.4: When only one file is opened - do not display the TabSwitch list. Also some refactorings.<br/>
+    3.0.3: Lots of code clean ups. Does not display same file in the list twice anymore.<br/>
     3.0.2: Do not include directories when listing recent VCS changes popup window. Removed light green background color from popup list.<br/>
     3.0.1: Added new TabSwitch Action to display modified files in the default change list of your VCS. Large refactoring.<br>
-    3.0.0: Fixed bug where it moved two steps down on each move-down-action.
+    3.0.0: Fixed bug where it moved two steps down on each move-down-action.<br/>
     2.2.0: Cleaning up some code.<br>
     2.1.9: Switch to open tab even if it is located in a different split pane.<br>
     2.1.8: The TabSwitch actions are now available during background indexing in Maia.<br>
     2.1.7: Fix for mouse over popup changes selection problem reported by Michael Bushe.<br>
-    2.1.6: RubyMine compatible version.<br>
+    2.1.6: RubyMine compatible version.<br><br/>
   ]]></change-notes>
 
   <vendor url="https://twitter.com/_musten_" email="must.tahir@gmail.com">Must</vendor>

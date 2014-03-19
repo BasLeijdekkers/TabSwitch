@@ -15,9 +15,12 @@
  */
 package org.intellij.ideaplugins.tabswitch.action;
 
+import java.util.List;
+
 import org.intellij.ideaplugins.tabswitch.filefetcher.FileFetcher;
 import org.intellij.ideaplugins.tabswitch.filefetcher.FileFetcherOpenTabFiles;
 
+import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VirtualFile;
 
 public class NextTabAction extends TabAction {
@@ -25,8 +28,8 @@ public class NextTabAction extends TabAction {
   private final FileFetcher<VirtualFile> fileFetcher = new FileFetcherOpenTabFiles();
 
   @Override
-  protected FileFetcher<VirtualFile> getFileFetcher() {
-    return fileFetcher;
+  protected List<VirtualFile> getOpenFiles(Project project) {
+    return fileFetcher.getFiles(project);
   }
 
   @Override

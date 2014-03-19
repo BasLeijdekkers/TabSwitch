@@ -24,14 +24,10 @@ import java.util.BitSet;
 import java.util.List;
 
 import javax.swing.AbstractListModel;
-import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JList;
 
-import org.intellij.ideaplugins.tabswitch.component.FooterComponentFactory;
-import org.intellij.ideaplugins.tabswitch.component.ListComponentFactory;
-import org.intellij.ideaplugins.tabswitch.component.PathLabelComponentFactory;
-import org.intellij.ideaplugins.tabswitch.filefetcher.FileFetcher;
+import org.intellij.ideaplugins.tabswitch.component.Components;
 
 import com.intellij.openapi.components.AbstractProjectComponent;
 import com.intellij.openapi.fileEditor.FileEditorManager;
@@ -42,36 +38,27 @@ import com.intellij.openapi.vfs.VirtualFile;
 
 public class TabSwitchProjectComponent extends AbstractProjectComponent implements KeyEventDispatcher {
 
+  private final BitSet modifiers = new BitSet();
   private final JList list;
   private final PopupChooserBuilder builder;
-  private final BitSet modifiers = new BitSet();
 
   private JBPopup popup;
   private int trigger = 0;
   private boolean reverse;
 
-  public TabSwitchProjectComponent(final Project project) {
+  public TabSwitchProjectComponent(Project project) {
     super(project);
 
-    JLabel pathLabel = new PathLabelComponentFactory().create();
+    JLabel pathLabel = Components.newPathLabel();
+    this.list = Components.newList(project, pathLabel);
+    this.builder = new PopupChooserBuilder(list);
 
-    this.list = new ListComponentFactory(project)
-      .withPathLabel(pathLabel)
-      .create();
+    removeMouseMotionListeners();
 
-    this.builder = new PopupChooserBuilder(list).setTitle("Open files");
-
-    for (MouseMotionListener listener : list.getMouseMotionListeners()) {
-      removeMouseMotionListener(listener);
-    }
-
-    JComponent footerComponent = new FooterComponentFactory()
-      .withPathLabel(pathLabel)
-      .create();
-
-    builder
+    this.builder
+      .setTitle("Open files")
       .setMovable(true)
-      .setSouthComponent(footerComponent)
+      .setSouthComponent(Components.newListFooter(pathLabel))
       .setItemChoosenCallback(new Runnable() {
         @Override
         public void run() {
@@ -80,12 +67,12 @@ public class TabSwitchProjectComponent extends AbstractProjectComponent implemen
       });
   }
 
-  public static TabSwitchProjectComponent getHandler(final Project project) {
+  public static TabSwitchProjectComponent getHandler(Project project) {
     return project.getComponent(TabSwitchProjectComponent.class);
   }
 
   @Override
-  public boolean dispatchKeyEvent(final KeyEvent event) {
+  public boolean dispatchKeyEvent(KeyEvent event) {
     boolean consumed = true;
     if (popup != null && popup.isDisposed()) {
       KeyboardFocusManager.getCurrentKeyboardFocusManager().removeKeyEventDispatcher(this);
@@ -122,11 +109,7 @@ public class TabSwitchProjectComponent extends AbstractProjectComponent implemen
     return consumed;
   }
 
-  public void show(final KeyEvent event, final FileFetcher<VirtualFile> fileFetcher, final boolean moveDownOnShow) {
-    final List<VirtualFile> files = fileFetcher.getFiles(myProject);
-    if (files.isEmpty()) {
-      return;
-    }
+  public void show(KeyEvent event, boolean moveDownOnShow, List<VirtualFile> files) {
     if (popup != null) {
       if (!popup.isVisible()) {
         popup.dispose();
@@ -135,8 +118,29 @@ public class TabSwitchProjectComponent extends AbstractProjectComponent implemen
       }
     }
 
+    prepareListWithFiles(files);
+
     popup = builder.createPopup();
 
+    trigger = event.getKeyCode();
+
+    modifiers.set(KeyEvent.VK_CONTROL, event.isControlDown());
+    modifiers.set(KeyEvent.VK_META, event.isMetaDown());
+    modifiers.set(KeyEvent.VK_ALT, event.isAltDown());
+    modifiers.set(KeyEvent.VK_ALT_GRAPH, event.isAltGraphDown());
+
+    reverse = event.isShiftDown();
+
+    KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(this);
+
+    popup.showCenteredInCurrentWindow(myProject);
+
+    if (moveDownOnShow) {
+      moveDown();
+    }
+  }
+
+  private void prepareListWithFiles(final List<VirtualFile> files) {
     list.setModel(new AbstractListModel() {
       @Override
       public int getSize() {
@@ -150,21 +154,6 @@ public class TabSwitchProjectComponent extends AbstractProjectComponent implemen
     });
 
     list.setVisibleRowCount(files.size());
-
-    trigger = event.getKeyCode();
-
-    modifiers.set(KeyEvent.VK_CONTROL, event.isControlDown());
-    modifiers.set(KeyEvent.VK_META, event.isMetaDown());
-    modifiers.set(KeyEvent.VK_ALT, event.isAltDown());
-    modifiers.set(KeyEvent.VK_ALT_GRAPH, event.isAltGraphDown());
-
-    this.reverse = event.isShiftDown();
-
-    KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(this);
-
-    popup.showCenteredInCurrentWindow(myProject);
-
-    if (moveDownOnShow) moveDown();
   }
 
   private void moveUp() {
@@ -176,11 +165,10 @@ public class TabSwitchProjectComponent extends AbstractProjectComponent implemen
   }
 
   private void move(boolean up) {
-    final int offset = (up ^ reverse) ? -1 : 1;
-    final int size = list.getModel().getSize();
-    final int currentIndex = (list.getSelectedIndex() + size + offset) % size;
-    list.setSelectedIndex(currentIndex);
-    list.ensureIndexIsVisible(currentIndex);
+    int offset = (up ^ reverse) ? -1 : 1;
+    int size = list.getModel().getSize();
+    list.setSelectedIndex((list.getSelectedIndex() + size + offset) % size);
+    list.ensureIndexIsVisible(list.getSelectedIndex());
   }
 
   private void onCloseOpenSelectedFile() {
@@ -196,7 +184,7 @@ public class TabSwitchProjectComponent extends AbstractProjectComponent implemen
 
   private void openSelectedFile() {
     VirtualFile file = (VirtualFile) list.getSelectedValue();
-    if (file.isValid()) {
+    if (file != null && file.isValid()) {
       FileEditorManager.getInstance(myProject).openFile(file, true, true);
     }
   }
@@ -218,13 +206,19 @@ public class TabSwitchProjectComponent extends AbstractProjectComponent implemen
     }
   }
 
+  private void removeMouseMotionListeners() {
+    for (MouseMotionListener listener : list.getMouseMotionListeners()) {
+      removeMouseMotionListener(listener);
+    }
+  }
+
   /**
    * Remove mouse motion listener added by PopupChooserBuilder to prevent selection moving when mouse is moved over the
    * popup and TabSwitch is mapped to an Alt key combination.
    *
    * @param listener a MouseMotionListener.
    */
-  private void removeMouseMotionListener(final MouseMotionListener listener) {
+  private void removeMouseMotionListener(MouseMotionListener listener) {
     if (listener.getClass().getName().startsWith("com.intellij.openapi.ui.popup.PopupChooserBuilder")) {
       list.removeMouseMotionListener(listener);
     }
