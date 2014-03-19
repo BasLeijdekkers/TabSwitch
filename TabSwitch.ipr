@@ -37,9 +37,7 @@
       </profile>
     </annotationProcessing>
   </component>
-  <component name="CopyrightManager" default="">
-    <module2copyright />
-  </component>
+  <component name="CopyrightManager" default="" />
   <component name="DependencyValidationManager">
     <option name="SKIP_IMPORT_STATEMENTS" value="false" />
   </component>
@@ -49,177 +47,6 @@
   </component>
   <component name="IdProvider" IDEtalkID="9F72A35312C6CF3B250EB31988BDBC4F" />
   <component name="InspectionProjectProfileManager">
-    <profiles>
-      <profile version="1.0" is_locked="false">
-        <option name="myName" value="Default" />
-        <option name="myLocal" value="false" />
-      </profile>
-      <profile version="1.0" is_locked="false">
-        <option name="myName" value="Project Default" />
-        <option name="myLocal" value="false" />
-        <inspection_tool class="BadExpressionStatementJS" enabled="false" level="WARNING" enabled_by_default="false" />
-        <inspection_tool class="ConstantConditions" enabled="false" level="WARNING" enabled_by_default="false">
-          <option name="SUGGEST_NULLABLE_ANNOTATIONS" value="false" />
-          <option name="DONT_REPORT_TRUE_ASSERT_STATEMENTS" value="false" />
-        </inspection_tool>
-        <inspection_tool class="HtmlUnknownAttribute" enabled="true" level="WARNING" enabled_by_default="true">
-          <option name="myValues">
-            <value>
-              <list size="10">
-                <item index="0" class="java.lang.String" itemvalue="type" />
-                <item index="1" class="java.lang.String" itemvalue="wmode" />
-                <item index="2" class="java.lang.String" itemvalue="src" />
-                <item index="3" class="java.lang.String" itemvalue="width" />
-                <item index="4" class="java.lang.String" itemvalue="height" />
-                <item index="5" class="java.lang.String" itemvalue="dojotype" />
-                <item index="6" class="java.lang.String" itemvalue="djconfig" />
-                <item index="7" class="java.lang.String" itemvalue="onresize" />
-                <item index="8" class="java.lang.String" itemvalue="value" />
-                <item index="9" class="java.lang.String" itemvalue="titel" />
-              </list>
-            </value>
-          </option>
-          <option name="myCustomValuesEnabled" value="true" />
-        </inspection_tool>
-        <inspection_tool class="HtmlUnknownTag" enabled="true" level="WARNING" enabled_by_default="true">
-          <option name="myValues">
-            <value>
-              <list size="6">
-                <item index="0" class="java.lang.String" itemvalue="embed" />
-                <item index="1" class="java.lang.String" itemvalue="nobr" />
-                <item index="2" class="java.lang.String" itemvalue="noembed" />
-                <item index="3" class="java.lang.String" itemvalue="comment" />
-                <item index="4" class="java.lang.String" itemvalue="script" />
-                <item index="5" class="java.lang.String" itemvalue="ab:bar" />
-              </list>
-            </value>
-          </option>
-          <option name="myCustomValuesEnabled" value="true" />
-        </inspection_tool>
-        <inspection_tool class="IgnoreResultOfCall" enabled="false" level="WARNING" enabled_by_default="false">
-          <option name="m_reportAllNonLibraryCalls" value="false" />
-          <option name="callCheckString" value="java.io.InputStream,read,java.io.InputStream,skip,java.lang.StringBuffer,toString,java.lang.StringBuilder,toString,java.lang.String,.*,java.math.BigInteger,.*,java.math.BigDecimal,.*,java.net.InetAddress,.*" />
-        </inspection_tool>
-        <inspection_tool class="JSDuplicatedDeclaration" enabled="false" level="WARNING" enabled_by_default="false" />
-        <inspection_tool class="JavaDoc" enabled="false" level="WARNING" enabled_by_default="false">
-          <option name="TOP_LEVEL_CLASS_OPTIONS">
-            <value>
-              <option name="ACCESS_JAVADOC_REQUIRED_FOR" value="none" />
-              <option name="REQUIRED_TAGS" value="" />
-            </value>
-          </option>
-          <option name="INNER_CLASS_OPTIONS">
-            <value>
-              <option name="ACCESS_JAVADOC_REQUIRED_FOR" value="none" />
-              <option name="REQUIRED_TAGS" value="" />
-            </value>
-          </option>
-          <option name="METHOD_OPTIONS">
-            <value>
-              <option name="ACCESS_JAVADOC_REQUIRED_FOR" value="none" />
-              <option name="REQUIRED_TAGS" value="@return@param@throws or @exception" />
-            </value>
-          </option>
-          <option name="FIELD_OPTIONS">
-            <value>
-              <option name="ACCESS_JAVADOC_REQUIRED_FOR" value="none" />
-              <option name="REQUIRED_TAGS" value="" />
-            </value>
-          </option>
-          <option name="IGNORE_DEPRECATED" value="false" />
-          <option name="IGNORE_JAVADOC_PERIOD" value="true" />
-          <option name="IGNORE_DUPLICATED_THROWS" value="false" />
-          <option name="IGNORE_POINT_TO_ITSELF" value="false" />
-          <option name="myAdditionalJavadocTags" value="" />
-        </inspection_tool>
-        <inspection_tool class="LoopStatementsThatDontLoop" enabled="false" level="WARNING" enabled_by_default="false" />
-        <inspection_tool class="MismatchedCollectionQueryUpdate" enabled="false" level="WARNING" enabled_by_default="false">
-          <option name="queryNames">
-            <value />
-          </option>
-          <option name="updateNames">
-            <value />
-          </option>
-        </inspection_tool>
-        <inspection_tool class="MissingOverrideAnnotation" enabled="true" level="WARNING" enabled_by_default="true">
-          <option name="ignoreObjectMethods" value="true" />
-          <option name="ignoreAnonymousClassMethods" value="false" />
-        </inspection_tool>
-        <inspection_tool class="RequiredAttributes" enabled="true" level="WARNING" enabled_by_default="true">
-          <option name="myAdditionalRequiredHtmlAttributes" value="alt,src" />
-        </inspection_tool>
-        <inspection_tool class="Struts2ModelInspection" enabled="false" level="ERROR" enabled_by_default="false" />
-        <inspection_tool class="ThisExpressionReferencesGlobalObjectJS" enabled="false" level="WARNING" enabled_by_default="false" />
-        <inspection_tool class="UnusedAssignment" enabled="false" level="WARNING" enabled_by_default="false">
-          <option name="REPORT_PREFIX_EXPRESSIONS" value="false" />
-          <option name="REPORT_POSTFIX_EXPRESSIONS" value="true" />
-          <option name="REPORT_REDUNDANT_INITIALIZER" value="true" />
-        </inspection_tool>
-      </profile>
-      <profile version="1.0" is_locked="false">
-        <option name="myName" value="ibe" />
-        <option name="myLocal" value="false" />
-        <inspection_tool class="ClassOnlyUsedInOneModule" enabled="true" level="WARNING" enabled_by_default="true" />
-        <inspection_tool class="ClassOnlyUsedInOnePackage" enabled="true" level="WARNING" enabled_by_default="true" />
-        <inspection_tool class="CollectionsFieldAccessReplaceableByMethodCall" enabled="true" level="WARNING" enabled_by_default="true" />
-        <inspection_tool class="ConstructorCount" enabled="false" level="bad practice" enabled_by_default="false">
-          <option name="ignoreDeprecatedConstructors" value="false" />
-          <option name="m_limit" value="6" />
-        </inspection_tool>
-        <inspection_tool class="ELValidationInJSP" enabled="false" level="WARNING" enabled_by_default="false" />
-        <inspection_tool class="FieldMayBeFinal" enabled="true" level="bad practice" enabled_by_default="true" />
-        <inspection_tool class="FinalMethodInFinalClass" enabled="true" level="WARNING" enabled_by_default="true" />
-        <inspection_tool class="InnerClassMayBeStatic" enabled="true" level="WARNING" enabled_by_default="true" />
-        <inspection_tool class="MissingOverrideAnnotation" enabled="true" level="WARNING" enabled_by_default="true">
-          <option name="ignoreObjectMethods" value="true" />
-          <option name="ignoreAnonymousClassMethods" value="false" />
-        </inspection_tool>
-        <inspection_tool class="NonFinalUtilityClass" enabled="true" level="WARNING" enabled_by_default="true" />
-        <inspection_tool class="ParameterNameDiffersFromOverriddenParameter" enabled="true" level="WARNING" enabled_by_default="true">
-          <option name="m_ignoreSingleCharacterNames" value="false" />
-          <option name="m_ignoreOverridesOfLibraryMethods" value="true" />
-        </inspection_tool>
-        <inspection_tool class="RawUseOfParameterizedType" enabled="true" level="bad practice" enabled_by_default="true">
-          <option name="ignoreObjectConstruction" value="false" />
-          <option name="ignoreUncompilable" value="true" />
-        </inspection_tool>
-        <inspection_tool class="RequiredAttributes" enabled="true" level="WARNING" enabled_by_default="true">
-          <option name="myAdditionalRequiredHtmlAttributes" value="alt" />
-        </inspection_tool>
-        <inspection_tool class="SizeReplaceableByIsEmpty" enabled="true" level="bad practice" enabled_by_default="true" />
-        <inspection_tool class="SqlNoDataSourceInspection" enabled="false" level="WARNING" enabled_by_default="false" />
-        <inspection_tool class="TooBroadScope" enabled="true" level="bad practice" enabled_by_default="true">
-          <option name="m_allowConstructorAsInitializer" value="false" />
-          <option name="m_onlyLookAtBlocks" value="false" />
-        </inspection_tool>
-        <inspection_tool class="TrivialStringConcatenation" enabled="true" level="WARNING" enabled_by_default="true" />
-        <inspection_tool class="UpperCaseFieldNameNotConstant" enabled="true" level="WARNING" enabled_by_default="true" />
-        <inspection_tool class="UtilityClass" enabled="false" level="bad practice" enabled_by_default="false">
-          <option name="ignorableAnnotations">
-            <value />
-          </option>
-        </inspection_tool>
-        <inspection_tool class="UtilityClassWithPublicConstructor" enabled="true" level="bad practice" enabled_by_default="true" />
-        <inspection_tool class="UtilityClassWithoutPrivateConstructor" enabled="true" level="bad practice" enabled_by_default="true">
-          <option name="ignoreClassesWithOnlyMain" value="false" />
-          <option name="ignorableAnnotations">
-            <value />
-          </option>
-        </inspection_tool>
-        <inspection_tool class="groupsTestNG" enabled="true" level="WARNING" enabled_by_default="true">
-          <option name="groups">
-            <value>
-              <list size="1">
-                <item index="0" class="java.lang.String" itemvalue="unit" />
-              </list>
-            </value>
-          </option>
-        </inspection_tool>
-      </profile>
-    </profiles>
-    <option name="PROJECT_PROFILE" value="ibe" />
-    <option name="USE_PROJECT_PROFILE" value="true" />
-    <version value="1.0" />
     <info>
       <option name="BACKGROUND" value="f6cb82" />
       <option name="EFFECT_COLOR" value="ffffff" />
@@ -228,9 +55,17 @@
       <option name="myVal" value="50" />
       <option name="myExternalName" value="bad practice" />
       <option name="myDefaultAttributes">
-        <value />
+        <option name="EFFECT_TYPE" value="0" />
       </option>
     </info>
+  </component>
+  <component name="IvyIDEA.ProjectSettings">
+    <option name="artifactTypeSettings">
+      <ArtifactTypeSettings />
+    </option>
+    <option name="propertiesSettings">
+      <PropertiesSettings />
+    </option>
   </component>
   <component name="JavadocGenerationManager">
     <option name="OUTPUT_DIRECTORY" />
@@ -394,7 +229,7 @@
   <component name="ProjectResources">
     <default-html-doctype>http://www.w3.org/1999/xhtml</default-html-doctype>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_6" assert-keyword="true" jdk-15="true" project-jdk-name="IDEA IU-129.451" project-jdk-type="IDEA JDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_6" assert-keyword="true" jdk-15="true" project-jdk-name="IDEA IU-133.330" project-jdk-type="IDEA JDK">
     <output url="file://$PROJECT_DIR$/out" />
   </component>
   <component name="VcsDirectoryMappings">
@@ -417,7 +252,7 @@
         <entry key="property.analysisEffortLevel" value="default" />
         <entry key="property.analyzeAfterCompile" value="false" />
         <entry key="property.annotationGutterIconEnabled" value="true" />
-        <entry key="property.annotationSuppressWarningsClass" value="edu.umd.cs.findbugs.annotations.SuppressWarnings" />
+        <entry key="property.annotationSuppressWarningsClass" value="edu.umd.cs.findbugs.annotations.SuppressFBWarnings" />
         <entry key="property.annotationTextRangeMarkupEnabled" value="true" />
         <entry key="property.exportAsHtml" value="true" />
         <entry key="property.exportAsXml" value="true" />
@@ -447,6 +282,7 @@
         <entry key="CheckCalls" value="false" />
         <entry key="CheckExpectedWarnings" value="false" />
         <entry key="CheckImmutableAnnotation" value="true" />
+        <entry key="CheckRelaxingNullnessAnnotation" value="true" />
         <entry key="CheckTypeQualifiers" value="true" />
         <entry key="CloneIdiom" value="true" />
         <entry key="ComparatorIdiom" value="true" />
