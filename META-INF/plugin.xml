@@ -2,8 +2,8 @@
 
 <idea-plugin url="https://github.com/mustah/TabSwitch">
   <name>TabSwitch3</name>
-  <version>3.0.5</version>
-  <idea-version since-build="135.475"/>
+  <version>3.0.6</version>
+  <idea-version since-build="135.480"/>
 
   <description><![CDATA[
     Open files/tabs switcher to quickly switch between tabs with less keystrokes than
@@ -18,6 +18,7 @@
     ]]>
   </description>
   <change-notes><![CDATA[
+    3.0.6: Remove TabSwitch settings. Is not used anymore.<br/>
     3.0.5: Project is upgraded to use java 7.<br/>
     3.0.4: When only one file is opened - do not display the TabSwitch list. Also some refactorings.<br/>
     3.0.3: Lots of code clean ups. Does not display same file in the list twice anymore.<br/>
@@ -32,11 +33,7 @@
   ]]></change-notes>
 
   <vendor url="https://twitter.com/_musten_" email="must.tahir@gmail.com">Must</vendor>
-  <application-components>
-    <component>
-      <implementation-class>org.intellij.ideaplugins.tabswitch.TabSwitchSettings</implementation-class>
-    </component>
-  </application-components>
+
   <project-components>
     <component>
       <implementation-class>org.intellij.ideaplugins.tabswitch.TabSwitchProjectComponent</implementation-class>

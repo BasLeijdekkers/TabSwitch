@@ -15,7 +15,6 @@
  */
 package org.intellij.ideaplugins.tabswitch.action;
 
-import org.intellij.ideaplugins.tabswitch.TabSwitchSettings;
 import org.jetbrains.annotations.Nullable;
 
 import com.intellij.ide.ui.UISettings;
@@ -54,6 +53,6 @@ public class SwitchTabAction extends AnAction implements DumbAware {
   }
 
   private boolean canShowRecentFiles() {
-    return TabSwitchSettings.getInstance().SHOW_RECENT_FILES || UISettings.getInstance().EDITOR_TAB_LIMIT > 0;
+    return UISettings.getInstance().EDITOR_TAB_LIMIT > 0;
   }
 }
