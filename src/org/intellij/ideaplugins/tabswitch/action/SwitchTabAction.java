@@ -42,9 +42,9 @@ public class SwitchTabAction extends AnAction implements DumbAware {
   @Nullable
   private VirtualFile getFile(Project project, FileEditorManager fileEditorManager) {
     boolean showRecentFiles = canShowRecentFiles();
-    VirtualFile[] files = EditorHistoryManager.getInstance(project).getFiles();
-    for (int i = files.length - 2; i >= 0; i--) {
-      VirtualFile file = files[i];
+    VirtualFile[] recentFiles = EditorHistoryManager.getInstance(project).getFiles();
+    for (int i = recentFiles.length - 2; i >= 0; i--) {
+      VirtualFile file = recentFiles[i];
       if (showRecentFiles || fileEditorManager.isFileOpen(file)) {
         return file;
       }

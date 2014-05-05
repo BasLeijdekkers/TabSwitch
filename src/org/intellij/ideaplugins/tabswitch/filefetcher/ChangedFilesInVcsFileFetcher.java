@@ -21,7 +21,7 @@ import com.intellij.openapi.vfs.VirtualFile;
  * Date: 2012-06-02
  * </pre>
  */
-public class FileFetcherChangedFilesInVcs implements FileFetcher<VirtualFile> {
+public class ChangedFilesInVcsFileFetcher implements FileFetcher<VirtualFile> {
 
   private static final Comparator<VirtualFile> VIRTUAL_FILE_NAME_COMPARATOR = new Comparator<VirtualFile>() {
     @Override
