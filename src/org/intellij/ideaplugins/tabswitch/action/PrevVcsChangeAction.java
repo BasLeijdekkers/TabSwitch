@@ -2,14 +2,14 @@ package org.intellij.ideaplugins.tabswitch.action;
 
 import org.intellij.ideaplugins.tabswitch.filefetcher.ChangedFilesInVcsFileFetcher;
 
-public class NextVcsChangeAction extends ChangeTabAction {
+public class PrevVcsChangeAction extends ChangeTabAction {
 
-  public NextVcsChangeAction() {
+  public PrevVcsChangeAction() {
     super(new ChangedFilesInVcsFileFetcher());
   }
 
   @Override
   protected boolean moveUp() {
-    return false;
+    return true;
   }
 }

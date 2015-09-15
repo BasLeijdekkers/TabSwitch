@@ -17,9 +17,9 @@ package org.intellij.ideaplugins.tabswitch.action;
 
 import org.intellij.ideaplugins.tabswitch.filefetcher.OpenTabFilesFileFetcher;
 
-public class NextTabAction extends ChangeTabAction {
+public class PrevTabAction extends ChangeTabAction {
 
-  protected NextTabAction() {
+  protected PrevTabAction() {
     super(new OpenTabFilesFileFetcher());
   }
 
@@ -30,6 +30,6 @@ public class NextTabAction extends ChangeTabAction {
 
   @Override
   protected boolean moveUp() {
-    return false;
+    return true;
   }
 }

@@ -2,8 +2,8 @@
 
 <idea-plugin url="https://github.com/mustah/TabSwitch">
   <name>TabSwitch</name>
-  <version>3.0.7</version>
-  <idea-version since-build="139.463"/>
+  <version>3.0.9</version>
+  <idea-version since-build="141.1532"/>
 
   <description><![CDATA[
     Open files/tabs switcher to quickly switch between tabs with less keystrokes than
@@ -48,9 +48,19 @@
       text="Next tab">
     </action>
     <action
+      id="org.intellij.ideaplugins.tabswitch.action.PrevTabAction"
+      class="org.intellij.ideaplugins.tabswitch.action.PrevTabAction"
+      text="Previous tab">
+    </action>
+    <action
       id="TabSwitchPlugin.NextVcsChangeAction"
       class="org.intellij.ideaplugins.tabswitch.action.NextVcsChangeAction"
       text="Next VCS change tab">
+    </action>
+    <action
+      id="TabSwitchPlugin.PrevVcsChangeAction"
+      class="org.intellij.ideaplugins.tabswitch.action.PrevVcsChangeAction"
+      text="Previous VCS change tab">
     </action>
     <action
       id="TabSwitchPlugin.SwitchTab"
