@@ -1,66 +1,73 @@
 <!DOCTYPE idea-plugin PUBLIC "Plugin/DTD" "http://plugins.intellij.net/plugin.dtd">
 
-<idea-plugin url="http://www.intellij.org/twiki/bin/view/Main/TabSwitchPlugin">
+<idea-plugin url="https://github.com/mustah/TabSwitch">
   <name>TabSwitch</name>
-  <version>2.1.9</version>
-  <idea-version since-build="99.18"/>
+  <version>3.0.9</version>
+  <idea-version since-build="141.1532"/>
 
   <description><![CDATA[
     Open files/tabs switcher to quickly switch between tabs with less keystrokes than
     Recent Files. Open files are selected from a list in most recently used order, similarly
-    to Alt-Tab in Windows or Ctrl-Tab in Opera. By default the action is mapped to
-    Alt-A, but another popular assignment is Ctrl-Tab.<br><br>
+    to Alt+Tab in Windows or Ctrl-Tab in Opera. By default the action is mapped to
+    Alt+A, but another popular assignment is CMD+E.<br><br>
 
     Thanks to Timur Zambalayev for the original plugin, Martin Fuhrer for a major contribution
     in the form of a rewrite and Mark Scott for patching a bug. Follow further development of
-    <a href="https://github.com/BasLeijdekkers/TabSwitch">this plugin on GitHub</a> or follow
-    <a href="http://twitter.com/inspectorbas">me on twitter</a> for announcements and other things.
+    <a href="https://github.com/mustah/TabSwitch">this plugin on GitHub</a> or follow
+    <a href="https://twitter.com/_musten_">me on twitter</a> for announcements and other things.<br/><br/>
     ]]>
   </description>
   <change-notes><![CDATA[
+    3.0.7: Bug-fix: reverse recent files array _before_ checking their validity do be added to list.<br/>
+    3.0.6: Remove TabSwitch settings. Is not used anymore.<br/>
+    3.0.5: Project is upgraded to use java 7.<br/>
+    3.0.4: When only one file is opened - do not display the TabSwitch list. Also some refactorings.<br/>
+    3.0.3: Lots of code clean ups. Does not display same file in the list twice anymore.<br/>
+    3.0.2: Do not include directories when listing recent VCS changes popup window. Removed light green background color from popup list.<br/>
+    3.0.1: Added new TabSwitch Action to display modified files in the default change list of your VCS. Large refactoring.<br>
+    3.0.0: Fixed bug where it moved two steps down on each move-down-action.<br/>
+    2.2.0: Cleaning up some code.<br>
     2.1.9: Switch to open tab even if it is located in a different split pane.<br>
     2.1.8: The TabSwitch actions are now available during background indexing in Maia.<br>
     2.1.7: Fix for mouse over popup changes selection problem reported by Michael Bushe.<br>
-    2.1.6: RubyMine compatible version.<br>
+    2.1.6: RubyMine compatible version.<br><br/>
   ]]></change-notes>
 
-  <vendor url="http://twitter.com/inspectorbas" email="basleijdekkersYour Hat@gmail.com">Bas Leijdekkers (remove Your Hat to mail me;)</vendor>
-  <application-components>
-    <component>
-      <implementation-class>org.intellij.ideaplugins.tabswitch.TabSwitchSettings
-      </implementation-class>
-    </component>
-  </application-components>
+  <vendor url="https://twitter.com/_musten_" email="must.tahir@gmail.com">Must</vendor>
+
   <project-components>
     <component>
-      <implementation-class>org.intellij.ideaplugins.tabswitch.Handler</implementation-class>
+      <implementation-class>org.intellij.ideaplugins.tabswitch.TabSwitchProjectComponent</implementation-class>
     </component>
   </project-components>
 
   <actions>
     <action
-            id="TabSwitchPlugin.NextTab"
-            class="org.intellij.ideaplugins.tabswitch.NextTabAction"
-            text="Switch To Next Tab...">
-      <keyboard-shortcut first-keystroke="alt A" keymap="$default"/>
+      id="org.intellij.ideaplugins.tabswitch.action.NextTabAction"
+      class="org.intellij.ideaplugins.tabswitch.action.NextTabAction"
+      text="Next tab">
     </action>
     <action
-            id="TabSwitchPlugin.PreviousTab"
-            class="org.intellij.ideaplugins.tabswitch.PreviousTabAction"
-            text="Switch To Previous Tab...">
-      <keyboard-shortcut first-keystroke="shift alt A" keymap="$default"/>
+      id="org.intellij.ideaplugins.tabswitch.action.PrevTabAction"
+      class="org.intellij.ideaplugins.tabswitch.action.PrevTabAction"
+      text="Previous tab">
     </action>
     <action
-            id="TabSwitchPlugin.SwitchTab"
-            class="org.intellij.ideaplugins.tabswitch.SwitchTabAction"
-            text="Switch Between Two Tabs (No UI, No Keyboard Modifier Needed)">
-      <keyboard-shortcut first-keystroke="alt DEAD_GRAVE" keymap="$default"/>
+      id="TabSwitchPlugin.NextVcsChangeAction"
+      class="org.intellij.ideaplugins.tabswitch.action.NextVcsChangeAction"
+      text="Next VCS change tab">
+    </action>
+    <action
+      id="TabSwitchPlugin.PrevVcsChangeAction"
+      class="org.intellij.ideaplugins.tabswitch.action.PrevVcsChangeAction"
+      text="Previous VCS change tab">
+    </action>
+    <action
+      id="TabSwitchPlugin.SwitchTab"
+      class="org.intellij.ideaplugins.tabswitch.action.SwitchTabAction"
+      text="Switch Between Two Tabs (No UI, No Keyboard Modifier Needed)">
     </action>
   </actions>
-
-  <extensions defaultExtensionNs="com.intellij">
-    <errorHandler implementation="nu.studer.idea.errorreporting.PluginErrorReportSubmitter"/>
-  </extensions>
 
   <depends>com.intellij.modules.lang</depends>
 </idea-plugin>

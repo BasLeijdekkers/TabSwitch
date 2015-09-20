@@ -1,7 +1,7 @@
 <project default="jar" name="TabSwitch">
 
-  <property name="idea.home" value="/Applications/IntelliJ IDEA XI.app" />
-  <property name="idea.plugin.home" value="${user.home}/Library/Application Support/IntelliJIdea11"/>
+  <property name="idea.home" value="/Applications/IntelliJ IDEA 13.app"/>
+  <property name="idea.plugin.home" value="${user.home}/Library/Application Support/IntelliJIdea13"/>
 
   <property name="build.dir" value="build"/>
   <property name="build.classes.dir" value="${build.dir}/classes"/>
@@ -13,8 +13,9 @@
     <pathelement path="${idea.home}/lib/openapi.jar"/>
     <pathelement path="${idea.home}/lib/util.jar"/>
     <pathelement path="${idea.home}/lib/idea.jar"/>
+    <pathelement path="${idea.home}/lib/extensions.jar"/>
+    <pathelement path="${idea.home}/lib/jdom.jar"/>
     <pathelement path="${idea.home}/redist/annotations.jar"/>
-    <pathelement path="${idea.home}/redist/extensions.jar"/>
   </path>
 
   <target name="clean">
@@ -22,26 +23,20 @@
   </target>
 
   <path id="javac2.classpath">
-    <fileset dir="${idea.home}/lib">
-      <include name="javac2.jar" />
-      <include name="jdom.jar" />
-      <include name="asm.jar" />
-      <include name="asm-commons.jar" />
+    <fileset dir="${idea.home}/lib/">
+      <include name="javac2.jar"/>
+      <include name="asm.jar"/>
+      <include name="asm4-all.jar"/>
+      <include name="asm-commons.jar"/>
     </fileset>
   </path>
 
-  <taskdef name="javac2" classname="com.intellij.ant.Javac2"
-           classpathref="javac2.classpath" />
+  <taskdef name="javac2" classname="com.intellij.ant.Javac2" classpathref="javac2.classpath"/>
 
-  <target name="echo-properties">
-    <echo message="java.vm.version = ${java.vm.version}"/>
-    <echo message="ant.version = ${ant.version}"/>
-    <echo message="os.name = ${os.name}"/>
-  </target>
-
-  <target name="compile" depends="echo-properties">
-    <mkdir dir="${build.classes.dir}"/>
-    <javac2 srcdir="${src.dir}" destdir="${build.classes.dir}" debug="true" deprecation="true">
+  <target name="compile">
+  <mkdir dir="${build.classes.dir}"/>
+    <javac2 srcdir="${src.dir}" destdir="${build.classes.dir}" debug="true" deprecation="true"
+            includeantruntime="true">
       <classpath refid="project.classpath"/>
     </javac2>
   </target>
@@ -54,7 +49,6 @@
       <fileset dir=".">
         <include name="META-INF/plugin.xml"/>
       </fileset>
-      <fileset file="${src.dir}/org/intellij/ideaplugins/tabswitch/errorReporter.properties"/>
     </jar>
   </target>
 
@@ -66,18 +60,17 @@
   </target>
 
   <target name="zip" depends="jar" description="creates plugin zip for distribution">
-      <zip destfile="./${ant.project.name}.zip">
+    <zip destfile="./${ant.project.name}.zip">
       <zipfileset file="${build.jars.dir}/${ant.project.name}.jar" prefix="${ant.project.name}/lib"/>
       <zipfileset file="lib/errorReporter.jar" prefix="${ant.project.name}/lib"/>
-      <!--<zipfileset file="${project.name}_src.zip" prefix="${ant.project.name}"/>-->
     </zip>
   </target>
 
   <target name="src" description="zips up all sources for distribution">
     <zip destfile="${ant.project.name}_src.zip"
-      basedir="."
-      includes="src/** META-INF/** build.xml lib/** *.ipr *.iml"
-      excludes="CVS/**"
-    />
-	</target>
+         basedir="."
+         includes="src/** META-INF/** build.xml lib/** *.ipr *.iml"
+         excludes="CVS/**"
+      />
+  </target>
 </project>

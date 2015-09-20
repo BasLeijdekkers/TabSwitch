@@ -1,0 +1,11 @@
+Tried on:
+ - Intellij IDEA 12.1.x
+ - Webstorm
+
+TabSwitch version 3.x.x includes:
+
+ 1. Bug fix, where in intellij idea version 11.1.1 and 11.1.2 made the selection move down 2 steps in stead of one when pressing CMD+E.
+
+ 2. Some code clean ups.
+
+ 3. Created possibility to display a list of modified files in the default change list of the selected VCS. (I've personally mapped it to CMD+ALT+E)
